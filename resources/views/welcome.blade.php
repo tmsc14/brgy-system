@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barangay Information and Records Management System</title>
-    <link rel="stylesheet" href="resources\css\welcome.css">
+    <link rel="stylesheet" href="{{url('resources/css/welcome.css')}}">
 </head>
 <body>
     <div class="container">
         <div class="logo">
-            <span>B</span><span>r</span><span>g</span>y+
-        </div>
-        <div class="subtitle">
-            Barangay Information and Records Management System
+            <img src="{{url('resources/img/logo.png')}}" alt="">
         </div>
         <div class="button-group">
             <button onclick="location.href='{{ url('/barangay-captain') }}'">Barangay Captain</button>

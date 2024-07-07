@@ -30,11 +30,6 @@ body {
 .logo span:nth-child(3) {
     color: #f9d834;
 }
-.subtitle {
-    color: #ffffff;
-    font-size: 14px;
-    margin-bottom: 40px;
-}
 .button-group {
     display: flex;
     flex-direction: column;

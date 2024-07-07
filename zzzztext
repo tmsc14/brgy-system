@@ -1,0 +1,4 @@
+npm run dev          
+php artisan serve
+
+href="{{url('resources/css/welcome.css')}}"   ------ link to other resources
