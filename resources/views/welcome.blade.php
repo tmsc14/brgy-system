@@ -12,7 +12,7 @@
             <img src="{{url('resources/img/logo.png')}}" alt="">
         </div>
         <div class="button-group">
-            <button onclick="location.href='{{ url('/barangay-captain') }}'">Barangay Captain</button>
+            <button onclick="location.href='{{ route('register.step1') }}'">Barangay Captain</button>
             <button onclick="location.href='{{ url('/barangay-officials') }}'">Barangay Officials</button>
             <button onclick="location.href='{{ url('/barangay-staffs') }}'">Barangay Staffs</button>
             <button onclick="location.href='{{ url('/barangay-residents') }}'">Barangay Residents</button>
@@ -20,3 +20,4 @@
     </div>
 </body>
 </html>
+
