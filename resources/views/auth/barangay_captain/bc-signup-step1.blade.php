@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register Step 1</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <form action="{{ route('register.postStep1') }}" method="POST">
+@extends('layouts.app')
+
+@section('content')
+    <form action="{{ route('barangay_captain.register.step1.post') }}" method="POST">
         @csrf
         <label for="region">Region:</label>
         <select name="region" id="region">
@@ -28,8 +24,13 @@
         </select>
 
         <button type="submit">Next</button>
+        <button type="button" onclick="location.href='{{ route('welcome.blade.php') }}'">Back</button>
     </form>
+    </form>
+@endsection
 
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Load regions
@@ -103,5 +104,4 @@
             });
         });
     </script>
-</body>
-</html>
+@endpush

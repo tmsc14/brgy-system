@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Models\AccessCode;
 use Illuminate\Http\Request;
 use App\Models\BarangayCaptain;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
 
 class BarangayCaptainController extends Controller
 {
@@ -29,7 +31,7 @@ class BarangayCaptainController extends Controller
             'barangay' => $request->barangay,
         ]);
 
-        return redirect()->route('register.step2');
+        return redirect()->route('barangay_captain.register.step2');
     }
 
     public function showStep2()
@@ -61,7 +63,7 @@ class BarangayCaptainController extends Controller
             'bric' => $request->bric,
         ]);
 
-        return redirect()->route('register.step3');
+        return redirect()->route('barangay_captain.register.step3');
     }
 
     public function showStep3()
@@ -73,9 +75,13 @@ class BarangayCaptainController extends Controller
     {
         $request->validate([
             'password' => 'required|confirmed',
-            'access_code' => 'required|in:YOUR_ACCESS_CODE',
+            'access_code' => 'required|exists:access_codes,code',
         ]);
-
+    
+        if (BarangayCaptain::where('email', session('email'))->exists()) {
+            return redirect()->back()->with('error', 'The email has already been taken.')->withInput();
+        }
+    
         BarangayCaptain::create([
             'region' => session('region'),
             'province' => session('province'),
@@ -91,10 +97,9 @@ class BarangayCaptainController extends Controller
             'bric' => session('bric'),
             'password' => Hash::make($request->password),
         ]);
-
+    
         session()->flush();
-
-        return redirect()->route('home')->with('success', 'Registration successful!');
-    }
+    
+        return redirect()->route('home')->with('success', 'Registration successful');
+    }         
 }
-

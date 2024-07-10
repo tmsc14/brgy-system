@@ -2,3 +2,12 @@ npm run dev
 php artisan serve
 
 href="{{url('resources/css/welcome.css')}}"   ------ link to other resources
+
+
+Commit - error fixing v1
+
+updated:
+- fixed the error for duplicate emails
+- fixed the error for routes
+- added a template using layouts for consistency
+- a reusable access code for alpha testing -- file is accesscodeseeder.php for codes -- migrate for changes
