@@ -2,6 +2,7 @@ npm run dev
 php artisan serve
 
 href="{{url('resources/css/welcome.css')}}"   ------ link to other resources
+href="{{route('resources/css/welcome.css')}}"   ------ link to other files using web.php
 
 
 Commit - error fixing v1
@@ -11,3 +12,18 @@ updated:
 - fixed the error for routes
 - added a template using layouts for consistency
 - a reusable access code for alpha testing -- file is accesscodeseeder.php for codes -- migrate for changes
+
+Commit - v1.1 - Alpha stage
+
+- error fixing v2
+updated:
+- created a temporary dashboard
+- enhance session login
+- bc complete sign up and login
+- 
+
+next goal:
+- create barangay
+- initial design
+- lock contact no. for ph only
+- refine temporary dashboard
