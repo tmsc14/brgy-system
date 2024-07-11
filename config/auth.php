@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'barangay_captain' => [
+            'driver' => 'session',
+            'provider' => 'barangay_captains',
+        ],
     ],
 
     /*
@@ -65,10 +70,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'barangay_captains' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\BarangayCaptain::class,
+        ],
     ],
 
     /*

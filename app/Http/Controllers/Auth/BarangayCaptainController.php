@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\BarangayCaptain;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class BarangayCaptainController extends Controller
 {
@@ -82,7 +83,7 @@ class BarangayCaptainController extends Controller
             return redirect()->back()->with('error', 'The email has already been taken.')->withInput();
         }
     
-        BarangayCaptain::create([
+        $barangayCaptain = BarangayCaptain::create([
             'region' => session('region'),
             'province' => session('province'),
             'city_municipality' => session('city_municipality'),
@@ -98,8 +99,54 @@ class BarangayCaptainController extends Controller
             'password' => Hash::make($request->password),
         ]);
     
+        Auth::login($barangayCaptain);
+    
         session()->flush();
     
-        return redirect()->route('home')->with('success', 'Registration successful');
-    }         
+        return redirect()->route('barangay_captain.dashboard')->with('success', 'Registration successful');
+    }    
+    
+    public function showLogin()
+    {
+        return view('auth.barangay_captain.bc-login');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('barangay_captain')->attempt($credentials)) {
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('barangay_captain.dashboard'));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function showDashboard()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+
+        if ($user === null) {
+            return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
+        }
+
+        return view('dashboard', compact('user'));
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('home');
+    }
 }

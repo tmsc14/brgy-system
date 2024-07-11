@@ -24,9 +24,10 @@
         </select>
 
         <button type="submit">Next</button>
-        <button type="button" onclick="location.href='{{ route('welcome.blade.php') }}'">Back</button>
+        <button type="button" onclick="location.href='{{ route('home') }}'">Back</button>
+        
     </form>
-    </form>
+    <button type="login" onclick="location.href='{{ route('barangay_captain.login')}}'">Login</button>
 @endsection
 
 @push('scripts')

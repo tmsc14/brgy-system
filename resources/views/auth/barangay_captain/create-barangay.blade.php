@@ -7,7 +7,7 @@
         {{ session('success') }}
     </div>
 @endif
-
+    
 <form action="{{ route('barangay_captain.create_barangay') }}" method="post">
     @csrf
     <label for="region">Region:</label>
