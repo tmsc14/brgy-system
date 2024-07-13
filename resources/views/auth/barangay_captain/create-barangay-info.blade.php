@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+    <h1>Create Barangay</h1>
+
     <form action="{{ route('barangay_captain.create_barangay_info') }}" method="POST">
         @csrf
-        <label for="barangay_name">Barangay Name:</label>
-        <input type="text" name="barangay_name" id="barangay_name" required>
+        <div>
+            <label for="barangay_name">Barangay Name:</label>
+            <input type="text" name="barangay_name" id="barangay_name" value="{{ old('barangay_name', $barangayDesc) }}" required readonly>
+        </div>
 
         <label for="barangay_email">Email:</label>
         <input type="email" name="barangay_email" id="barangay_email" required>

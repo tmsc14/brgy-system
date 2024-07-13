@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\AccessCode;
 use Illuminate\Http\Request;
+use App\Models\Barangay;
 use App\Models\BarangayCaptain;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
@@ -137,10 +138,11 @@ class BarangayCaptainController extends Controller
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
 
-        $barangay = $user->barangay;
+        // Correctly reference the related Barangay model
+        $barangay = $user->barangay()->first();
 
         return view('auth.barangay_captain.dashboard', compact('user', 'barangay'));
-    }
+    }   
 
     public function logout(Request $request)
     {
@@ -152,7 +154,21 @@ class BarangayCaptainController extends Controller
 
     public function showCreateBarangayInfo()
     {
-        return view('auth.barangay_captain.create-barangay-info');
+        $user = Auth::guard('barangay_captain')->user();
+        $barangayDesc = $this->getBarangayDesc($user->barangay);
+
+        return view('auth.barangay_captain.create-barangay-info', compact('barangayDesc'));
+    }
+
+    private function getBarangayDesc($barangayCode)
+    {
+        $barangayJson = json_decode(file_get_contents(public_path('json/refbrgy.json')), true);
+        foreach ($barangayJson['RECORDS'] as $barangay) {
+            if ($barangay['brgyCode'] === $barangayCode) {
+                return $barangay['brgyDesc'];
+            }
+        }
+        return null;
     }
 
     public function createBarangayInfo(Request $request)
@@ -167,8 +183,8 @@ class BarangayCaptainController extends Controller
             'barangay_contact_number' => 'required|string|max:20',
         ]);
 
-        // Save the data to the session
-        session([
+        Barangay::create([
+            'barangay_captain_id' => Auth::guard('barangay_captain')->id(),
             'barangay_name' => $request->barangay_name,
             'barangay_email' => $request->barangay_email,
             'barangay_office_address' => $request->barangay_office_address,
@@ -178,6 +194,40 @@ class BarangayCaptainController extends Controller
             'barangay_contact_number' => $request->barangay_contact_number,
         ]);
 
-        return redirect()->route('barangay_captain.create_barangay_appearances');
+        return redirect()->route('barangay_captain.dashboard')->with('success', 'Barangay created successfully!');
+    }
+    
+    public function showAppearanceSettings()
+    {
+        return view('auth.barangay_captain.appearance-settings');
+    }
+
+    public function saveAppearanceSettings(Request $request)
+    {
+        $request->validate([
+            'theme_color' => 'required|string',
+            // Add other appearance settings fields validation
+        ]);
+
+        // Save appearance settings logic here
+
+        return redirect()->route('barangay_captain.dashboard')->with('success', 'Appearance settings saved successfully!');
+    }
+
+    public function showFeaturesSettings()
+    {
+        return view('auth.barangay_captain.features-settings');
+    }
+
+    public function saveFeaturesSettings(Request $request)
+    {
+        $request->validate([
+            'feature_1' => 'required|boolean',
+            // Add other features settings fields validation
+        ]);
+
+        // Save features settings logic here
+
+        return redirect()->route('barangay_captain.dashboard')->with('success', 'Features settings saved successfully!');
     }
 }

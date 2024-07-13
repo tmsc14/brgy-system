@@ -23,7 +23,7 @@ updated:
 - 
 
 next goal:
-- create barangay
+- create barangay - check
 - initial design
 - lock contact no. for ph only
 - refine temporary dashboard
@@ -33,3 +33,14 @@ Comit - v1.1.1 Alpha stage
 updated:
 - no changes at all
 - updating purpose only
+
+Commit - v1.2 Alpha stage
+
+updated: 
+- Created a link for barangay captain and create barangay
+- Barangay name auto fill based on barangay captain registration
+- Barangay captain login/signup complete
+
+next goal:
+- UI/UX bc login/signup -- create barangay -- temporary dashboard
+- Creation of other users
