@@ -15,7 +15,7 @@
         <input type="text" name="last_name" required>
 
         <label for="date_of_birth">Date of Birth:</label>
-        <input type="date" name="date_of_birth" required>
+        <input type="date" name="date_of_birth" id="date_of_birth" required>
 
         <label for="gender">Gender:</label>
         <select name="gender" required>

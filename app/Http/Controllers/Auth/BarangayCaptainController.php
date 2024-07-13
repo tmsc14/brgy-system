@@ -46,7 +46,7 @@ class BarangayCaptainController extends Controller
             'first_name' => 'required',
             'middle_name' => 'nullable',
             'last_name' => 'required',
-            'date_of_birth' => 'required|date',
+            'date_of_birth' => 'required|date|before:today',
             'gender' => 'required',
             'email' => 'required|email',
             'contact_no' => 'required',
@@ -78,12 +78,12 @@ class BarangayCaptainController extends Controller
             'password' => 'required|confirmed',
             'access_code' => 'required|exists:access_codes,code',
         ]);
-    
+
         if (BarangayCaptain::where('email', session('email'))->exists()) {
             return redirect()->back()->with('error', 'The email has already been taken.')->withInput();
         }
-    
-        $barangayCaptain = BarangayCaptain::create([
+
+        BarangayCaptain::create([
             'region' => session('region'),
             'province' => session('province'),
             'city_municipality' => session('city_municipality'),
@@ -98,13 +98,11 @@ class BarangayCaptainController extends Controller
             'bric' => session('bric'),
             'password' => Hash::make($request->password),
         ]);
-    
-        Auth::login($barangayCaptain);
-    
+
         session()->flush();
-    
-        return redirect()->route('barangay_captain.dashboard')->with('success', 'Registration successful');
-    }    
+
+        return redirect()->route('barangay_captain.login')->with('success', 'Registration successful! Please log in.');
+    }  
     
     public function showLogin()
     {
@@ -122,7 +120,6 @@ class BarangayCaptainController extends Controller
 
         if (Auth::guard('barangay_captain')->attempt($credentials)) {
             $request->session()->regenerate();
-
             return redirect()->intended(route('barangay_captain.dashboard'));
         }
 
@@ -130,6 +127,7 @@ class BarangayCaptainController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
 
     public function showDashboard()
     {
@@ -139,7 +137,9 @@ class BarangayCaptainController extends Controller
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
 
-        return view('dashboard', compact('user'));
+        $barangay = $user->barangay;
+
+        return view('auth.barangay_captain.dashboard', compact('user', 'barangay'));
     }
 
     public function logout(Request $request)
@@ -148,5 +148,36 @@ class BarangayCaptainController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('home');
+    }
+
+    public function showCreateBarangayInfo()
+    {
+        return view('auth.barangay_captain.create-barangay-info');
+    }
+
+    public function createBarangayInfo(Request $request)
+    {
+        $request->validate([
+            'barangay_name' => 'required|string|max:255',
+            'barangay_email' => 'required|email|max:255',
+            'barangay_office_address' => 'required|string|max:255',
+            'barangay_complete_address_1' => 'required|string|max:255',
+            'barangay_complete_address_2' => 'nullable|string|max:255',
+            'barangay_description' => 'required|string',
+            'barangay_contact_number' => 'required|string|max:20',
+        ]);
+
+        // Save the data to the session
+        session([
+            'barangay_name' => $request->barangay_name,
+            'barangay_email' => $request->barangay_email,
+            'barangay_office_address' => $request->barangay_office_address,
+            'barangay_complete_address_1' => $request->barangay_complete_address_1,
+            'barangay_complete_address_2' => $request->barangay_complete_address_2,
+            'barangay_description' => $request->barangay_description,
+            'barangay_contact_number' => $request->barangay_contact_number,
+        ]);
+
+        return redirect()->route('barangay_captain.create_barangay_appearances');
     }
 }

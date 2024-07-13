@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class BarangayCaptain extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'region',
@@ -24,6 +25,13 @@ class BarangayCaptain extends Authenticatable
         'bric',
         'password',
     ];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    public function barangay()
+    {
+        return $this->hasOne(Barangay::class);
+    }
 }
-
-

@@ -10,9 +10,19 @@ class Barangay extends Model
     use HasFactory;
 
     protected $fillable = [
-        'region',
-        'province',
-        'city_municipality',
-        'barangay'
+        'name',
+        'email',
+        'office_address',
+        'complete_address_1',
+        'complete_address_2',
+        'description',
+        'contact_number',
+        'barangay_captain_id',
     ];
+
+    public function barangayCaptain()
+    {
+        return $this->belongsTo(BarangayCaptain::class);
+    }
 }
+

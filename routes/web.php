@@ -33,11 +33,11 @@ Route::get('login/barangay-captain', [BarangayCaptainController::class, 'showLog
 Route::post('login/barangay-captain', [BarangayCaptainController::class, 'login'])->name('barangay_captain.login.post');
 
 // Barangay Captain Dashboard
-Route::get('dashboard/barangay-captain', [BarangayCaptainController::class, 'showDashboard'])->name('barangay_captain.dashboard')->middleware('auth.barangay_captain');
+Route::get('dashboard/barangay-captain', [BarangayCaptainController::class, 'showDashboard'])->name('barangay_captain.dashboard')->middleware('auth:barangay_captain');
 
-// Barangay Captain -- Create Barangay
-Route::get('barangay-captain/create-barangay', [BarangayCaptainController::class, 'showCreateBarangay'])->name('barangay_captain.create_barangay_form');
-Route::post('barangay-captain/create-barangay', [BarangayCaptainController::class, 'createBarangay'])->name('barangay_captain.create_barangay');
+// Barangay Captain -- Create Barangay Info
+Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
+Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
 
 // Logout
 Route::post('logout', [BarangayCaptainController::class, 'logout'])->name('logout');

@@ -10,10 +10,14 @@ class CreateBarangaysTable extends Migration
     {
         Schema::create('barangays', function (Blueprint $table) {
             $table->id();
-            $table->string('region');
-            $table->string('province');
-            $table->string('city_municipality');
-            $table->string('barangay');
+            $table->string('name');
+            $table->string('email');
+            $table->string('office_address');
+            $table->string('complete_address_1');
+            $table->string('complete_address_2')->nullable();
+            $table->text('description');
+            $table->string('contact_number');
+            $table->foreignId('barangay_captain_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,4 +27,3 @@ class CreateBarangaysTable extends Migration
         Schema::dropIfExists('barangays');
     }
 }
-
