@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\BarangayCaptainController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,9 @@ use App\Http\Controllers\Auth\BarangayCaptainController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+// Default Laravel auth routes including password reset
+Auth::routes(['verify' => true]);
 
 // Barangay Captain Sign up
 Route::get('register/barangay-captain/step1', [BarangayCaptainController::class, 'showStep1'])->name('barangay_captain.register.step1');
@@ -46,6 +51,12 @@ Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::
 // Barangay Captain -- Features Settings
 Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
 Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
+
+// Password Reset Routes
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Logout
 Route::post('logout', [BarangayCaptainController::class, 'logout'])->name('logout');
