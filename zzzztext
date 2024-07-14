@@ -42,5 +42,14 @@ updated:
 - Barangay captain login/signup complete
 
 next goal:
-- UI/UX bc login/signup -- create barangay -- temporary dashboard
+- UI/UX bc login/signup -- create barangay -- temporary dashboard {check!}
 - Creation of other users
+- for better experience. When a user wants to go back the login details or the user details will retain
+
+Commit - v1.3.1 Alpha stage
+
+updated:
+- css for bc sign up and login
+
+next goal:
+- make the forgot password work
