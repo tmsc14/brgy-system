@@ -108,13 +108,6 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-
-        'barangay_captains' => [
-        'provider' => 'barangay_captains',
-        'table' => 'password_resets',
-        'expire' => 60,
-        'throttle' => 60,
-        ],
     ],
 
     /*
