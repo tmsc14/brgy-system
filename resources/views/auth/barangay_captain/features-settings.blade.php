@@ -1,15 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Features Settings</h1>
-
+<div class="container">
+    <h2>Features Settings</h2>
     <form action="{{ route('barangay_captain.features_settings.post') }}" method="POST">
         @csrf
-        <label for="feature_1">Feature 1:</label>
-        <input type="checkbox" name="feature_1" id="feature_1" value="1">
-
-        <!-- Add other features settings fields here -->
-
-        <button type="submit">Save</button>
+        <!-- Add your form fields here -->
+        <div class="form-group">
+            <label for="feature_1">Feature 1</label>
+            <input type="text" name="feature_1" id="feature_1" class="form-control" required>
+        </div>
+        <!-- Add more features settings fields as needed -->
+        <button type="submit" class="btn btn-primary">Finish</button>
     </form>
+</div>
 @endsection

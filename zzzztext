@@ -53,3 +53,15 @@ updated:
 
 next goal:
 - make the forgot password work
+
+Commit - v1.3.2 Alpha stage
+
+updated: 
+- made a template for dashboard
+
+Bugs need to be fix:
+- conduct a simple QA
+- Login needs some error handling
+- provide more visible and organized error displays
+- address the issue for the temporary dashboard after creating a barangay
+

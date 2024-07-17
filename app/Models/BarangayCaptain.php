@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\CanResetPassword;
 
 class BarangayCaptain extends Authenticatable
 {
@@ -33,6 +32,6 @@ class BarangayCaptain extends Authenticatable
 
     public function barangay()
     {
-        return $this->hasOne(Barangay::class);
+        return $this->hasOne(Barangay::class, 'id', 'barangay_id');
     }
 }

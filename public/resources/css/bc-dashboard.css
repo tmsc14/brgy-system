@@ -1,0 +1,159 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #FAEED8;
+    margin: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #503C2F;
+    color: #FAFAFA;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    justify-content: space-between;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brgy-logo {
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.barangay-logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.barangay-logo {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    flex: 1;
+}
+
+.nav li {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.nav a, .nav button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+    color: #FAEED8;
+    text-decoration: none;
+    border: none;
+    text-align: left;
+    border-radius: 8px;
+    margin-bottom: 35px;
+}
+
+.nav a:hover {
+    font-weight: bold;
+}
+
+.nav a.active {
+    background-color: #FAEED8;
+    color: #503C2F;
+}
+
+.nav a .icon, .nav button .icon {
+    margin-right: 10px;
+    width: 20px;
+}
+
+.logout-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    background-color: #FAEED8;
+    color: #503C2F;
+    text-decoration: none;
+    border: none;
+    text-align: left;
+    border-radius: 8px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 100px;
+}
+
+.logout-button:hover {
+    font-weight: bold;
+}
+
+.logout-button .icon {
+    margin-right: 10px;
+    width: 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 270px;
+    width: calc(100% - 270px);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header h1.hello {
+    margin-right: 50px;
+    margin-left: 20px;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    color: #503C2F;
+    margin-right: auto;
+}
+
+.date .icon {
+    margin-right: 5px;
+    width: 20px;
+}
+
+.search input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 200px;
+}
+
+.header-line {
+    border: 0;
+    height: 1px;
+    background: #503C2F;
+    margin-bottom: 20px;
+}
+
+.content-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}

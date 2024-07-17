@@ -29,7 +29,7 @@
             <label for="remember" class="form-check-label">
                 <input type="checkbox" name="remember" id="remember" class="form-check-input"> Remember Me
             </label>
-            <a href="{{ route('password.request') }}" class="forgot-password">Forgot Password?</a>
+            <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
         <button type="submit" class="btn btn-primary">Log In</button>
         <div class="signup-text-container">

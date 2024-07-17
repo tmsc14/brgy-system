@@ -22,6 +22,7 @@
             <p>You have already created a barangay.</p>
             <a href="{{ route('barangay_captain.appearance_settings') }}" class="btn btn-secondary">Appearance Settings</a>
             <a href="{{ route('barangay_captain.features_settings') }}" class="btn btn-secondary">Features Settings</a>
+            <a href="{{ route('bc-dashboard') }}" class="btn btn-secondary">Go to Dashboard</a>
         @endif
     </div>
 

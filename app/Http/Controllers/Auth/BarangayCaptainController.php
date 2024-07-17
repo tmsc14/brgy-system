@@ -138,7 +138,6 @@ class BarangayCaptainController extends Controller
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
 
-        // Correctly reference the related Barangay model
         $barangay = $user->barangay()->first();
 
         return view('auth.barangay_captain.dashboard', compact('user', 'barangay'));
@@ -229,5 +228,15 @@ class BarangayCaptainController extends Controller
         // Save features settings logic here
 
         return redirect()->route('barangay_captain.dashboard')->with('success', 'Features settings saved successfully!');
+    }
+
+    public function showBcDashboard()
+    {
+        $user = auth()->guard('barangay_captain')->user()->load('barangay');
+
+        // Add debug logging to see what is being returned
+        \Log::info('User data:', ['user' => $user]);
+
+        return view('barangay_captain.bc-dashboard', compact('user'));
     }
 }
