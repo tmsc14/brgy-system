@@ -32,6 +32,6 @@ class BarangayCaptain extends Authenticatable
 
     public function barangay()
     {
-        return $this->hasOne(Barangay::class, 'id', 'barangay_id');
+        return $this->hasOne(Barangay::class, 'barangay_captain_id', 'id');
     }
 }

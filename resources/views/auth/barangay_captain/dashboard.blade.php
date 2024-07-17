@@ -15,11 +15,11 @@
     @endif
 
     <div class="dashboard-main">
-        @if (!$barangay)
+        @if (is_null($barangay))
             <p>You have not created a barangay yet.</p>
             <a href="{{ route('barangay_captain.create_barangay_info_form') }}" class="btn btn-primary">Create Barangay</a>
         @else
-            <p>You have already created a barangay.</p>
+            <p>You have already created a barangay: {{ $barangay->barangay_name }}</p>
             <a href="{{ route('barangay_captain.appearance_settings') }}" class="btn btn-secondary">Appearance Settings</a>
             <a href="{{ route('barangay_captain.features_settings') }}" class="btn btn-secondary">Features Settings</a>
             <a href="{{ route('bc-dashboard') }}" class="btn btn-secondary">Go to Dashboard</a>

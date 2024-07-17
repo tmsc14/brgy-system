@@ -49,11 +49,11 @@ class BarangayCaptainController extends Controller
             'last_name' => 'required',
             'date_of_birth' => 'required|date|before:today',
             'gender' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:barangay_captains,email',
             'contact_no' => 'required',
             'bric' => 'required',
         ]);
-
+    
         session([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
@@ -64,9 +64,9 @@ class BarangayCaptainController extends Controller
             'contact_no' => $request->contact_no,
             'bric' => $request->bric,
         ]);
-
+    
         return redirect()->route('barangay_captain.register.step3');
-    }
+    }       
 
     public function showStep3()
     {
@@ -75,15 +75,23 @@ class BarangayCaptainController extends Controller
 
     public function postStep3(Request $request)
     {
+        // Validate the request
         $request->validate([
-            'password' => 'required|confirmed',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8', // Minimum length
+                'regex:/[A-Z]/', // Must contain at least one uppercase letter
+                'regex:/[a-z]/', // Must contain at least one lowercase letter
+                'regex:/[0-9]/', // Must contain at least one number
+                'regex:/[@$!%*?&#]/', // Must contain at least one special character
+            ],
             'access_code' => 'required|exists:access_codes,code',
+        ], [
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         ]);
-
-        if (BarangayCaptain::where('email', session('email'))->exists()) {
-            return redirect()->back()->with('error', 'The email has already been taken.')->withInput();
-        }
-
+    
+        // Create the Barangay Captain
         BarangayCaptain::create([
             'region' => session('region'),
             'province' => session('province'),
@@ -99,11 +107,13 @@ class BarangayCaptainController extends Controller
             'bric' => session('bric'),
             'password' => Hash::make($request->password),
         ]);
-
+    
+        // Clear the session data
         session()->flush();
-
+    
+        // Redirect to the login page with a success message
         return redirect()->route('barangay_captain.login')->with('success', 'Registration successful! Please log in.');
-    }  
+    }    
     
     public function showLogin()
     {
@@ -129,19 +139,22 @@ class BarangayCaptainController extends Controller
         ]);
     }
 
-
     public function showDashboard()
     {
         $user = Auth::guard('barangay_captain')->user();
-
+    
         if ($user === null) {
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
-
-        $barangay = $user->barangay()->first();
-
+    
+        $barangay = $user->barangay;
+    
+        // Debugging the type and value of $barangay
+        \Log::info('Barangay type: ' . gettype($barangay));
+        \Log::info('Barangay value: ' . json_encode($barangay));
+    
         return view('auth.barangay_captain.dashboard', compact('user', 'barangay'));
-    }   
+    }     
 
     public function logout(Request $request)
     {

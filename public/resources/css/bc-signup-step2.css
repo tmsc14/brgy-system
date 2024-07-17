@@ -81,6 +81,12 @@ body {
     color: #503C2F;
 }
 
+.error {
+    color: #f44336;
+    font-size: 0.875em;
+    margin-top: 5px;
+}
+
 .btn-primary {
     background-color: #FAEED8;
     color: #503C2F;
@@ -120,4 +126,3 @@ body {
 .btn-secondary:hover {
     background-color: #e0a800;
 }
-

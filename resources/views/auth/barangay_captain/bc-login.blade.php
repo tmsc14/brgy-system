@@ -6,6 +6,11 @@
         <img src="{{ url('resources/img/logo.png') }}" alt="Logo" class="logo">
     </div>
     <h2>Barangay Captain Login</h2>
+    @if (session('success'))
+        <div class="alert alert-success" id="success-message">
+            {{ session('success') }}
+        </div>
+    @endif
     <form action="{{ route('barangay_captain.login.post') }}" method="POST">
         @csrf
         @if ($errors->any())
@@ -42,4 +47,21 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ url('resources/css/bc-login.css') }}">
+@endpush
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.transition = 'opacity 1s';
+                    successMessage.style.opacity = '0';
+                }, 3000); // Time in milliseconds before it fades out
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 4000); // Total time in milliseconds before it is removed
+            }
+        });
+    </script>
 @endpush

@@ -42,7 +42,7 @@ h2 {
     margin-bottom: 15px;
     text-align: left;
     width: 300px;
-    max-width: 100%; /* Ensure the form group takes up the full width */
+    max-width: 100%;
 }
 
 .form-group label {
@@ -65,13 +65,13 @@ h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
-    width: 322px; /* Adjust the width to match the form-group */
+    width: 322px;
     color: #FAEED8;
 }
 
 .form-check-label {
     display: flex;
-    align-items: center; /* Center the checkbox vertically */
+    align-items: center;
 }
 
 .form-check-input {
@@ -80,7 +80,7 @@ h2 {
 
 .btn-primary {
     width: 100%;
-    max-width: 300px; /* Limit the max width of the button */
+    max-width: 300px;
     background-color: #FAEED8;
     color: #503C2F;
     padding: 10px;
@@ -102,14 +102,14 @@ h2 {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    max-width: 300px; /* Limit the max width of the footer */
-    margin: 0 auto; /* Center the footer */
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .forgot-password {
     color: #281000;
     text-decoration: none;
-    margin-left: auto; /* Pushes the link to the right */
+    margin-left: auto;
     margin-right: 0;
 }
 
@@ -139,11 +139,29 @@ h2 {
 .signup-link {
     color: #281000;
     text-decoration: none;
-    margin-left: 5px; /* Adds space between the text and the link */
+    margin-left: 10px;
 }
 
 .signup-link:hover {
     text-decoration: underline;
 }
 
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+}
 
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}

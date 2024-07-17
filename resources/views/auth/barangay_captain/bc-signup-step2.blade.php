@@ -12,45 +12,69 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="first_name">First Name</label>
-                <input type="text" name="first_name" id="first_name" required>
+                <input type="text" name="first_name" id="first_name" value="{{ old('first_name', session('first_name')) }}" required>
+                @error('first_name')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="gender">Gender</label>
                 <select name="gender" id="gender" required>
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    <option value="" disabled {{ !old('gender', session('gender')) ? 'selected' : '' }}>Select Gender</option>
+                    <option value="Male" {{ old('gender', session('gender')) == 'Male' ? 'selected' : '' }}>Male</option>
+                    <option value="Female" {{ old('gender', session('gender')) == 'Female' ? 'selected' : '' }}>Female</option>
                 </select>
+                @error('gender')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="middle_name">Middle Name</label>
-                <input type="text" name="middle_name" id="middle_name">
+                <input type="text" name="middle_name" id="middle_name" value="{{ old('middle_name', session('middle_name')) }}">
+                @error('middle_name')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" required>
+                <input type="email" name="email" id="email" value="{{ old('email', session('email')) }}" required>
+                @error('email')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="last_name">Last Name</label>
-                <input type="text" name="last_name" id="last_name" required>
+                <input type="text" name="last_name" id="last_name" value="{{ old('last_name', session('last_name')) }}" required>
+                @error('last_name')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="contact_no">Contact Number</label>
-                <input type="text" name="contact_no" id="contact_no" required>
+                <input type="text" name="contact_no" id="contact_no" value="{{ old('contact_no', session('contact_no')) }}" required>
+                @error('contact_no')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="date_of_birth">Date of Birth</label>
-                <input type="date" name="date_of_birth" id="date_of_birth" required>
+                <input type="date" name="date_of_birth" id="date_of_birth" value="{{ old('date_of_birth', session('date_of_birth')) }}" required>
+                @error('date_of_birth')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="bric">BRIC #</label>
-                <input type="text" name="bric" id="bric" required>
+                <input type="text" name="bric" id="bric" value="{{ old('bric', session('bric')) }}" required>
+                @error('bric')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Next</button>
