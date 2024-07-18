@@ -147,15 +147,11 @@ class BarangayCaptainController extends Controller
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
     
-        $barangay = $user->barangay;
+        $barangayDetails = $user->barangayDetails;
     
-        // Debugging the type and value of $barangay
-        \Log::info('Barangay type: ' . gettype($barangay));
-        \Log::info('Barangay value: ' . json_encode($barangay));
+        return view('auth.barangay_captain.dashboard', compact('user', 'barangayDetails'));
+    }
     
-        return view('auth.barangay_captain.dashboard', compact('user', 'barangay'));
-    }     
-
     public function logout(Request $request)
     {
         Auth::logout();

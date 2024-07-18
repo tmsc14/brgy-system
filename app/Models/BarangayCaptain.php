@@ -30,7 +30,7 @@ class BarangayCaptain extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function barangay()
+    public function barangayDetails()
     {
         return $this->hasOne(Barangay::class, 'barangay_captain_id', 'id');
     }

@@ -88,3 +88,8 @@ updated:
 - Show password
 - sign up restrictions
 - Properly organized data for database eg. uppercase first letter and lowercase for the rest.
+
+Commit 1.3.5 Alpha stage
+
+details:
+- fixed the conflict in database

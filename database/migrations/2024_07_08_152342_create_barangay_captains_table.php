@@ -13,7 +13,7 @@ class CreateBarangayCaptainsTable extends Migration
             $table->string('region');
             $table->string('province');
             $table->string('city_municipality');
-            $table->string('barangay');
+            $table->string('barangay'); // Store barangay location code
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');

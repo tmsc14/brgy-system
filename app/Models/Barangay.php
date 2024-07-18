@@ -22,7 +22,6 @@ class Barangay extends Model
 
     public function barangayCaptain()
     {
-        return $this->belongsTo(BarangayCaptain::class, 'barangay_captain_id', 'id');
+        return $this->belongsTo(BarangayCaptain::class);
     }
 }
-
