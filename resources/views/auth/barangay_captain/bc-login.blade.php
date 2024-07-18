@@ -13,22 +13,22 @@
     @endif
     <form action="{{ route('barangay_captain.login.post') }}" method="POST">
         @csrf
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="Enter your Email here" required>
+            @if ($errors->has('email'))
+                <span class="error">{{ $errors->first('email') }}</span>
+            @endif
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Please Enter Your Password" required>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" placeholder="Please Enter Your Password" required>
+                <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword()">
+            </div>
+            @if ($errors->has('password'))
+                <span class="error">{{ $errors->first('password') }}</span>
+            @endif
         </div>
         <div class="form-check">
             <label for="remember" class="form-check-label">
@@ -51,6 +51,18 @@
 
 @push('scripts')
     <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const togglePassword = document.querySelector('.toggle-password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
+            } else {
+                passwordField.type = 'password';
+                togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const successMessage = document.getElementById('success-message');
             if (successMessage) {

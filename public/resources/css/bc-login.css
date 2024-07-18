@@ -43,6 +43,8 @@ h2 {
     text-align: left;
     width: 300px;
     max-width: 100%;
+    position: relative;
+    padding-bottom: 23px; /* Reduced space for error messages */
 }
 
 .form-group label {
@@ -60,6 +62,31 @@ h2 {
     color: #503C2F;
 }
 
+.password-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+
+.form-group .error {
+    color: #f44336;
+    font-size: 0.875em;
+    position: absolute;
+    top: 75%; /* Move error message closer to the input field */
+    left: 0;
+    width: 100%;
+    padding-top: 3px;
+}
+
 .form-check {
     display: flex;
     justify-content: space-between;
@@ -67,6 +94,7 @@ h2 {
     margin-bottom: 15px;
     width: 322px;
     color: #FAEED8;
+    margin-top: -30px; /* Move it closer to the password field */
 }
 
 .form-check-label {

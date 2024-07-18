@@ -75,3 +75,16 @@ updated:
 Needs fixing:
 - dashboard error
 - Sign up process (first letter converts if its lowercase to uppercase)
+
+
+Access control
+- every barangay captain can only be assigned and create one barangay (solo)
+
+Commit 1.3.4 Alpha stage
+
+updated:
+- error handling for other sign up process
+- conducted a simple qa and found some things needed to fix
+- Show password
+- sign up restrictions
+- Properly organized data for database eg. uppercase first letter and lowercase for the rest.

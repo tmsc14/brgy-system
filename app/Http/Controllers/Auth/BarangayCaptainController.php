@@ -44,14 +44,14 @@ class BarangayCaptainController extends Controller
     public function postStep2(Request $request)
     {
         $request->validate([
-            'first_name' => 'required',
-            'middle_name' => 'nullable',
-            'last_name' => 'required',
+            'first_name' => 'required|alpha|min:2|max:50',
+            'middle_name' => 'nullable|alpha|min:2|max:50',
+            'last_name' => 'required|alpha|min:2|max:50',
             'date_of_birth' => 'required|date|before:today',
-            'gender' => 'required',
+            'gender' => 'required|in:Male,Female,Other',
             'email' => 'required|email|unique:barangay_captains,email',
-            'contact_no' => 'required',
-            'bric' => 'required',
+            'contact_no' => 'required|digits_between:10,15',
+            'bric' => 'required|alpha_num|min:6|max:20',
         ]);
     
         session([
@@ -66,8 +66,8 @@ class BarangayCaptainController extends Controller
         ]);
     
         return redirect()->route('barangay_captain.register.step3');
-    }       
-
+    }
+    
     public function showStep3()
     {
         return view('auth.barangay_captain.bc-signup-step3');

@@ -21,6 +21,7 @@ body {
     flex-direction: column;
     align-items: center;
     position: relative;
+    height: 800px;
 }
 
 .signup-header {
@@ -59,6 +60,8 @@ body {
     flex: 1;
     margin-right: 110px;
     width: 330px;
+    position: relative;
+    padding-bottom: 11px; /* Space for error messages */
 }
 
 .form-group:last-child {
@@ -84,7 +87,17 @@ body {
 .error {
     color: #f44336;
     font-size: 0.875em;
-    margin-top: 5px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding-top: 3px;
+    top: 85%; /* Move error message closer to the input field */
+}
+
+.email-requirements {
+    list-style: none;
+    padding-left: 0;
 }
 
 .btn-primary {

@@ -11,7 +11,10 @@
         @csrf
         <div class="form-group">
             <label for="password">Create your own Password</label>
-            <input type="password" name="password" id="password" required>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" required>
+                <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password')">
+            </div>
             <div class="password-requirements" id="password-requirements">
                 <ul>
                     <li id="length" class="invalid">At least 8 characters long</li>
@@ -27,7 +30,10 @@
         </div>
         <div class="form-group">
             <label for="password_confirmation">Re-type your Password</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" required>
+            <div class="password-wrapper">
+                <input type="password" name="password_confirmation" id="password_confirmation" required>
+                <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password_confirmation')">
+            </div>
             @error('password_confirmation')
                 <span class="error">{{ $message }}</span>
             @enderror
@@ -44,6 +50,7 @@
         <a href="{{ route('barangay_captain.register.step2') }}" class="btn-secondary">Back</a>
     </form>
 </div>
+
 @endsection
 
 @push('styles')
@@ -52,6 +59,18 @@
 
 @push('scripts')
 <script>
+    function togglePassword(id) {
+        const passwordField = document.getElementById(id);
+        const togglePassword = passwordField.nextElementSibling;
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
+        } else {
+            passwordField.type = 'password';
+            togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const passwordInput = document.getElementById('password');
         const lengthRequirement = document.getElementById('length');
@@ -107,6 +126,15 @@
                 specialRequirement.classList.remove('valid');
                 specialRequirement.classList.add('invalid');
             }
+        });
+
+        // Show password requirements on hover
+        const passwordWrapper = document.querySelector('.password-wrapper');
+        passwordWrapper.addEventListener('mouseover', function () {
+            document.getElementById('password-requirements').style.display = 'block';
+        });
+        passwordWrapper.addEventListener('mouseout', function () {
+            document.getElementById('password-requirements').style.display = 'none';
         });
     });
 </script>

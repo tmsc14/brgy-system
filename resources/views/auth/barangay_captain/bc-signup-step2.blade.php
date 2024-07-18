@@ -23,6 +23,7 @@
                     <option value="" disabled {{ !old('gender', session('gender')) ? 'selected' : '' }}>Select Gender</option>
                     <option value="Male" {{ old('gender', session('gender')) == 'Male' ? 'selected' : '' }}>Male</option>
                     <option value="Female" {{ old('gender', session('gender')) == 'Female' ? 'selected' : '' }}>Female</option>
+                    <option value="Other" {{ old('gender', session('gender')) == 'Other' ? 'selected' : '' }}>Other</option>
                 </select>
                 @error('gender')
                     <span class="error">{{ $message }}</span>
@@ -85,4 +86,23 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('resources/css/bc-signup-step2.css') }}">
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const nameFields = ['first_name', 'middle_name', 'last_name'];
+        nameFields.forEach(field => {
+            const input = document.getElementById(field);
+            input.addEventListener('input', function () {
+                this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1).toLowerCase();
+            });
+        });
+
+        const bricInput = document.getElementById('bric');
+        bricInput.addEventListener('input', function () {
+            this.value = this.value.toUpperCase();
+        });
+    });
+</script>
 @endpush
