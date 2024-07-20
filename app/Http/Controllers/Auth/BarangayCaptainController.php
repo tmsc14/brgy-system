@@ -241,11 +241,11 @@ class BarangayCaptainController extends Controller
 
     public function showBcDashboard()
     {
-        $user = auth()->guard('barangay_captain')->user()->load('barangay');
-
+        $user = Auth::guard('barangay_captain')->user()->load('barangayDetails');
+    
         // Add debug logging to see what is being returned
         \Log::info('User data:', ['user' => $user]);
-
+    
         return view('barangay_captain.bc-dashboard', compact('user'));
     }
 }

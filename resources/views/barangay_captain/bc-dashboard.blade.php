@@ -6,9 +6,9 @@
         <img src="{{ asset('images/barangay-logo.png') }}" alt="Barangay Logo">
     </div>
     <div class="barangay-details">
-        @if (is_object(Auth::user()->barangay))
-            <h2>{{ Auth::user()->barangay->name }}</h2>
-            <p>{{ Auth::user()->barangay->location }}</p>
+        @if ($user->barangayDetails)
+            <h2>{{ $user->barangayDetails->barangay_name }}</h2>
+            <p>{{ $user->barangayDetails->barangay_email }}</p>
             <p>300 Members</p>
         @else
             <p>No barangay information available.</p>

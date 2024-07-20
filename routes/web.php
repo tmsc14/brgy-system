@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\BarangayCaptainController;
+use App\Http\Controllers\Auth\UnifiedSignupController;
+use App\Http\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +49,22 @@ Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::
 // Features Settings
 Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
 Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
+
+//unified sign up
+Route::group(['prefix' => 'register', 'namespace' => 'Auth'], function () {
+    Route::get('/find-barangay', [UnifiedSignupController::class, 'showFindBarangayForm'])->name('register.find-barangay');
+    Route::post('/find-barangay', [UnifiedSignupController::class, 'findBarangay'])->name('register.find-barangay.post');
+    
+    Route::get('/user-details', [UnifiedSignupController::class, 'showUserDetailsForm'])->name('register.user-details');
+    Route::post('/user-details', [UnifiedSignupController::class, 'storeUserDetails'])->name('register.user-details.post');
+    
+    Route::get('/account-details', [UnifiedSignupController::class, 'showAccountDetailsForm'])->name('register.account-details');
+    Route::post('/account-details', [UnifiedSignupController::class, 'storeAccountDetails'])->name('register.account-details.post');
+});
+
+//unified login
+Route::get('login/user', [LoginController::class, 'showLoginForm'])->name('login.user');
+Route::post('login/user', [LoginController::class, 'login'])->name('login.user.post');
 
 // Logout
 Route::post('logout', [BarangayCaptainController::class, 'logout'])->name('logout');
