@@ -51,6 +51,21 @@ return [
             'driver' => 'session',
             'provider' => 'barangay_captains',
         ],
+
+        'barangay_official' => [
+            'driver' => 'session',
+            'provider' => 'barangay_officials',
+        ],
+    
+        'staff' => [
+            'driver' => 'session',
+            'provider' => 'staff',
+        ],
+    
+        'resident' => [
+            'driver' => 'session',
+            'provider' => 'residents',
+        ],
     ],
 
     /*
@@ -79,6 +94,21 @@ return [
         'barangay_captains' => [
             'driver' => 'eloquent',
             'model' => App\Models\BarangayCaptain::class,
+        ],
+
+        'barangay_officials' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\BarangayOfficial::class,
+        ],
+    
+        'staff' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Staff::class,
+        ],
+    
+        'residents' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Resident::class,
         ],
     ],
 

@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\BarangayCaptainController;
-use App\Http\Controllers\Auth\UnifiedSignupController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\BarangayRoleController;
+use App\Http\Controllers\API\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,3 +68,25 @@ Route::post('login/user', [LoginController::class, 'login'])->name('login.user.p
 
 // Logout
 Route::post('logout', [BarangayCaptainController::class, 'logout'])->name('logout');
+
+//unified signup
+Route::get('/auth/select-role', [BarangayRoleController::class, 'showSelectRole'])->name('barangay_roles.showSelectRole');
+Route::post('/auth/select-role', [BarangayRoleController::class, 'selectRole'])->name('barangay_roles.selectRole');
+
+Route::get('/auth/find-barangay', [BarangayRoleController::class, 'showFindBarangay'])->name('barangay_roles.showFindBarangay');
+Route::post('/auth/find-barangay', [BarangayRoleController::class, 'findBarangay'])->name('barangay_roles.findBarangay');
+
+Route::get('/auth/user-details', [BarangayRoleController::class, 'showUserDetails'])->name('barangay_roles.showUserDetails');
+Route::post('/auth/user-details', [BarangayRoleController::class, 'userDetails'])->name('barangay_roles.userDetails');
+
+Route::get('/auth/account-details', [BarangayRoleController::class, 'showAccountDetails'])->name('barangay_roles.showAccountDetails');
+Route::post('/auth/account-details', [BarangayRoleController::class, 'accountDetails'])->name('barangay_roles.accountDetails');
+
+//unified login
+Route::get('/auth/login', [BarangayRoleController::class, 'showLogin'])->name('barangay_roles.showLogin');
+Route::post('/auth/login', [BarangayRoleController::class, 'login'])->name('barangay_roles.login');
+
+//API (find barangay)
+Route::get('/provinces', [LocationController::class, 'getProvinces']);
+Route::get('/cities', [LocationController::class, 'getCities']);
+Route::get('/barangays', [LocationController::class, 'getBarangays']);
