@@ -163,9 +163,15 @@ class BarangayCaptainController extends Controller
     public function showCreateBarangayInfo()
     {
         $user = Auth::guard('barangay_captain')->user();
-        $barangayDesc = $this->getBarangayDesc($user->barangay);
+        $geographicData = [
+            'region' => $user->region,
+            'province' => $user->province,
+            'city' => $user->city_municipality,
+            'barangay' => $user->barangay,
+            'barangayDesc' => $this->getBarangayDesc($user->barangay)
+        ];
 
-        return view('auth.barangay_captain.create-barangay-info', compact('barangayDesc'));
+        return view('auth.barangay_captain.create-barangay-info', compact('geographicData'));
     }
 
     private function getBarangayDesc($barangayCode)
@@ -188,11 +194,13 @@ class BarangayCaptainController extends Controller
             'barangay_complete_address_1' => 'required|string|max:255',
             'barangay_complete_address_2' => 'nullable|string|max:255',
             'barangay_description' => 'required|string',
-            'barangay_contact_number' => 'required|string|max:20',
+            'barangay_contact_number' => 'required|string|max:20'
         ]);
 
+        $user = Auth::guard('barangay_captain')->user();
+
         Barangay::create([
-            'barangay_captain_id' => Auth::guard('barangay_captain')->id(),
+            'barangay_captain_id' => $user->id,
             'barangay_name' => $request->barangay_name,
             'barangay_email' => $request->barangay_email,
             'barangay_office_address' => $request->barangay_office_address,
@@ -200,6 +208,10 @@ class BarangayCaptainController extends Controller
             'barangay_complete_address_2' => $request->barangay_complete_address_2,
             'barangay_description' => $request->barangay_description,
             'barangay_contact_number' => $request->barangay_contact_number,
+            'region' => $user->region,
+            'province' => $user->province,
+            'city' => $user->city_municipality,
+            'barangay' => $user->barangay
         ]);
 
         return redirect()->route('barangay_captain.dashboard')->with('success', 'Barangay created successfully!');

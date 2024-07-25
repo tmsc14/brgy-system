@@ -87,6 +87,6 @@ Route::get('/auth/login', [BarangayRoleController::class, 'showLogin'])->name('b
 Route::post('/auth/login', [BarangayRoleController::class, 'login'])->name('barangay_roles.login');
 
 //API (find barangay)
-Route::get('/provinces', [LocationController::class, 'getProvinces']);
-Route::get('/cities', [LocationController::class, 'getCities']);
-Route::get('/barangays', [LocationController::class, 'getBarangays']);
+Route::get('/api/provinces', [BarangayRoleController::class, 'getProvinces']);
+Route::get('/api/cities', [BarangayRoleController::class, 'getCities']);
+Route::get('/api/barangays', [BarangayRoleController::class, 'getBarangays']);

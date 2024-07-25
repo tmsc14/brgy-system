@@ -12,8 +12,11 @@ class LocationController extends Controller
     {
         $provinces = DB::table('geographic_data')
             ->where('regCode', $request->query('region'))
+            ->select('provCode', 'provDesc')
             ->distinct()
-            ->pluck('provDesc', 'provCode');
+            ->get();
+
+        \Log::info('Provinces: ' . $provinces);
 
         return response()->json($provinces);
     }
@@ -22,8 +25,11 @@ class LocationController extends Controller
     {
         $cities = DB::table('geographic_data')
             ->where('provCode', $request->query('province'))
+            ->select('citymunCode', 'citymunDesc')
             ->distinct()
-            ->pluck('citymunDesc', 'citymunCode');
+            ->get();
+
+        \Log::info('Cities: ' . $cities);
 
         return response()->json($cities);
     }
@@ -32,7 +38,10 @@ class LocationController extends Controller
     {
         $barangays = DB::table('geographic_data')
             ->where('citymunCode', $request->query('city'))
-            ->pluck('brgyDesc', 'brgyCode');
+            ->select('brgyCode', 'brgyDesc')
+            ->get();
+
+        \Log::info('Barangays: ' . $barangays);
 
         return response()->json($barangays);
     }

@@ -18,6 +18,10 @@ class Barangay extends Model
         'barangay_complete_address_2',
         'barangay_description',
         'barangay_contact_number',
+        'region',
+        'province',
+        'city',
+        'barangay',
     ];
 
     public function barangayCaptain()

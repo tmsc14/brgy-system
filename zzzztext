@@ -1,0 +1,125 @@
+npm run dev          
+php artisan serve
+
+href="{{url('resources/css/welcome.css')}}"   ------ link to other resources
+href="{{route('resources/css/welcome.css')}}"   ------ link to other files using web.php
+
+
+Commit - error fixing v1
+
+updated:
+- fixed the error for duplicate emails
+- fixed the error for routes
+- added a template using layouts for consistency
+- a reusable access code for alpha testing -- file is accesscodeseeder.php for codes -- migrate for changes
+
+Commit - v1.1 - Alpha stage
+
+- error fixing v2
+updated:
+- created a temporary dashboard
+- enhance session login
+- bc complete sign up and login
+- 
+
+next goal:
+- create barangay - check
+- initial design
+- lock contact no. for ph only
+- refine temporary dashboard
+
+Comit - v1.1.1 Alpha stage
+
+updated:
+- no changes at all
+- updating purpose only
+
+Commit - v1.2 Alpha stage
+
+updated: 
+- Created a link for barangay captain and create barangay
+- Barangay name auto fill based on barangay captain registration
+- Barangay captain login/signup complete
+
+next goal:
+- UI/UX bc login/signup -- create barangay -- temporary dashboard {check!}
+- Creation of other users
+- for better experience. When a user wants to go back the login details or the user details will retain
+
+Commit - v1.3.1 Alpha stage
+
+updated:
+- css for bc sign up and login
+
+next goal:
+- make the forgot password work
+
+Commit - v1.3.2 Alpha stage
+
+updated: 
+- made a template for dashboard
+
+Bugs need to be fix:
+- conduct a simple QA ---- partial done
+- Login needs some error handling ---- fixed
+- provide more visible and organized error displays ---- fixed
+- address the issue for the temporary dashboard after creating a barangay ---- failed
+- Make it sequencial for login/signups restrict going back
+
+Commit 1.3.3 Alpha stage
+
+updated:
+- Error handling for login and sign up
+- Emphasize errors and account creation requirements
+
+Needs fixing:
+- dashboard error
+- Sign up process (first letter converts if its lowercase to uppercase)
+
+
+Access control
+- every barangay captain can only be assigned and create one barangay (solo)
+
+Commit 1.3.4 Alpha stage
+
+updated:
+- error handling for other sign up process
+- conducted a simple qa and found some things needed to fix
+- Show password
+- sign up restrictions
+- Properly organized data for database eg. uppercase first letter and lowercase for the rest.
+
+Commit 1.3.5 Alpha stage
+
+details:
+- fixed the conflict in database
+
+
+
+needs fixing:
+- BRIC no. automatically detecs for already taken same with contact number
+- restrict users if below the age of 18
+
+
+Commit 1.4.1 Alpha stage
+
+updated:
+- creating other roles sign up and login
+- created new controllers and allow link between controllers
+- created new tables for database
+- created models
+- created views
+
+Commit 1.4.2 Alpha stage
+
+updated:
+- allows the find barangay to fetch data from barangays table
+- allows the find barangay to read json files locally to display descriptions instead of codes
+
+next goal:
+- Barangay Captain:
+  - create the requests page
+  - allows the barangay captain to deny and reject logins
+  - make the valid id upload requirement from the sign up of users to be viewable by barangay captain dashboard
+
+

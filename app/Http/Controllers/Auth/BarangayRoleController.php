@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Barangay;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use App\Models\BarangayOfficial;
 use App\Models\Staff;
 use App\Models\Resident;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 class BarangayRoleController extends Controller
 {
@@ -27,9 +25,91 @@ class BarangayRoleController extends Controller
 
     public function showFindBarangay()
     {
-        // Fetch distinct regions from geographic_data table
-        $regions = DB::table('geographic_data')->distinct()->pluck('regDesc', 'regCode');
+        // Fetch distinct regions from the created barangays
+        $regions = DB::table('barangays')->select('region')->distinct()->get()->pluck('region');
+
+        // Load region descriptions from JSON
+        $regionJson = json_decode(file_get_contents(public_path('json/refregion.json')), true);
+        $regionMap = [];
+        foreach ($regionJson['RECORDS'] as $region) {
+            $regionMap[$region['regCode']] = $region['regDesc'];
+        }
+
+        // Map region codes to descriptions
+        $regions = $regions->map(function ($region) use ($regionMap) {
+            return ['code' => $region, 'desc' => $regionMap[$region] ?? $region];
+        });
+
         return view('auth.barangay_roles.find_barangay', compact('regions'));
+    }
+
+    public function getProvinces(Request $request)
+    {
+        $provinces = DB::table('barangays')
+            ->where('region', $request->query('region'))
+            ->select('province')
+            ->distinct()
+            ->get();
+
+        // Load province descriptions from JSON
+        $provinceJson = json_decode(file_get_contents(public_path('json/refprovince.json')), true);
+        $provinceMap = [];
+        foreach ($provinceJson['RECORDS'] as $province) {
+            $provinceMap[$province['provCode']] = $province['provDesc'];
+        }
+
+        // Map province codes to descriptions
+        $provinces = $provinces->map(function ($province) use ($provinceMap) {
+            return ['code' => $province->province, 'desc' => $provinceMap[$province->province] ?? $province->province];
+        });
+
+        return response()->json($provinces);
+    }
+
+    public function getCities(Request $request)
+    {
+        $cities = DB::table('barangays')
+            ->where('province', $request->query('province'))
+            ->select('city')
+            ->distinct()
+            ->get();
+
+        // Load city descriptions from JSON
+        $cityJson = json_decode(file_get_contents(public_path('json/refcitymun.json')), true);
+        $cityMap = [];
+        foreach ($cityJson['RECORDS'] as $city) {
+            $cityMap[$city['citymunCode']] = $city['citymunDesc'];
+        }
+
+        // Map city codes to descriptions
+        $cities = $cities->map(function ($city) use ($cityMap) {
+            return ['code' => $city->city, 'desc' => $cityMap[$city->city] ?? $city->city];
+        });
+
+        return response()->json($cities);
+    }
+
+    public function getBarangays(Request $request)
+    {
+        $barangays = DB::table('barangays')
+            ->where('city', $request->query('city'))
+            ->select('barangay')
+            ->distinct()
+            ->get();
+
+        // Load barangay descriptions from JSON
+        $barangayJson = json_decode(file_get_contents(public_path('json/refbrgy.json')), true);
+        $barangayMap = [];
+        foreach ($barangayJson['RECORDS'] as $barangay) {
+            $barangayMap[$barangay['brgyCode']] = $barangay['brgyDesc'];
+        }
+
+        // Map barangay codes to descriptions
+        $barangays = $barangays->map(function ($barangay) use ($barangayMap) {
+            return ['code' => $barangay->barangay, 'desc' => $barangayMap[$barangay->barangay] ?? $barangay->barangay];
+        });
+
+        return response()->json($barangays);
     }
 
     public function findBarangay(Request $request)
@@ -39,7 +119,7 @@ class BarangayRoleController extends Controller
             ->where('region', $request->input('region'))
             ->where('province', $request->input('province'))
             ->where('city', $request->input('city'))
-            ->where('name', $request->input('barangay'))
+            ->where('barangay', $request->input('barangay'))
             ->first();
 
         if ($barangay) {

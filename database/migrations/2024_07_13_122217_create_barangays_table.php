@@ -18,6 +18,10 @@ class CreateBarangaysTable extends Migration
             $table->string('barangay_complete_address_2')->nullable();
             $table->text('barangay_description');
             $table->string('barangay_contact_number');
+            $table->string('region');
+            $table->string('province');
+            $table->string('city');
+            $table->string('barangay');
             $table->timestamps();
 
             $table->foreign('barangay_captain_id')->references('id')->on('barangay_captains')->onDelete('cascade');

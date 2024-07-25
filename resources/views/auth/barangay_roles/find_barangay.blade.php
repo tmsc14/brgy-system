@@ -11,7 +11,7 @@
         <select id="region" name="region" required>
             <option value="">Select Region</option>
             @foreach($regions as $region)
-                <option value="{{ $region }}">{{ $region }}</option>
+                <option value="{{ $region['code'] }}">{{ $region['desc'] }}</option>
             @endforeach
         </select>
 
@@ -35,49 +35,52 @@
 
     <script>
         document.getElementById('region').addEventListener('change', function() {
-            fetch(`/api/provinces?region=${this.value}`)
+            let regionCode = this.value;
+            fetch(`/api/provinces?region=${regionCode}`)
                 .then(response => response.json())
                 .then(data => {
                     let provinceSelect = document.getElementById('province');
                     provinceSelect.innerHTML = '<option value="">Select Province</option>';
-                    for (const [code, name] of Object.entries(data)) {
+                    data.forEach(province => {
                         let option = document.createElement('option');
-                        option.value = code;
-                        option.textContent = name;
+                        option.value = province.code;
+                        option.textContent = province.desc;
                         provinceSelect.appendChild(option);
-                    }
+                    });
                     provinceSelect.disabled = false;
                 });
         });
 
         document.getElementById('province').addEventListener('change', function() {
-            fetch(`/api/cities?province=${this.value}`)
+            let provinceCode = this.value;
+            fetch(`/api/cities?province=${provinceCode}`)
                 .then(response => response.json())
                 .then(data => {
                     let citySelect = document.getElementById('city');
                     citySelect.innerHTML = '<option value="">Select City/Municipality</option>';
-                    for (const [code, name] of Object.entries(data)) {
+                    data.forEach(city => {
                         let option = document.createElement('option');
-                        option.value = code;
-                        option.textContent = name;
+                        option.value = city.code;
+                        option.textContent = city.desc;
                         citySelect.appendChild(option);
-                    }
+                    });
                     citySelect.disabled = false;
                 });
         });
 
         document.getElementById('city').addEventListener('change', function() {
-            fetch(`/api/barangays?city=${this.value}`)
+            let cityCode = this.value;
+            fetch(`/api/barangays?city=${cityCode}`)
                 .then(response => response.json())
                 .then(data => {
                     let barangaySelect = document.getElementById('barangay');
                     barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
-                    for (const [code, name] of Object.entries(data)) {
+                    data.forEach(barangay => {
                         let option = document.createElement('option');
-                        option.value = code;
-                        option.textContent = name;
+                        option.value = barangay.code;
+                        option.textContent = barangay.desc;
                         barangaySelect.appendChild(option);
-                    }
+                    });
                     barangaySelect.disabled = false;
                 });
         });
