@@ -57,14 +57,13 @@ return [
             'provider' => 'barangay_officials',
         ],
 
-        'staff' => [
+        'barangay_staff' => [
             'driver' => 'session',
-            'provider' => 'staff',
+            'provider' => 'barangay_staff',
         ],
-
-        'resident' => [
+        'barangay_resident' => [
             'driver' => 'session',
-            'provider' => 'residents',
+            'provider' => 'barangay_residents',
         ],
     ],
 
@@ -101,12 +100,11 @@ return [
             'model' => App\Models\BarangayOfficial::class,
         ],
     
-        'staff' => [
+        'barangay_staff' => [
             'driver' => 'eloquent',
             'model' => App\Models\Staff::class,
         ],
-    
-        'residents' => [
+        'barangay_residents' => [
             'driver' => 'eloquent',
             'model' => App\Models\Resident::class,
         ],

@@ -53,7 +53,7 @@ Route::post('barangay-captain/features-settings', [BarangayCaptainController::cl
 // Logout
 Route::post('logout', [BarangayCaptainController::class, 'logout'])->name('logout');
 
-//unified signup
+// Unified signup
 Route::get('/auth/select-role', [BarangayRoleController::class, 'showSelectRole'])->name('barangay_roles.showSelectRole');
 Route::post('/auth/select-role', [BarangayRoleController::class, 'selectRole'])->name('barangay_roles.selectRole');
 
@@ -66,16 +66,23 @@ Route::post('/auth/user-details', [BarangayRoleController::class, 'userDetails']
 Route::get('/auth/account-details', [BarangayRoleController::class, 'showAccountDetails'])->name('barangay_roles.showAccountDetails');
 Route::post('/auth/account-details', [BarangayRoleController::class, 'accountDetails'])->name('barangay_roles.accountDetails');
 
-// Unified login for other roles
-Route::get('/auth/unified-login', [BarangayRoleController::class, 'showUnifiedLogin'])->name('barangay_roles.showUnifiedLogin');
-Route::post('/auth/unified-login', [BarangayRoleController::class, 'unifiedLogin'])->name('barangay_roles.unifiedLogin');
+// Unified login
+Route::get('/auth/login', [BarangayRoleController::class, 'showUnifiedLogin'])->name('barangay_roles.showUnifiedLogin');
+Route::post('/auth/login', [BarangayRoleController::class, 'unifiedLogin'])->name('barangay_roles.unifiedLogin');
+
+Route::middleware(['auth:barangay_official'])->group(function () {
+    Route::get('dashboard/barangay_official', [BarangayRoleController::class, 'showBarangayOfficialDashboard'])->name('barangay_official.dashboard');
+});
+
+Route::middleware(['auth:barangay_staff'])->group(function () {
+    Route::get('dashboard/barangay_staff', [BarangayRoleController::class, 'showStaffDashboard'])->name('barangay_staff.dashboard');
+});
+
+Route::middleware(['auth:barangay_resident'])->group(function () {
+    Route::get('dashboard/barangay_resident', [BarangayRoleController::class, 'showResidentDashboard'])->name('barangay_resident.dashboard');
+});
 
 // API (find barangay)
 Route::get('/api/provinces', [BarangayRoleController::class, 'getProvinces']);
 Route::get('/api/cities', [BarangayRoleController::class, 'getCities']);
 Route::get('/api/barangays', [BarangayRoleController::class, 'getBarangays']);
-
-// Unified dashboard routes for all roles
-Route::get('dashboard/barangay_official', [BarangayRoleController::class, 'showBarangayOfficialDashboard'])->name('barangay_official.dashboard')->middleware('auth:barangay_official');
-Route::get('dashboard/staff', [BarangayRoleController::class, 'showStaffDashboard'])->name('staff.dashboard')->middleware('auth:staff');
-Route::get('dashboard/resident', [BarangayRoleController::class, 'showResidentDashboard'])->name('resident.dashboard')->middleware('auth:resident');

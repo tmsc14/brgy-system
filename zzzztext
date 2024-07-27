@@ -134,3 +134,8 @@ Commit 1.4.3 Alpha stage
 
 progress:
 - a little to none progress just to save some works
+
+Commit 1.4.4 Alpha stage
+
+progress:
+- savepoint before finalizing initial or raw sign up/login for other roles

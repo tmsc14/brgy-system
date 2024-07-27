@@ -9,6 +9,8 @@ class Resident extends Authenticatable
 {
     use HasFactory;
 
+    protected $table = 'barangay_residents';
+
     protected $fillable = [
         'first_name',
         'middle_name',
@@ -20,17 +22,13 @@ class Resident extends Authenticatable
         'bric_no',
         'barangay_id',
         'password',
-        'valid_id'
+        'valid_id',
+        'role'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    protected $guard = 'resident';
-
-    public function isResident()
-    {
-        return true;
-    }
+    protected $guard = 'barangay_resident';
 }

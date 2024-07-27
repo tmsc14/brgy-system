@@ -11,8 +11,8 @@
             <label for="role">Role:</label>
             <select id="role" name="role" required>
                 <option value="barangay_official">Barangay Official</option>
-                <option value="staff">Staff</option>
-                <option value="resident">Resident</option>
+                <option value="barangay_staff">Staff</option>
+                <option value="barangay_resident">Resident</option>
             </select>
         </div>
         <div>

@@ -26,9 +26,4 @@ class BarangayOfficial extends Authenticatable
     ];
 
     protected $guard = 'barangay_official';
-
-    public function isBarangayOfficial()
-    {
-        return true;
-    }
 }

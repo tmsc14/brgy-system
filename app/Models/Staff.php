@@ -9,6 +9,8 @@ class Staff extends Authenticatable
 {
     use HasFactory;
 
+    protected $table = 'barangay_staff';
+
     protected $fillable = [
         'first_name',
         'middle_name',
@@ -28,10 +30,5 @@ class Staff extends Authenticatable
         'password', 'remember_token',
     ];
 
-    protected $guard = 'staff';
-
-    public function isStaff()
-    {
-        return true;
-    }
+    protected $guard = 'barangay_staff';
 }

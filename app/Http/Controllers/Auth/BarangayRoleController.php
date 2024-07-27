@@ -27,17 +27,14 @@ class BarangayRoleController extends Controller
 
     public function showFindBarangay()
     {
-        // Fetch distinct regions from the created barangays
         $regions = DB::table('barangays')->select('region')->distinct()->get()->pluck('region');
 
-        // Load region descriptions from JSON
         $regionJson = json_decode(file_get_contents(public_path('json/refregion.json')), true);
         $regionMap = [];
         foreach ($regionJson['RECORDS'] as $region) {
             $regionMap[$region['regCode']] = $region['regDesc'];
         }
 
-        // Map region codes to descriptions
         $regions = $regions->map(function ($region) use ($regionMap) {
             return ['code' => $region, 'desc' => $regionMap[$region] ?? $region];
         });
@@ -53,14 +50,12 @@ class BarangayRoleController extends Controller
             ->distinct()
             ->get();
 
-        // Load province descriptions from JSON
         $provinceJson = json_decode(file_get_contents(public_path('json/refprovince.json')), true);
         $provinceMap = [];
         foreach ($provinceJson['RECORDS'] as $province) {
             $provinceMap[$province['provCode']] = $province['provDesc'];
         }
 
-        // Map province codes to descriptions
         $provinces = $provinces->map(function ($province) use ($provinceMap) {
             return ['code' => $province->province, 'desc' => $provinceMap[$province->province] ?? $province->province];
         });
@@ -76,14 +71,12 @@ class BarangayRoleController extends Controller
             ->distinct()
             ->get();
 
-        // Load city descriptions from JSON
         $cityJson = json_decode(file_get_contents(public_path('json/refcitymun.json')), true);
         $cityMap = [];
         foreach ($cityJson['RECORDS'] as $city) {
             $cityMap[$city['citymunCode']] = $city['citymunDesc'];
         }
 
-        // Map city codes to descriptions
         $cities = $cities->map(function ($city) use ($cityMap) {
             return ['code' => $city->city, 'desc' => $cityMap[$city->city] ?? $city->city];
         });
@@ -99,14 +92,12 @@ class BarangayRoleController extends Controller
             ->distinct()
             ->get();
 
-        // Load barangay descriptions from JSON
         $barangayJson = json_decode(file_get_contents(public_path('json/refbrgy.json')), true);
         $barangayMap = [];
         foreach ($barangayJson['RECORDS'] as $barangay) {
             $barangayMap[$barangay['brgyCode']] = $barangay['brgyDesc'];
         }
 
-        // Map barangay codes to descriptions
         $barangays = $barangays->map(function ($barangay) use ($barangayMap) {
             return ['code' => $barangay->barangay, 'desc' => $barangayMap[$barangay->barangay] ?? $barangay->barangay];
         });
@@ -116,7 +107,6 @@ class BarangayRoleController extends Controller
 
     public function findBarangay(Request $request)
     {
-        // Find the created barangay by Barangay Captains
         $barangay = DB::table('barangays')
             ->where('region', $request->input('region'))
             ->where('province', $request->input('province'))
@@ -188,7 +178,7 @@ class BarangayRoleController extends Controller
                 break;
         }
 
-        return redirect()->route('barangay_roles.showLogin')->with('success', 'Registration completed successfully.');
+        return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration completed successfully.');
     }
 
     public function showUnifiedLogin()
@@ -204,12 +194,12 @@ class BarangayRoleController extends Controller
             'password' => 'required',
             'role' => 'required'
         ]);
-
+    
         $credentials = $request->only('email', 'password');
         $role = $request->input('role');
-
+    
         Log::info('Login role: ' . $role);
-
+    
         switch ($role) {
             case 'barangay_official':
                 if (Auth::guard('barangay_official')->attempt($credentials)) {
@@ -218,25 +208,40 @@ class BarangayRoleController extends Controller
                     return redirect()->route('barangay_official.dashboard');
                 }
                 break;
-            case 'staff':
-                if (Auth::guard('staff')->attempt($credentials)) {
+            case 'barangay_staff':
+                if (Auth::guard('barangay_staff')->attempt($credentials)) {
                     Log::info('Staff login successful');
                     $request->session()->regenerate();
-                    return redirect()->route('staff.dashboard');
+                    return redirect()->route('barangay_staff.dashboard');
                 }
                 break;
-            case 'resident':
-                if (Auth::guard('resident')->attempt($credentials)) {
+            case 'barangay_resident':
+                if (Auth::guard('barangay_resident')->attempt($credentials)) {
                     Log::info('Resident login successful');
                     $request->session()->regenerate();
-                    return redirect()->route('resident.dashboard');
+                    return redirect()->route('barangay_resident.dashboard');
                 }
                 break;
         }
-
+    
         Log::warning('Login failed for role: ' . $role);
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+    
+    public function showBarangayOfficialDashboard()
+    {
+        return view('barangay_official.bo-dashboard');
+    }
+    
+    public function showStaffDashboard()
+    {
+        return view('barangay_staff.bs-dashboard');
+    }
+    
+    public function showResidentDashboard()
+    {
+        return view('barangay_resident.br-dashboard');
+    }    
 }

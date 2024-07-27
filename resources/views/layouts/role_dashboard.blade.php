@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>@yield('title') - Dashboard</title>
-    <!-- Include your CSS and other head elements here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay System</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
-    <div class="sidebar">
-        @yield('sidebar')
+    <div class="app">
+        <aside>
+            @yield('sidebar')
+        </aside>
+        <main>
+            @yield('content')
+        </main>
     </div>
-    <div class="content">
-        @yield('content')
-    </div>
-    <!-- Include your JS and other footer elements here -->
 </body>
 </html>
