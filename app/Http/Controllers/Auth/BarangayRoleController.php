@@ -169,11 +169,11 @@ class BarangayRoleController extends Controller
                 $data['position'] = $request->input('position');
                 BarangayOfficial::create($data);
                 break;
-            case 'staff':
+            case 'barangay_staff':
                 $data['role'] = $request->input('role');
                 Staff::create($data);
                 break;
-            case 'resident':
+            case 'barangay_resident':
                 Resident::create($data);
                 break;
         }

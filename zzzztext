@@ -139,3 +139,17 @@ Commit 1.4.4 Alpha stage
 
 progress:
 - savepoint before finalizing initial or raw sign up/login for other roles
+
+Commit 1.4.5 Alpha stage
+
+progress:
+- signup process fix
+- made sure database recieves data
+- login process fix
+
+next progress:
+- design
+- signup restrictions
+- login restrictions
+- initial dashboard
+- - create sign up restriction access (barangay captain to verify accounts first before the users can use the account)
