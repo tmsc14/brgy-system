@@ -10,10 +10,27 @@ class Resident extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'first_name', 'middle_name', 'last_name', 'dob', 'gender', 'email', 'contact_no', 'bric_no', 'barangay_id', 'password', 'valid_id'
+        'first_name',
+        'middle_name',
+        'last_name',
+        'dob',
+        'gender',
+        'email',
+        'contact_no',
+        'bric_no',
+        'barangay_id',
+        'password',
+        'valid_id'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $guard = 'resident';
+
+    public function isResident()
+    {
+        return true;
+    }
 }

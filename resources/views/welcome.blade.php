@@ -14,7 +14,7 @@
         <div class="button-group">
             <button onclick="location.href='{{ route('barangay_captain.login') }}'">Barangay Captain Login</button>
             <button onclick="location.href='{{ route('barangay_roles.showSelectRole') }}'">Sign Up</button>
-            <button onclick="location.href='{{ route('barangay_roles.showLogin') }}'">Login</button>
+            <button onclick="location.href='{{ route('barangay_roles.showUnifiedLogin') }}'">Login</button>
             <button onclick="location.href='#'">Other</button>
         </div>
     </div>

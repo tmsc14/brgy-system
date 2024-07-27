@@ -10,10 +10,28 @@ class Staff extends Authenticatable
     use HasFactory;
 
     protected $fillable = [
-        'first_name', 'middle_name', 'last_name', 'dob', 'gender', 'email', 'contact_no', 'bric_no', 'barangay_id', 'password', 'valid_id', 'role'
+        'first_name',
+        'middle_name',
+        'last_name',
+        'dob',
+        'gender',
+        'email',
+        'contact_no',
+        'bric_no',
+        'barangay_id',
+        'password',
+        'valid_id',
+        'role'
     ];
 
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $guard = 'staff';
+
+    public function isStaff()
+    {
+        return true;
+    }
 }

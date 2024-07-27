@@ -56,12 +56,12 @@ return [
             'driver' => 'session',
             'provider' => 'barangay_officials',
         ],
-    
+
         'staff' => [
             'driver' => 'session',
             'provider' => 'staff',
         ],
-    
+
         'resident' => [
             'driver' => 'session',
             'provider' => 'residents',

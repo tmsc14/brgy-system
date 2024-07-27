@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\BarangayOfficial;
 use App\Models\Staff;
 use App\Models\Resident;
+use Illuminate\Support\Facades\Log;
 
 class BarangayRoleController extends Controller
 {
@@ -186,6 +188,55 @@ class BarangayRoleController extends Controller
                 break;
         }
 
-        return redirect()->route('login')->with('success', 'Registration completed successfully.');
+        return redirect()->route('barangay_roles.showLogin')->with('success', 'Registration completed successfully.');
+    }
+
+    public function showUnifiedLogin()
+    {
+        return view('auth.barangay_roles.unified_login');
+    }
+
+    public function unifiedLogin(Request $request)
+    {
+        Log::info('Login attempt started');
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'role' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+        $role = $request->input('role');
+
+        Log::info('Login role: ' . $role);
+
+        switch ($role) {
+            case 'barangay_official':
+                if (Auth::guard('barangay_official')->attempt($credentials)) {
+                    Log::info('Barangay Official login successful');
+                    $request->session()->regenerate();
+                    return redirect()->route('barangay_official.dashboard');
+                }
+                break;
+            case 'staff':
+                if (Auth::guard('staff')->attempt($credentials)) {
+                    Log::info('Staff login successful');
+                    $request->session()->regenerate();
+                    return redirect()->route('staff.dashboard');
+                }
+                break;
+            case 'resident':
+                if (Auth::guard('resident')->attempt($credentials)) {
+                    Log::info('Resident login successful');
+                    $request->session()->regenerate();
+                    return redirect()->route('resident.dashboard');
+                }
+                break;
+        }
+
+        Log::warning('Login failed for role: ' . $role);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 }
