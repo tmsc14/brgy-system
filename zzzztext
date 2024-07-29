@@ -121,6 +121,7 @@ next goal:
   - create the requests page
   - allows the barangay captain to deny and reject logins
   - make the valid id upload requirement from the sign up of users to be viewable by barangay captain dashboard
+  - make the requirements for login top to bottom instead of left to right
 
 
 July 26 plan:
@@ -153,3 +154,9 @@ next progress:
 - login restrictions
 - initial dashboard
 - - create sign up restriction access (barangay captain to verify accounts first before the users can use the account)
+
+Commit 1.4.6 Alpha stage
+
+progress:
+- sign up design
+- needs sign up restrictions
