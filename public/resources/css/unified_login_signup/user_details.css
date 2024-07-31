@@ -120,5 +120,6 @@ input, select {
     color: #f44336;
     font-size: 0.875em;
     position: absolute;
-    bottom: -20px;
+    margin-top: 5px;
+    white-space: normal
 }

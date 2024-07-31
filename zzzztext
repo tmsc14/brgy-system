@@ -160,3 +160,8 @@ Commit 1.4.6 Alpha stage
 progress:
 - sign up design
 - needs sign up restrictions
+
+Commit 1.4.7 Alpha stage
+
+progress:
+- savepoint for the user_details with finalized design and restrictions

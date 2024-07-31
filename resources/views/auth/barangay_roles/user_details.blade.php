@@ -12,16 +12,17 @@
         <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo">
     </div>
     <div class="separator"></div>
-    <h1>{{ session('role') }} User Details</h1>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <h1>
+        @if (session('role') == 'barangay_official')
+            Barangay Official User Details
+        @elseif (session('role') == 'barangay_staff')
+            Barangay Staff User Details
+        @elseif (session('role') == 'barangay_resident')
+            Barangay Resident User Details
+        @else
+            User Details
+        @endif
+    </h1>
     <form id="user-details-form" action="{{ route('barangay_roles.userDetails') }}" method="POST">
         @csrf
         <div class="form-group">
