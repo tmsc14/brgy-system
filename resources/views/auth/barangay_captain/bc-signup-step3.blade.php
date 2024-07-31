@@ -24,9 +24,9 @@
                     <li id="special" class="invalid">At least one special character (@$!%*?&)</li>
                 </ul>
             </div>
-            @error('password')
-                <span class="error">{{ $message }}</span>
-            @enderror
+            @if ($errors->has('password'))
+                <div class="error-message">{{ $errors->first('password') }}</div>
+            @endif
         </div>
         <div class="form-group">
             <label for="password_confirmation">Re-type your Password</label>
@@ -34,17 +34,17 @@
                 <input type="password" name="password_confirmation" id="password_confirmation" required>
                 <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password_confirmation')">
             </div>
-            @error('password_confirmation')
-                <span class="error">{{ $message }}</span>
-            @enderror
+            @if ($errors->has('password_confirmation'))
+                <div class="error-message">{{ $errors->first('password_confirmation') }}</div>
+            @endif
         </div>
         <div class="form-group">
             <label for="access_code">Access Code</label>
             <input type="text" name="access_code" id="access_code" required>
-            <small>This is the code from the system developers.</small>
-            @error('access_code')
-                <span class="error">{{ $message }}</span>
-            @enderror
+            <small class="note">This is the code from the system developers.</small>
+            @if ($errors->has('access_code'))
+                <div class="error-message">{{ $errors->first('access_code') }}</div>
+            @endif
         </div>
         <button type="submit" class="btn-primary">Confirm</button>
         <a href="{{ route('barangay_captain.register.step2') }}" class="btn-secondary">Back</a>

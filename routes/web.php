@@ -63,8 +63,10 @@ Route::post('/auth/find-barangay', [BarangayRoleController::class, 'findBarangay
 Route::get('/auth/user-details', [BarangayRoleController::class, 'showUserDetails'])->name('barangay_roles.showUserDetails');
 Route::post('/auth/user-details', [BarangayRoleController::class, 'userDetails'])->name('barangay_roles.userDetails');
 
-Route::get('/auth/account-details', [BarangayRoleController::class, 'showAccountDetails'])->name('barangay_roles.showAccountDetails');
-Route::post('/auth/account-details', [BarangayRoleController::class, 'accountDetails'])->name('barangay_roles.accountDetails');
+Route::middleware(['ensureSignupFlow'])->group(function () {
+    Route::get('/auth/account-details', [BarangayRoleController::class, 'showAccountDetails'])->name('barangay_roles.showAccountDetails');
+    Route::post('/auth/account-details', [BarangayRoleController::class, 'accountDetails'])->name('barangay_roles.accountDetails');
+});
 
 // Unified login
 Route::get('/auth/login', [BarangayRoleController::class, 'showUnifiedLogin'])->name('barangay_roles.showUnifiedLogin');

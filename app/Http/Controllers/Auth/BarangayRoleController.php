@@ -170,10 +170,14 @@ class BarangayRoleController extends Controller
             'first_name', 'middle_name', 'last_name', 'dob', 'gender', 'email', 'contact_no', 'bric_no'
         ]));
         return redirect()->route('barangay_roles.showAccountDetails');
-    }       
-
+    }
+    
     public function showAccountDetails()
     {
+        if (!session('role') || !session('user_details')) {
+            return redirect()->route('barangay_roles.showSelectRole');
+        }
+    
         $role = session('role');
         return view('auth.barangay_roles.account_details', compact('role'));
     }
@@ -183,7 +187,23 @@ class BarangayRoleController extends Controller
         $role = $request->session()->get('role');
         $barangay_id = $request->session()->get('barangay_id');
         $user_details = $request->session()->get('user_details');
-
+    
+        $request->validate([
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/',      // must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // must contain at least one uppercase letter
+                'regex:/[0-9]/',      // must contain at least one digit
+                'regex:/[@$!%*#?&]/', // must contain a special character
+                'confirmed'
+            ],
+            'valid_id' => 'required|mimes:jpeg,jpg,png|max:2048',
+            'position' => $role === 'barangay_official' ? 'required|alpha_spaces' : '',
+            'role' => $role === 'barangay_staff' ? 'required|alpha_spaces' : '',
+        ]);
+    
         $data = [
             'first_name' => $user_details['first_name'],
             'middle_name' => $user_details['middle_name'],
@@ -196,11 +216,11 @@ class BarangayRoleController extends Controller
             'barangay_id' => $barangay_id,
             'password' => Hash::make($request->input('password')),
         ];
-
+    
         if ($request->hasFile('valid_id')) {
             $data['valid_id'] = $request->file('valid_id')->store('valid_ids');
         }
-
+    
         switch ($role) {
             case 'barangay_official':
                 $data['position'] = $request->input('position');
@@ -214,7 +234,7 @@ class BarangayRoleController extends Controller
                 Resident::create($data);
                 break;
         }
-
+    
         return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration completed successfully.');
     }
 

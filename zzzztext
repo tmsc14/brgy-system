@@ -165,3 +165,21 @@ Commit 1.4.7 Alpha stage
 
 progress:
 - savepoint for the user_details with finalized design and restrictions
+
+
+Aug 1 2024
+
+Needs fixing:
+- barangay captain - step 2 - email, contact, bric read other tables to check for uniqueness. {done}
+- apply alpha_spaces rule for the step 3 {done}
+
+Commit 1.5.1 Alpha stage
+
+progress:
+- Finalized the barangay captain sign up fixes
+- Finalized the unified sign up
+
+next goal:
+- login
+- dashboard for every users
+- apply npm vite starting with dashboard

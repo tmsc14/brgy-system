@@ -9,6 +9,7 @@ use App\Models\BarangayCaptain;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class BarangayCaptainController extends Controller
 {
@@ -44,14 +45,39 @@ class BarangayCaptainController extends Controller
     public function postStep2(Request $request)
     {
         $request->validate([
-            'first_name' => 'required|alpha|min:2|max:50',
-            'middle_name' => 'nullable|alpha|min:2|max:50',
-            'last_name' => 'required|alpha|min:2|max:50',
+            'first_name' => 'required|alpha_spaces|min:2|max:50',
+            'middle_name' => 'nullable|alpha_spaces|min:2|max:50',
+            'last_name' => 'required|alpha_spaces|min:2|max:50',
             'date_of_birth' => 'required|date|before:today',
             'gender' => 'required|in:Male,Female,Other',
-            'email' => 'required|email|unique:barangay_captains,email',
-            'contact_no' => 'required|digits_between:10,15',
-            'bric' => 'required|alpha_num|min:6|max:20',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('barangay_captains', 'email'),
+                Rule::unique('barangay_officials', 'email'),
+                Rule::unique('barangay_staff', 'email'),
+                Rule::unique('barangay_residents', 'email'),
+                Rule::unique('barangays', 'barangay_email'),
+            ],
+            'contact_no' => [
+                'required',
+                'digits_between:10,15',
+                Rule::unique('barangay_captains', 'contact_no'),
+                Rule::unique('barangay_officials', 'contact_no'),
+                Rule::unique('barangay_staff', 'contact_no'),
+                Rule::unique('barangay_residents', 'contact_no'),
+                Rule::unique('barangays', 'barangay_contact_number'),
+            ],
+            'bric' => [
+                'required',
+                'alpha_num',
+                'min:6',
+                'max:20',
+                Rule::unique('barangay_captains', 'bric'),
+                Rule::unique('barangay_officials', 'bric_no'),
+                Rule::unique('barangay_staff', 'bric_no'),
+                Rule::unique('barangay_residents', 'bric_no'),
+            ],
         ]);
     
         session([
@@ -66,7 +92,7 @@ class BarangayCaptainController extends Controller
         ]);
     
         return redirect()->route('barangay_captain.register.step3');
-    }
+    }    
     
     public function showStep3()
     {
@@ -88,7 +114,12 @@ class BarangayCaptainController extends Controller
             ],
             'access_code' => 'required|exists:access_codes,code',
         ], [
-            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'password.required' => 'Password is required',
+            'password.confirmed' => 'Passwords do not match',
+            'password.min' => 'Password must be at least 8 characters',
+            'password.regex' => 'Password must include uppercase, lowercase, number, and special character',
+            'access_code.required' => 'Access code is required',
+            'access_code.exists' => 'Invalid access code',
         ]);
     
         // Create the Barangay Captain

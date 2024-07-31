@@ -25,6 +25,13 @@ body {
     position: relative;
 }
 
+.logo {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
 .logo img {
     width: 400px;
     margin-bottom: 5px;
