@@ -11,6 +11,7 @@ use App\Models\BarangayOfficial;
 use App\Models\Staff;
 use App\Models\Resident;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class BarangayRoleController extends Controller
 {
@@ -129,11 +130,47 @@ class BarangayRoleController extends Controller
 
     public function userDetails(Request $request)
     {
+        $request->validate([
+            'first_name' => 'required|alpha|min:2|max:50',
+            'middle_name' => 'nullable|alpha|max:50',
+            'last_name' => 'required|alpha|min:2|max:50',
+            'dob' => 'required|date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
+            'gender' => 'required|in:Male,Female,Other',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('barangay_officials', 'email'),
+                Rule::unique('barangay_staff', 'email'),
+                Rule::unique('barangay_residents', 'email'),
+                Rule::unique('barangay_captains', 'email'),
+                Rule::unique('barangays', 'barangay_email')
+            ],
+            'contact_no' => [
+                'required',
+                'digits_between:10,15',
+                Rule::unique('barangay_officials', 'contact_no'),
+                Rule::unique('barangay_staff', 'contact_no'),
+                Rule::unique('barangay_residents', 'contact_no'),
+                Rule::unique('barangay_captains', 'contact_no'),
+                Rule::unique('barangays', 'barangay_contact_number')
+            ],
+            'bric_no' => [
+                'required',
+                'alpha_num',
+                'min:6',
+                'max:20',
+                Rule::unique('barangay_officials', 'bric_no'),
+                Rule::unique('barangay_staff', 'bric_no'),
+                Rule::unique('barangay_residents', 'bric_no'),
+                Rule::unique('barangay_captains', 'bric')
+            ],
+        ]);
+    
         $request->session()->put('user_details', $request->only([
             'first_name', 'middle_name', 'last_name', 'dob', 'gender', 'email', 'contact_no', 'bric_no'
         ]));
         return redirect()->route('barangay_roles.showAccountDetails');
-    }
+    }       
 
     public function showAccountDetails()
     {

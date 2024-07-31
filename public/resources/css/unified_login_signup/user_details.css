@@ -1,5 +1,3 @@
-/* public/resources/css/unified_login_signup/user_details.css */
-
 body {
     font-family: 'Arial', sans-serif;
     background-color: #FAEED8;
@@ -119,7 +117,6 @@ input, select {
 }
 
 .error-message {
-    display: none;
     color: #f44336;
     font-size: 0.875em;
     position: absolute;
