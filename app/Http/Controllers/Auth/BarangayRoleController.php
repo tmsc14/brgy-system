@@ -240,40 +240,51 @@ class BarangayRoleController extends Controller
 
     public function showUnifiedLogin()
     {
-        return view('auth.barangay_roles.unified_login');
+        $barangays = DB::table('barangays')->get(); // Fetch all barangays
+        return view('auth.barangay_roles.unified_login', compact('barangays'));
     }
-
+    
     public function unifiedLogin(Request $request)
     {
         Log::info('Login attempt started');
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'role' => 'required'
+            'role' => 'required',
+            'barangay' => 'required|exists:barangays,id'
         ]);
     
         $credentials = $request->only('email', 'password');
         $role = $request->input('role');
+        $barangay_id = $request->input('barangay');
     
         Log::info('Login role: ' . $role);
     
+        $user = null;
+    
         switch ($role) {
             case 'barangay_official':
-                if (Auth::guard('barangay_official')->attempt($credentials)) {
+                $user = BarangayOfficial::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
+                if ($user && Hash::check($credentials['password'], $user->password)) {
+                    Auth::guard('barangay_official')->login($user);
                     Log::info('Barangay Official login successful');
                     $request->session()->regenerate();
                     return redirect()->route('barangay_official.dashboard');
                 }
                 break;
             case 'barangay_staff':
-                if (Auth::guard('barangay_staff')->attempt($credentials)) {
+                $user = Staff::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
+                if ($user && Hash::check($credentials['password'], $user->password)) {
+                    Auth::guard('barangay_staff')->login($user);
                     Log::info('Staff login successful');
                     $request->session()->regenerate();
                     return redirect()->route('barangay_staff.dashboard');
                 }
                 break;
             case 'barangay_resident':
-                if (Auth::guard('barangay_resident')->attempt($credentials)) {
+                $user = Resident::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
+                if ($user && Hash::check($credentials['password'], $user->password)) {
+                    Auth::guard('barangay_resident')->login($user);
                     Log::info('Resident login successful');
                     $request->session()->regenerate();
                     return redirect()->route('barangay_resident.dashboard');
@@ -281,10 +292,17 @@ class BarangayRoleController extends Controller
                 break;
         }
     
-        Log::warning('Login failed for role: ' . $role);
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        if ($user) {
+            Log::warning('Login failed due to incorrect password');
+            return back()->withErrors([
+                'password' => 'The provided password is incorrect.',
+            ]);
+        } else {
+            Log::warning('Login failed for role: ' . $role);
+            return back()->withErrors([
+                'barangay' => 'The provided credentials do not match our records or the selected barangay is incorrect.',
+            ]);
+        }
     }
     
     public function showBarangayOfficialDashboard()

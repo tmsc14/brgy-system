@@ -183,3 +183,19 @@ next goal:
 - login
 - dashboard for every users
 - apply npm vite starting with dashboard
+
+Commit 1.5.2 Alpha stage
+
+progress:
+- Made some small changes to the bc-login
+- finalized the unified login functions
+- added a logic for the barangay field
+
+needs more idea:
+- change layout of the fields
+- showing of error and signup success
+
+next goal:
+- making the dashboard for every user come to life
+- make the dashboard unique for every barangay
+- make the registration to show in the barangay captain to accept and deny

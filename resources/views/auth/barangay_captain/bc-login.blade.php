@@ -5,6 +5,7 @@
     <div class="login-header">
         <img src="{{ url('resources/img/logo.png') }}" alt="Logo" class="logo">
     </div>
+    <div class="line"></div>
     <h2>Barangay Captain Login</h2>
     @if (session('success'))
         <div class="alert alert-success" id="success-message">
