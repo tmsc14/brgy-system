@@ -5,6 +5,6 @@
 @endsection
 
 @section('content')
-    <h1>Barangay Official Dashboard</h1>
-    <!-- Add more content here -->
+    <h2>Barangay Official Dashboard</h2>
+    <!-- Your dashboard content here -->
 @endsection

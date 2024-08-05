@@ -28,4 +28,24 @@ class Barangay extends Model
     {
         return $this->belongsTo(BarangayCaptain::class);
     }
+
+    public function appearanceSettings()
+    {
+        return $this->hasOne(AppearanceSetting::class, 'barangay_captain_id', 'barangay_captain_id');
+    }
+
+    public function officials()
+    {
+        return $this->hasMany(BarangayOfficial::class);
+    }
+
+    public function staffs()
+    {
+        return $this->hasMany(Staff::class);
+    }
+
+    public function residents()
+    {
+        return $this->hasMany(Resident::class);
+    }
 }

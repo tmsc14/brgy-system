@@ -220,3 +220,21 @@ progress:
 next goal:
 - apply the appearance set by the barangay captain to the dashboard of other users
 - fix the routing - remove the temporary dashboard and implement flow of create barangay
+
+find icons
+employees - same as admin icon
+documents *
+residents - same as admin icon
+calendar *
+announcement
+
+
+Commit 1.5.5 Alpha stage
+
+progress:
+- applied the appearance settings set by the barangay captain for the other users role
+- currently tested in officials only
+- uploaded icons to be used in the navbar
+
+next goal
+- test for other roles

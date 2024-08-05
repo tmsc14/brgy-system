@@ -307,16 +307,25 @@ class BarangayRoleController extends Controller
     
     public function showBarangayOfficialDashboard()
     {
-        return view('barangay_official.bo-dashboard');
+        $user = Auth::guard('barangay_official')->user();
+        $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
+    
+        return view('barangay_official.bo-dashboard', compact('user', 'appearanceSettings'));
     }
     
     public function showStaffDashboard()
     {
-        return view('barangay_staff.bs-dashboard');
+        $user = Auth::guard('barangay_staff')->user();
+        $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
+    
+        return view('barangay_staff.bs-dashboard', compact('user', 'appearanceSettings'));
     }
     
     public function showResidentDashboard()
     {
-        return view('barangay_resident.br-dashboard');
-    }    
+        $user = Auth::guard('barangay_resident')->user();
+        $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
+    
+        return view('barangay_resident.br-dashboard', compact('user', 'appearanceSettings'));
+    }   
 }

@@ -22,4 +22,9 @@ class AppearanceSetting extends Model
     {
         return $this->belongsTo(BarangayCaptain::class);
     }
+
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class, 'barangay_captain_id', 'barangay_captain_id');
+    }
 }

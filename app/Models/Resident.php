@@ -31,4 +31,9 @@ class Resident extends Authenticatable
     ];
 
     protected $guard = 'barangay_resident';
+
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class, 'barangay_id');
+    }
 }

@@ -1,0 +1,171 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--theme-color, #FAEED8);
+    margin: 0;
+    display: flex;
+    color: var(--text-color, #000000);
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--primary-color, #503C2F);
+    color: var(--secondary-color, #FAFAFA);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
+    position: fixed;
+    justify-content: space-between;
+}
+
+.sidebar-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.brgy-logo,
+.barangay-logo {
+    width: 120px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.barangay-logo-container img {
+    max-width: 100px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+}
+
+.nav {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    flex: 1;
+}
+
+.nav li {
+    width: 100%;
+    margin: 5px 0; /* Adjusted margin for closer spacing */
+}
+
+.nav a,
+.nav button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+    color: var(--secondary-color, #FAEED8);
+    text-decoration: none;
+    border: none;
+    text-align: left;
+    border-radius: 8px;
+    margin-bottom: 10px; /* Adjusted margin for closer spacing */
+}
+
+.nav a:hover {
+    font-weight: bold;
+}
+
+.nav a.active {
+    background-color: var(--secondary-color, #FAEED8);
+    color: var(--primary-color, #503C2F);
+}
+
+.nav a .icon,
+.nav button .icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.logout-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-color, #FAEED8);
+    color: var(--primary-color, #503C2F);
+    text-decoration: none;
+    border: none;
+    text-align: left;
+    border-radius: 8px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 50px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-button:hover {
+    font-weight: bold;
+}
+
+.logout-button .icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 270px;
+    width: calc(100% - 270px);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header h1.hello {
+    margin-right: 50px;
+    margin-left: 20px;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    color: var(--primary-color, #503C2F);
+    margin-right: auto;
+}
+
+.date .icon {
+    margin-right: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.search input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 200px;
+}
+
+.header-line {
+    border: 0;
+    height: 1px;
+    background: var(--primary-color, #503C2F);
+    margin-bottom: 20px;
+}
+
+.content-wrapper {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
