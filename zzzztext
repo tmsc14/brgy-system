@@ -210,3 +210,13 @@ Commit 1.5.3 Alpha stage
 
 progress:
 - Savepoint to create the appearance settings
+
+Commit 1.5.4 Alpha stage
+
+progress:
+- appearance settings - themes - logo - custom colors
+- created a new table in the database for appearance settings
+
+next goal:
+- apply the appearance set by the barangay captain to the dashboard of other users
+- fix the routing - remove the temporary dashboard and implement flow of create barangay

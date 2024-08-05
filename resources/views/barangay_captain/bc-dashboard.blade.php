@@ -1,6 +1,19 @@
 @extends('layouts.bc-dashboard')
 
 @section('content')
+
+@section('content')
+<div class="dashboard-container">
+    <h1>Welcome, {{ $user->first_name }}!</h1>
+    <p>Your current theme settings:</p>
+    <ul>
+        <li>Theme Color: {{ $appearanceSettings->theme_color }}</li>
+        <li>Primary Color: {{ $appearanceSettings->primary_color }}</li>
+        <li>Secondary Color: {{ $appearanceSettings->secondary_color }}</li>
+        <li>Text Color: {{ $appearanceSettings->text_color }}</li>
+    </ul>
+</div>
+
 <div class="barangay-info">
     <div class="barangay-logo">
         <img src="{{ asset('images/barangay-logo.png') }}" alt="Barangay Logo">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\AccessCode;
+use App\Models\AppearanceSetting;
 use Illuminate\Http\Request;
 use App\Models\Barangay;
 use App\Models\BarangayCaptain;
@@ -250,20 +251,159 @@ class BarangayCaptainController extends Controller
     
     public function showAppearanceSettings()
     {
-        return view('auth.barangay_captain.appearance-settings');
+        $user = Auth::guard('barangay_captain')->user();
+        $appearanceSettings = $user->appearanceSettings ?? new AppearanceSetting();
+        return view('auth.barangay_captain.appearance-settings', compact('appearanceSettings'));
     }
 
     public function saveAppearanceSettings(Request $request)
     {
         $request->validate([
+            'theme' => 'nullable|string',
             'theme_color' => 'required|string',
-            // Add other appearance settings fields validation
+            'primary_color' => 'required|string',
+            'secondary_color' => 'required|string',
+            'text_color' => 'required|string',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        // Save appearance settings logic here
-
+    
+        $themes = $this->getThemes();
+    
+        if ($request->theme && isset($themes[$request->theme])) {
+            $selectedTheme = $themes[$request->theme];
+            $themeColor = $selectedTheme['theme_color'];
+            $primaryColor = $selectedTheme['primary_color'];
+            $secondaryColor = $selectedTheme['secondary_color'];
+            $textColor = $selectedTheme['text_color'];
+        } else {
+            $themeColor = $this->convertToHex($request->theme_color);
+            $primaryColor = $this->convertToHex($request->primary_color);
+            $secondaryColor = $this->convertToHex($request->secondary_color);
+            $textColor = $this->convertToHex($request->text_color);
+        }
+    
+        $user = Auth::guard('barangay_captain')->user();
+        $appearanceSettings = $user->appearanceSettings ?? new AppearanceSetting();
+        $appearanceSettings->barangay_captain_id = $user->id;
+        $appearanceSettings->theme_color = $themeColor;
+        $appearanceSettings->primary_color = $primaryColor;
+        $appearanceSettings->secondary_color = $secondaryColor;
+        $appearanceSettings->text_color = $textColor;
+    
+        if ($request->hasFile('logo')) {
+            $logoPath = $request->file('logo')->store('logos', 'public');
+            $appearanceSettings->logo_path = $logoPath;
+        }
+    
+        $appearanceSettings->save();
+    
         return redirect()->route('barangay_captain.dashboard')->with('success', 'Appearance settings saved successfully!');
     }
+    
+    private function getThemes()
+    {
+        return [
+            'default' => [
+                'theme_color' => '#FAEED8',
+                'primary_color' => '#503C2F',
+                'secondary_color' => '#FAFAFA',
+                'text_color' => '#000000',
+            ],
+            'dark' => [
+                'theme_color' => '#2E2E2E',
+                'primary_color' => '#1A1A1A',
+                'secondary_color' => '#FAFAFA',
+                'text_color' => '#FFFFFF',
+            ],
+            'blue' => [
+                'theme_color' => '#E3F2FD',
+                'primary_color' => '#2196F3',
+                'secondary_color' => '#BBDEFB',
+                'text_color' => '#0D47A1',
+            ],
+            'green' => [
+                'theme_color' => '#E8F5E9',
+                'primary_color' => '#4CAF50',
+                'secondary_color' => '#C8E6C9',
+                'text_color' => '#1B5E20',
+            ],
+        ];
+    }    
+    
+    private function convertToHex($color)
+    {
+        if (strpos($color, '#') === 0) {
+            return $color;
+        }
+    
+        $rgb = sscanf($color, "rgb(%d, %d, %d)");
+        if ($rgb) {
+            return sprintf("#%02x%02x%02x", $rgb[0], $rgb[1], $rgb[2]);
+        }
+    
+        $hsl = sscanf($color, "hsl(%d, %d%%, %d%%)");
+        if ($hsl) {
+            return $this->hslToHex($hsl[0], $hsl[1], $hsl[2]);
+        }
+    
+        return $color; // fallback if conversion fails
+    }
+    
+    private function hslToHex($h, $s, $l)
+    {
+        $h /= 360;
+        $s /= 100;
+        $l /= 100;
+    
+        $r = $l;
+        $g = $l;
+        $b = $l;
+        $v = ($l <= 0.5) ? ($l * (1.0 + $s)) : ($l + $s - $l * $s);
+        if ($v > 0) {
+            $m = $l + $l - $v;
+            $sv = ($v - $m) / $v;
+            $h *= 6.0;
+            $six = floor($h);
+            $fract = $h - $six;
+            $vsf = $v * $sv * $fract;
+            $mid1 = $m + $vsf;
+            $mid2 = $v - $vsf;
+            switch ($six) {
+                case 0:
+                    $r = $v;
+                    $g = $mid1;
+                    $b = $m;
+                    break;
+                case 1:
+                    $r = $mid2;
+                    $g = $v;
+                    $b = $m;
+                    break;
+                case 2:
+                    $r = $m;
+                    $g = $v;
+                    $b = $mid1;
+                    break;
+                case 3:
+                    $r = $m;
+                    $g = $mid2;
+                    $b = $v;
+                    break;
+                case 4:
+                    $r = $mid1;
+                    $g = $m;
+                    $b = $v;
+                    break;
+                case 5:
+                    $r = $v;
+                    $g = $m;
+                    $b = $mid2;
+                    break;
+            }
+        }
+    
+        return sprintf("#%02x%02x%02x", round($r * 255.0), round($g * 255.0), round($b * 255.0));
+    }    
 
     public function showFeaturesSettings()
     {
@@ -284,11 +424,15 @@ class BarangayCaptainController extends Controller
 
     public function showBcDashboard()
     {
-        $user = Auth::guard('barangay_captain')->user()->load('barangayDetails');
+        $user = Auth::guard('barangay_captain')->user();
     
-        // Add debug logging to see what is being returned
-        \Log::info('User data:', ['user' => $user]);
+        if ($user === null) {
+            return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
+        }
     
-        return view('barangay_captain.bc-dashboard', compact('user'));
+        $appearanceSettings = $user->appearanceSettings;
+        $barangayDetails = $user->barangayDetails;
+    
+        return view('barangay_captain.bc-dashboard', compact('user', 'appearanceSettings', 'barangayDetails'));
     }
 }

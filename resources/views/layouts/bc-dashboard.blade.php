@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('resources/css/bc-dashboard.css') }}">
     <title>Barangay Dashboard</title>
+    @yield('styles')
+    <style>
+        :root {
+            --theme-color: {{ $appearanceSettings->theme_color ?? '#FAEED8' }};
+            --primary-color: {{ $appearanceSettings->primary_color ?? '#503C2F' }};
+            --secondary-color: {{ $appearanceSettings->secondary_color ?? '#FAFAFA' }};
+            --text-color: {{ $appearanceSettings->text_color ?? '#000000' }};
+        }
+
+        body {
+            background-color: var(--theme-color);
+            color: var(--text-color);
+        }
+
+        .sidebar {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .nav a,
+        .logout-button {
+            color: var(--secondary-color);
+        }
+
+        .nav a.active,
+        .logout-button:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -12,7 +42,11 @@
             <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo" class="brgy-logo">
         </div>
         <div class="barangay-logo-container">
-            <img src="{{ asset('images/barangay-logo.png') }}" alt="Barangay Logo" class="barangay-logo">
+            @if($appearanceSettings && $appearanceSettings->logo_path)
+                <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" alt="Barangay Logo" class="barangay-logo">
+            @else
+                <img src="{{ asset('resources/img/default-logo.png') }}" alt="Default Barangay Logo" class="barangay-logo">
+            @endif
         </div>
         <ul class="nav">
             <li>
@@ -57,7 +91,7 @@
                 @csrf
                 <button type="submit" class="logout-button">
                     <img src="{{ asset('resources/img/sidebar-icons/logout-sblogo.png') }}" class="icon" alt="Logout Icon">
-                    Logout
+                    <span>Logout</span>
                 </button>
             </form>
         </div>
@@ -78,5 +112,6 @@
             @yield('content')
         </div>
     </div>
+    @yield('scripts')
 </body>
 </html>

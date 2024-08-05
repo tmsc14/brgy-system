@@ -62,13 +62,6 @@
             </label>
             <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
-        @if ($errors->any())
-            <div class="form-group error">
-                @foreach ($errors->all() as $error)
-                    {{ $error }}
-                @endforeach
-            </div>
-        @endif
         <button type="submit" class="btn-primary">Log In</button>
         <p class="sign-up-link">Don't have an account? <a href="{{ route('barangay_roles.showSelectRole') }}">Sign Up Here</a></p>
     </form>

@@ -14,7 +14,7 @@
         </div>
         <div class="tabs">
             <a href="{{ route('barangay_captain.create_barangay_info_form') }}" class="{{ request()->is('barangay_info') ? 'active' : '' }}">Barangay Info</a>
-            <a href="#" class="{{ request()->is('barangay_appearance') ? 'active' : '' }}">Appearances</a>
+            <a href="{{ route('barangay_captain.appearance_settings') }}" class="{{ request()->is('barangay_appearance') ? 'active' : '' }}">Appearances</a>
             <a href="#" class="{{ request()->is('barangay_features') ? 'active' : '' }}">Features</a>
         </div>
         <div class="content">

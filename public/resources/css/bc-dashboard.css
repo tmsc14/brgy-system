@@ -1,14 +1,17 @@
+/* public/resources/css/bc-dashboard.css */
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #FAEED8;
+    background-color: var(--theme-color, #FAEED8);
     margin: 0;
     display: flex;
+    color: var(--text-color, #000000);
 }
 
 .sidebar {
     width: 250px;
-    background-color: #503C2F;
-    color: #FAFAFA;
+    background-color: var(--primary-color, #503C2F);
+    color: var(--secondary-color, #FAFAFA);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,18 +26,10 @@ body {
     margin-bottom: 20px;
 }
 
-.brgy-logo {
-    width: 120px;
-    margin-bottom: 10px;
-}
-
-.barangay-logo-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
+.brgy-logo,
 .barangay-logo {
-    width: 100px;
+    width: 120px;
+    height: auto;
     margin-bottom: 10px;
 }
 
@@ -50,12 +45,13 @@ body {
     margin: 10px 0;
 }
 
-.nav a, .nav button {
+.nav a,
+.nav button {
     display: flex;
     align-items: center;
     padding: 10px;
     background-color: transparent;
-    color: #FAEED8;
+    color: var(--secondary-color, #FAEED8);
     text-decoration: none;
     border: none;
     text-align: left;
@@ -68,11 +64,12 @@ body {
 }
 
 .nav a.active {
-    background-color: #FAEED8;
-    color: #503C2F;
+    background-color: var(--secondary-color, #FAEED8);
+    color: var(--primary-color, #503C2F);
 }
 
-.nav a .icon, .nav button .icon {
+.nav a .icon,
+.nav button .icon {
     margin-right: 10px;
     width: 20px;
 }
@@ -85,8 +82,8 @@ body {
 .logout-button {
     display: flex;
     align-items: center;
-    background-color: #FAEED8;
-    color: #503C2F;
+    background-color: var(--secondary-color, #FAEED8);
+    color: var(--primary-color, #503C2F);
     text-decoration: none;
     border: none;
     text-align: left;
@@ -94,10 +91,16 @@ body {
     width: 100%;
     padding: 10px;
     margin-bottom: 100px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-.logout-button:hover {
-    font-weight: bold;
+.logout-button span {
+    color: var(--primary-color, #503C2F); /* Ensure text color is visible */
+}
+
+.logout-button:hover span {
+    font-weight: bold; /* Make text bold on hover */
 }
 
 .logout-button .icon {
@@ -128,7 +131,7 @@ body {
     display: flex;
     align-items: center;
     font-size: 1.2em;
-    color: #503C2F;
+    color: var(--primary-color, #503C2F);
     margin-right: auto;
 }
 
@@ -147,7 +150,7 @@ body {
 .header-line {
     border: 0;
     height: 1px;
-    background: #503C2F;
+    background: var(--primary-color, #503C2F);
     margin-bottom: 20px;
 }
 
