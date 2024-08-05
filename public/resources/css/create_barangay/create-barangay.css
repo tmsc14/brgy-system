@@ -1,0 +1,132 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #FAEED8;
+    color: #503C2F;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.create-barangay-container {
+    width: 1200px;
+    height: 800px;
+    padding: 20px;
+    background-color: #503C2F;
+    border-radius: 16px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.header {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header .title {
+    font-size: 2em;
+    color: #FAFAFA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .brgy-logo {
+    width: 150px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.tabs {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+.tabs a {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #FAEED8;
+    background-color: transparent;
+    border-radius: 10px;
+    margin: 0 5px;
+    transition: color 0.3s;
+}
+
+.tabs a:hover {
+    color: #007bff; /* Highlight blue when hovered */
+}
+
+.tabs a.active {
+    color: #007bff; /* Stay blue when selected */
+}
+
+.content {
+    width: 1150px;
+    height: 700px;
+    background-color: #FAEED8;
+    padding: 20px;
+    border-radius: 10px;
+    border-top: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    width: 45%;
+    margin-right: 5%;
+    display: inline-block;
+}
+
+.form-group:nth-child(2n) {
+    margin-right: 0;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #503C2F;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #503C2F;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.btn-primary {
+    background-color: #281000;
+    color: #FAEED8;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1em;
+    margin-top: 20px;
+}
+
+.btn-primary:hover {
+    background-color: #e0a800;
+}
