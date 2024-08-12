@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barangay System</title>
-    <link rel="stylesheet" href="{{ asset('resources/css/role-dashboard.css') }}">
+    @vite(['resources/css/role-dashboard.css', 'resources/js/app.js'])
     @yield('styles')
     <style>
         :root {
@@ -49,7 +49,13 @@
                     <img src="{{ asset('resources/img/default-logo.png') }}" alt="Default Barangay Logo" class="barangay-logo">
                 @endif
             </div>
-            @yield('sidebar')
+            @if($role == 'barangay_official')
+            @include('layouts.partials.sidebar_barangay_official')
+            @elseif($role == 'barangay_staff')
+                @include('layouts.partials.sidebar_staff')
+            @elseif($role == 'barangay_resident')
+                @include('layouts.partials.sidebar_resident')
+            @endif
             <div class="logout-container">
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf

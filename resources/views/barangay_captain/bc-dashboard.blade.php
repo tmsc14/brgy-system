@@ -1,4 +1,4 @@
-@extends('layouts.bc-dashboard')
+@extends('layouts.bc-template-dashboard')
 
 @section('content')
 

@@ -1,14 +1,32 @@
-<!-- resources/views/partials/sidebar_resident.blade.php -->
-<ul>
-    <li><a href="#">Dashboard</a></li>
-    <li><a href="#">Documents</a></li>
-    <li><a href="#">Barangay Information</a></li>
-    <li><a href="#">Announcements</a></li>
-    <li><a href="#">Settings</a></li>
+<ul class="nav">
     <li>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <a href="{{ route('barangay_resident.dashboard')}}" class="{{ request()->routeIs('barangay_resident.dashboard') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('barangay_resident.dashboard') ? asset('resources/img/sidebar-icons/dashboard-sblogo.png') : asset('resources/img/sidebar-icons/dashboard-sblogo-inactive.png') }}" class="icon" alt="Dashboard Icon">
+            Dashboard
+        </a>
+    </li>
+    <li>
+        <a href="#" class="{{ request()->routeIs('documents') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('documents') ? asset('resources/img/sidebar-icons/documents-sblogo.png') : asset('resources/img/sidebar-icons/documents-sblogo-inactive.png') }}" class="icon" alt="Documents Icon">
+            Documents
+        </a>
+    </li>
+    <li>
+        <a href="#" class="{{ request()->routeIs('barangay_information') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('barangay_information') ? asset('resources/img/sidebar-icons/information-sblogo.png') : asset('resources/img/sidebar-icons/information-sblogo-inactive.png') }}" class="icon" alt="Barangay Information Icon">
+            Barangay Information
+        </a>
+    </li>
+    <li>
+        <a href="#" class="{{ request()->routeIs('announcements') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('announcements') ? asset('resources/img/sidebar-icons/announcement-sblogo.png') : asset('resources/img/sidebar-icons/announcement-sblogo-inactive.png') }}" class="icon" alt="Announcement Icon">
+            Announcements
+        </a>
+    </li>
+    <li>
+        <a href="#" class="{{ request()->routeIs('settings') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('settings') ? asset('resources/img/sidebar-icons/settings-sblogo.png') : asset('resources/img/sidebar-icons/settings-sblogo-inactive.png') }}" class="icon" alt="Settings Icon">
+            Settings
+        </a>
     </li>
 </ul>

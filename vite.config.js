@@ -5,7 +5,8 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/css/app.css',
+                'resources/css/role-dashboard.css',
+                'resources/css/bc-template-dashboard.css',
                 'resources/js/app.js',
             ],
             refresh: true,

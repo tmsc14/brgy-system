@@ -310,7 +310,8 @@ class BarangayRoleController extends Controller
         $user = Auth::guard('barangay_official')->user();
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
     
-        return view('barangay_official.bo-dashboard', compact('user', 'appearanceSettings'));
+        $role = 'barangay_official';
+        return view('barangay_official.bo-dashboard', compact('user', 'appearanceSettings', 'role'));
     }
     
     public function showStaffDashboard()
@@ -318,7 +319,8 @@ class BarangayRoleController extends Controller
         $user = Auth::guard('barangay_staff')->user();
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
     
-        return view('barangay_staff.bs-dashboard', compact('user', 'appearanceSettings'));
+        $role = 'barangay_staff';
+        return view('barangay_staff.bs-dashboard', compact('user', 'appearanceSettings', 'role'));
     }
     
     public function showResidentDashboard()
@@ -326,6 +328,7 @@ class BarangayRoleController extends Controller
         $user = Auth::guard('barangay_resident')->user();
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
     
-        return view('barangay_resident.br-dashboard', compact('user', 'appearanceSettings'));
-    }   
+        $role = 'barangay_resident';
+        return view('barangay_resident.br-dashboard', compact('user', 'appearanceSettings', 'role'));
+    }    
 }

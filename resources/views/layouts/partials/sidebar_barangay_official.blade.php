@@ -1,7 +1,7 @@
 <ul class="nav">
     <li>
-        <a href="#" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
-            <img src="{{ request()->routeIs('dashboard') ? asset('resources/img/sidebar-icons/dashboard-sblogo.png') : asset('resources/img/sidebar-icons/dashboard-sblogo-inactive.png') }}" class="icon" alt="Dashboard Icon">
+        <a href="{{ route('barangay_official.dashboard')}}" class="{{ request()->routeIs('barangay_official.dashboard') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('barangay_official.dashboard') ? asset('resources/img/sidebar-icons/dashboard-sblogo.png') : asset('resources/img/sidebar-icons/dashboard-sblogo-inactive.png') }}" class="icon" alt="Dashboard Icon">
             Dashboard
         </a>
     </li>
@@ -51,15 +51,6 @@
         <a href="#" class="{{ request()->routeIs('settings') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('settings') ? asset('resources/img/sidebar-icons/settings-sblogo.png') : asset('resources/img/sidebar-icons/settings-sblogo-inactive.png') }}" class="icon" alt="Settings Icon">
             Settings
-        </a>
-    </li>
-    <li>
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <img src="{{ asset('resources/img/sidebar-icons/logout-sblogo-inactive.png') }}" class="icon" alt="Logout Icon">
-            Logout
         </a>
     </li>
 </ul>
