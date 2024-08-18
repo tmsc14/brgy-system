@@ -1,5 +1,3 @@
-/* public/resources/css/bc-dashboard.css */
-
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--theme-color, #FAEED8);
@@ -30,7 +28,11 @@ body {
 .barangay-logo {
     width: 120px;
     height: auto;
-    margin-bottom: 10px;
+}
+
+.brgy-logo {
+    width: 200px;
+    height: auto;
 }
 
 .nav {
@@ -56,10 +58,13 @@ body {
     border: none;
     text-align: left;
     border-radius: 8px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-size: 16px; /* Default font size */
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav button:hover {
     font-weight: bold;
 }
 
@@ -96,11 +101,11 @@ body {
 }
 
 .logout-button span {
-    color: var(--primary-color, #503C2F); /* Ensure text color is visible */
+    color: var(--primary-color, #503C2F);
 }
 
 .logout-button:hover span {
-    font-weight: bold; /* Make text bold on hover */
+    font-weight: bold;
 }
 
 .logout-button .icon {
@@ -125,12 +130,13 @@ body {
 .header h1.hello {
     margin-right: 50px;
     margin-left: 20px;
+    font-size: clamp(20px, 2.5vw, 36px);
 }
 
 .date {
     display: flex;
     align-items: center;
-    font-size: 1.2em;
+    font-size: clamp(14px, 1.2vw, 24px);
     color: var(--primary-color, #503C2F);
     margin-right: auto;
 }
@@ -159,4 +165,85 @@ body {
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1280px) {
+    .sidebar {
+        width: 200px;
+        padding: 15px;
+    }
+
+    .brgy-logo,
+    .barangay-logo {
+        width: 80px;
+    }
+
+    .main-content {
+        margin-left: 220px;
+        width: calc(100% - 220px);
+    }
+
+    .nav a,
+    .nav button {
+        padding: 8px;
+        margin-bottom: 15px;
+        font-size: 14px; /* Smaller font size */
+    }
+
+    .nav a .icon,
+    .nav button .icon {
+        width: 16px;
+        margin-right: 8px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 15px;
+    }
+
+    .logout-button {
+        margin-bottom: 50px;
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 180px;
+        padding: 10px;
+    }
+
+    .brgy-logo,
+    .barangay-logo {
+        width: 60px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .nav a,
+    .nav button {
+        padding: 6px;
+        margin-bottom: 10px;
+        font-size: 12px; /* Even smaller font size */
+    }
+
+    .nav a .icon,
+    .nav button .icon {
+        width: 14px;
+        margin-right: 6px;
+    }
+
+    .sidebar-header {
+        margin-bottom: 10px;
+    }
+
+    .logout-button {
+        margin-bottom: 40px;
+        padding: 6px;
+        font-size: 12px;
+    }
 }

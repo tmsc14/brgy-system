@@ -7,6 +7,9 @@ use App\Models\AppearanceSetting;
 use Illuminate\Http\Request;
 use App\Models\Barangay;
 use App\Models\BarangayCaptain;
+use App\Models\BarangayOfficial; // Importing BarangayOfficial model
+use App\Models\Staff;            // Importing Staff model
+use App\Models\Resident;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -430,9 +433,47 @@ class BarangayCaptainController extends Controller
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
     
+        $barangayDetails = $user->barangayDetails; // Assuming this is from the barangays table
         $appearanceSettings = $user->appearanceSettings;
-        $barangayDetails = $user->barangayDetails;
     
-        return view('barangay_captain.bc-dashboard', compact('user', 'appearanceSettings', 'barangayDetails'));
+        // Load JSON files using the correct path
+        $provinceJson = json_decode(file_get_contents(public_path('json/refprovince.json')), true);
+        $citymunJson = json_decode(file_get_contents(public_path('json/refcitymun.json')), true);
+    
+        if (!$provinceJson || !$citymunJson) {
+            dd('JSON files not found or error in decoding');
+        }
+    
+        // Initialize descriptions with default values
+        $provinceDesc = 'Unknown Province';
+        $citymunDesc = 'Unknown City/Municipality';
+    
+        if ($barangayDetails) {
+            $provinceCode = (string) $barangayDetails->province;
+            $citymunCode = (string) $barangayDetails->city;
+    
+            // Find province description
+            foreach ($provinceJson['RECORDS'] as $province) {
+                if ($province['provCode'] === $provinceCode) {
+                    $provinceDesc = $province['provDesc'];
+                    break;
+                }
+            }
+    
+            // Find city/municipality description
+            foreach ($citymunJson['RECORDS'] as $city) {
+                if ($city['citymunCode'] === $citymunCode) {
+                    $citymunDesc = $city['citymunDesc'];
+                    break;
+                }
+            }
+        }
+    
+        // Total members count
+        $totalMembers = BarangayOfficial::where('barangay_id', $barangayDetails->id)->count()
+                        + Staff::where('barangay_id', $barangayDetails->id)->count()
+                        + Resident::where('barangay_id', $barangayDetails->id)->count();
+    
+        return view('barangay_captain.bc-dashboard', compact('user', 'appearanceSettings', 'barangayDetails', 'provinceDesc', 'citymunDesc', 'totalMembers'));
     }
 }

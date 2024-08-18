@@ -15,7 +15,7 @@
     </div>
     <div class="form-group">
         <p>Barangay Complete Address</p>
-        <label for="barangay_complete_address_1">Line 2</label>
+        <label for="barangay_complete_address_1">Line 1</label>
         <input type="text" name="barangay_complete_address_1" id="barangay_complete_address_1" required>
         <label for="barangay_complete_address_2">Line 2</label>
         <input type="text" name="barangay_complete_address_2" id="barangay_complete_address_2">

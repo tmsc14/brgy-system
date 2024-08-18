@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.create-barangay')
 
 @section('content')
 <div class="container">

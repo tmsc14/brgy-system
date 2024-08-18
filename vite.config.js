@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/role-dashboard.css',
                 'resources/css/bc-template-dashboard.css',
+                'resources/css/barangay_captain/bc-dashboard.css',
                 'resources/js/app.js',
             ],
             refresh: true,

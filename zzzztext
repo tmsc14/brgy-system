@@ -244,3 +244,9 @@ Commit 1.5.6 Alpha stage
 progress: 
 - fixed the issues in the css of templates of role dashboard
 - made vite handle the css for templates
+
+Commit 1.5.7 Alpha stage
+
+progress:
+- Converted the codes to description in the dashboard banner
+- Made the pages dynamic for different resolutions
