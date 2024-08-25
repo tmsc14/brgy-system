@@ -74,7 +74,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('customize') ? 'active' : '' }}">
+                <a href="{{ route('barangay_captain.create_barangay_info_form')}}" class="{{ request()->routeIs('barangay_captain.create_barangay_info_form') ? 'active' : '' }}">
                     <img src="{{ request()->routeIs('customize') ? asset('resources/img/sidebar-icons/customize-sblogo.png') : asset('resources/img/sidebar-icons/customize-sblogo-inactive.png') }}" class="icon" alt="Customize Icon">
                     Customize
                 </a>

@@ -23,7 +23,6 @@ class CreateSignupRequestsTable extends Migration
             $table->string('bric_no');
             $table->string('valid_id');
             $table->string('password');
-            $table->string('role')->nullable();
             $table->string('position')->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();

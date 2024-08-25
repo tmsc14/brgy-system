@@ -94,5 +94,7 @@ Route::prefix('barangay-captain')->middleware(['auth:barangay_captain'])->group(
     Route::get('requests', [BarangayCaptainController::class, 'showRequests'])->name('bc-requests');
     Route::post('requests/approve/{id}', [BarangayCaptainController::class, 'approveRequest'])->name('bc-requests.approve');
     Route::post('requests/deny/{id}', [BarangayCaptainController::class, 'denyRequest'])->name('bc-requests.deny');
+    Route::get('requests/history', [BarangayCaptainController::class, 'showRequestHistory'])->name('bc-request-history');
+
 });
 

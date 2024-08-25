@@ -1,48 +1,74 @@
 .requests-container {
+    background-color: var(--theme-color);
     padding: 20px;
-    background-color: var(--secondary-color, #FAFAFA);
     border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
 }
 
-.request-item {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid var(--primary-color, #503C2F);
-    border-radius: 8px;
-    background-color: var(--theme-color, #FAEED8);
+.requests-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--primary-color);
 }
 
-.request-item h3 {
-    color: var(--primary-color, #503C2F);
-    margin-bottom: 5px;
+.requests-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    color: var(--text-color);
 }
 
-.request-item p {
-    color: var(--text-color, #000);
-    margin: 0;
+.requests-table th, .requests-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-.approve-button {
-    background-color: var(--primary-color, #4CAF50);
-    color: #fff;
-    padding: 8px 16px;
+.requests-table th {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.requests-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.requests-table tr:hover {
+    background-color: var(--secondary-color);
+}
+
+.approve-btn, .deny-btn {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     border: none;
+    padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-right: 5px;
+    font-size: 14px;
 }
 
-.deny-button {
-    background-color: #FF4C4C;
-    color: #fff;
-    padding: 8px 16px;
-    border: none;
+.deny-btn {
+    background-color: #f44336;
+}
+
+.approve-btn:hover, .deny-btn:hover {
+    opacity: 0.8;
+}
+
+.view-history {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    text-decoration: none;
     border-radius: 5px;
-    cursor: pointer;
+    text-align: center;
 }
 
-.approve-button:hover,
-.deny-button:hover {
-    opacity: 0.9;
+.view-history:hover {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
 }

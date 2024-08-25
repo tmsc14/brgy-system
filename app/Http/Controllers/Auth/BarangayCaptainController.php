@@ -581,5 +581,22 @@ class BarangayCaptainController extends Controller
             default:
                 throw new \Exception("Unknown user type: $userType");
         }
-    }    
+    }
+    
+    public function showRequestHistory()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+        $barangayId = $user->barangayDetails->id;
+    
+        // Fetch all requests for this barangay
+        $requests = SignupRequest::where('barangay_id', $barangayId)
+                                 ->whereIn('status', ['accepted', 'denied'])
+                                 ->orderBy('updated_at', 'desc')
+                                 ->get();
+    
+        // Fetch appearance settings
+        $appearanceSettings = $user->appearanceSettings;
+    
+        return view('barangay_captain.bc-request-history', compact('requests', 'appearanceSettings'));
+    }
 }

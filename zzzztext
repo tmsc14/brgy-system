@@ -272,9 +272,22 @@ needs fixing:
 progress:
 - error handling added for table sign up request
 - thinking if I should implement delete valid id after approve/deny from bc
+- password is now hashed
   - options:
      a. Automatically delete valid ids
      b. Store with access control
      c. A added feature where bc can check if it will automatically delete or retain
 
     
+
+Commit 1.6.2 Alpha Stage
+
+progress:
+- Request page is done with history
+- automaticall deletes the valid id after the request approve/deny
+- initial design implemented
+
+
+Goals:
+- Finalized the desision if the customization will be fixed in the customized navigation instead.
+- 
