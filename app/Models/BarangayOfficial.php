@@ -18,7 +18,8 @@ class BarangayOfficial extends Authenticatable
         'bric_no', 'barangay_id',
         'password',
         'valid_id',
-        'position'
+        'position',
+        'status'
     ];
 
     protected $hidden = [

@@ -56,7 +56,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('bc-requests') ? 'active' : '' }}">
+                <a href="{{ route('bc-requests')}}" class="{{ request()->routeIs('bc-requests') ? 'active' : '' }}">
                     <img src="{{ request()->routeIs('bc-requests') ? asset('resources/img/sidebar-icons/request-sblogo.png') : asset('resources/img/sidebar-icons/request-sblogo-inactive.png') }}" class="icon" alt="Requests Icon">
                     Requests
                 </a>

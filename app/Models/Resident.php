@@ -23,7 +23,8 @@ class Resident extends Authenticatable
         'barangay_id',
         'password',
         'valid_id',
-        'role'
+        'role',
+        'status'
     ];
 
     protected $hidden = [

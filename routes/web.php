@@ -88,3 +88,11 @@ Route::middleware(['auth:barangay_resident'])->group(function () {
 Route::get('/api/provinces', [BarangayRoleController::class, 'getProvinces']);
 Route::get('/api/cities', [BarangayRoleController::class, 'getCities']);
 Route::get('/api/barangays', [BarangayRoleController::class, 'getBarangays']);
+
+// Request page (barangay_captain)
+Route::prefix('barangay-captain')->middleware(['auth:barangay_captain'])->group(function () {
+    Route::get('requests', [BarangayCaptainController::class, 'showRequests'])->name('bc-requests');
+    Route::post('requests/approve/{id}', [BarangayCaptainController::class, 'approveRequest'])->name('bc-requests.approve');
+    Route::post('requests/deny/{id}', [BarangayCaptainController::class, 'denyRequest'])->name('bc-requests.deny');
+});
+

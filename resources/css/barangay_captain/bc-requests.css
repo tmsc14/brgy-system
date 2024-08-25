@@ -1,0 +1,48 @@
+.requests-container {
+    padding: 20px;
+    background-color: var(--secondary-color, #FAFAFA);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.request-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid var(--primary-color, #503C2F);
+    border-radius: 8px;
+    background-color: var(--theme-color, #FAEED8);
+}
+
+.request-item h3 {
+    color: var(--primary-color, #503C2F);
+    margin-bottom: 5px;
+}
+
+.request-item p {
+    color: var(--text-color, #000);
+    margin: 0;
+}
+
+.approve-button {
+    background-color: var(--primary-color, #4CAF50);
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.deny-button {
+    background-color: #FF4C4C;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.approve-button:hover,
+.deny-button:hover {
+    opacity: 0.9;
+}

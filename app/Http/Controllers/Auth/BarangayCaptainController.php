@@ -7,13 +7,16 @@ use App\Models\AppearanceSetting;
 use Illuminate\Http\Request;
 use App\Models\Barangay;
 use App\Models\BarangayCaptain;
-use App\Models\BarangayOfficial; // Importing BarangayOfficial model
-use App\Models\Staff;            // Importing Staff model
+use App\Models\BarangayOfficial; 
+use App\Models\Staff;            
 use App\Models\Resident;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use App\Models\SignupRequest;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class BarangayCaptainController extends Controller
 {
@@ -296,7 +299,7 @@ class BarangayCaptainController extends Controller
         if ($request->hasFile('logo')) {
             $logoPath = $request->file('logo')->store('logos', 'public');
             $appearanceSettings->logo_path = $logoPath;
-        }
+        }                          
     
         $appearanceSettings->save();
     
@@ -476,4 +479,107 @@ class BarangayCaptainController extends Controller
     
         return view('barangay_captain.bc-dashboard', compact('user', 'appearanceSettings', 'barangayDetails', 'provinceDesc', 'citymunDesc', 'totalMembers'));
     }
+
+    public function showRequests()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+        $barangayId = $user->barangayDetails->id;
+    
+        // Fetch all pending requests for this barangay
+        $requests = SignupRequest::where('barangay_id', $barangayId)
+                    ->where('status', 'pending')
+                    ->get();
+    
+        // Fetch appearance settings
+        $appearanceSettings = $user->appearanceSettings;
+    
+        return view('barangay_captain.bc-requests', compact('requests', 'appearanceSettings'));
+    }
+    
+    
+    public function approveRequest($id)
+    {
+        $request = SignupRequest::findOrFail($id);
+        $userModel = $this->getUserModel($request->user_type);
+    
+        // Check for existing email, contact number, or BRIC number in the destination table
+        $existingUser = $userModel::where('email', $request->email)
+            ->orWhere('contact_no', $request->contact_no)
+            ->orWhere('bric_no', $request->bric_no)
+            ->first();
+    
+        if ($existingUser) {
+            // Handle the conflict: notify the Barangay Captain or update the existing record
+            return redirect()->route('bc-requests')->with('error', 'A user with the same email, contact number, or BRIC number already exists.');
+        }
+    
+        // Hash the password before creating the user
+        $hashedPassword = Hash::make($request->password);
+    
+        // Create the new user record
+        $user = $userModel::create([
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'email' => $request->email,
+            'contact_no' => $request->contact_no,
+            'bric_no' => $request->bric_no,
+            'barangay_id' => $request->barangay_id,
+            'password' => $hashedPassword, // Use the hashed password here
+            'valid_id' => $request->valid_id,
+            'position' => $request->position,
+        ]);
+    
+        // Update the signup request status to accepted
+        $request->update([
+            'user_id' => $user->id,
+            'status' => 'accepted',
+        ]);
+
+        // Delete the valid_id file after the request is accepted
+        if ($request->valid_id && \Storage::exists($request->valid_id)) {
+            \Storage::delete($request->valid_id);
+        }
+    
+        // Send an email notification to the user (commented out for now)
+        // Mail::to($user->email)->send(new \App\Mail\SignupAcceptedMail($user));
+    
+        return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
+    }    
+        
+    public function denyRequest($id)
+    {
+        $request = SignupRequest::findOrFail($id);
+    
+        // Delete the valid_id file if it exists
+        if ($request->valid_id && Storage::disk('public')->exists($request->valid_id)) {
+            Storage::disk('public')->delete($request->valid_id);
+        }
+    
+        // Update the request status to 'denied'
+        $request->update([
+            'status' => 'denied',
+        ]);
+    
+        // Optionally, send an email notification to the user
+        // Mail::to($request->email)->send(new \App\Mail\SignupDeniedMail($request));
+    
+        return redirect()->route('bc-requests')->with('success', 'Request denied and valid ID deleted successfully.');
+    }    
+    
+    private function getUserModel($userType)
+    {
+        switch ($userType) {
+            case 'barangay_official':
+                return \App\Models\BarangayOfficial::class;
+            case 'barangay_staff':
+                return \App\Models\Staff::class;
+            case 'barangay_resident':
+                return \App\Models\Resident::class;
+            default:
+                throw new \Exception("Unknown user type: $userType");
+        }
+    }    
 }

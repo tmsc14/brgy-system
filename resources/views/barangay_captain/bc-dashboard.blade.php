@@ -1,8 +1,10 @@
 @extends('layouts.bc-template-dashboard')
 
-@section('content')
-    @vite(['resources/css/barangay_captain/bc-dashboard.css'])
+@section('styles')
+@vite(['resources/css/barangay_captain/bc-dashboard.css'])
+@endsection
 
+@section('content')
     <div class="dashboard-banner">
         <div class="barangay-banner">
             <div class="bc-barangay-logo">

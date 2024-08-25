@@ -250,3 +250,31 @@ Commit 1.5.7 Alpha stage
 progress:
 - Converted the codes to description in the dashboard banner
 - Made the pages dynamic for different resolutions
+
+Commit 1.5.8
+
+progress:
+- created the request page database and initial design
+- succesfully populated the request
+
+needs fixing:
+- mail not working (caused an error)
+- password not hashed
+- the bc accepted login but the signup request data stayed. Gather more info or suggestions here
+
+Aug 25, 2024
+Commit 1.6.1 Alpha Stage
+needs fixing:
+- Restrict going next if data is duplicate.
+- ensure that password is hashed from sign up request to designated
+- thats all for now.
+
+progress:
+- error handling added for table sign up request
+- thinking if I should implement delete valid id after approve/deny from bc
+  - options:
+     a. Automatically delete valid ids
+     b. Store with access control
+     c. A added feature where bc can check if it will automatically delete or retain
+
+    
