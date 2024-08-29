@@ -513,8 +513,8 @@ class BarangayCaptainController extends Controller
             return redirect()->route('bc-requests')->with('error', 'A user with the same email, contact number, or BRIC number already exists.');
         }
     
-        // Hash the password before creating the user
-        $hashedPassword = Hash::make($request->password);
+        // Use the password directly from the sign-up request since it's already hashed
+        $hashedPassword = $request->password;
     
         // Create the new user record
         $user = $userModel::create([
@@ -537,17 +537,12 @@ class BarangayCaptainController extends Controller
             'user_id' => $user->id,
             'status' => 'accepted',
         ]);
-
-        // Delete the valid_id file after the request is accepted
-        if ($request->valid_id && \Storage::exists($request->valid_id)) {
-            \Storage::delete($request->valid_id);
-        }
     
         // Send an email notification to the user (commented out for now)
         // Mail::to($user->email)->send(new \App\Mail\SignupAcceptedMail($user));
     
         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
-    }    
+    }      
         
     public function denyRequest($id)
     {

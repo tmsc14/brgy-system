@@ -38,17 +38,27 @@ Route::post('login/barangay-captain', [BarangayCaptainController::class, 'login'
 Route::get('dashboard/barangay-captain', [BarangayCaptainController::class, 'showDashboard'])->name('barangay_captain.dashboard')->middleware('auth:barangay_captain');
 Route::get('dashboard/barangay-captain/main', [BarangayCaptainController::class, 'showBcDashboard'])->name('bc-dashboard')->middleware('auth:barangay_captain');
 
-// Barangay Captain -- Create Barangay Info
-Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
-Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
+// Routes for first-time access after login
+Route::middleware(['auth:barangay_captain'])->group(function () {
+    // Create Barangay Info - First Time
+    Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
+    Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
 
-// Appearance Settings
-Route::get('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettings'])->name('barangay_captain.appearance_settings');
-Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'saveAppearanceSettings'])->name('barangay_captain.appearance_settings.post');
+    // Appearance Settings - First Time
+    Route::get('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettings'])->name('barangay_captain.appearance_settings');
+    Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'saveAppearanceSettings'])->name('barangay_captain.appearance_settings.post');
 
-// Features Settings
-Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
-Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
+    // Features Settings - First Time
+    Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
+    Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
+});
+
+// Routes for accessing through the dashboard's sidebar
+Route::prefix('barangay-captain')->middleware(['auth:barangay_captain'])->group(function () {
+    Route::get('dashboard/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayDashboard'])->name('bc-dashboard-create-barangay-info');
+    Route::get('dashboard/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettingsDashboard'])->name('bc-dashboard-appearance-settings');
+    Route::get('dashboard/features-settings', [BarangayCaptainController::class, 'showFeaturesSettingsDashboard'])->name('bc-dashboard-features-settings');
+});
 
 // Logout
 Route::post('logout', [BarangayCaptainController::class, 'logout'])->name('logout');

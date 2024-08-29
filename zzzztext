@@ -291,3 +291,14 @@ progress:
 Goals:
 - Finalized the desision if the customization will be fixed in the customized navigation instead.
 - 
+
+
+Aug 27, 2024:
+Goal:
+- Remove the temporary dashboard.
+- Make the customization appear after logging in if the user did not create a barangay or did the customization
+- After doing the create barangay process/customization, the next login should directly route the user to the dashboard
+- The customization/create barangay should move into the customize navigation in the dashboard.
+
+The create barangay consists of create-barangay-info.blade.php, features-settings.blade.php, and appearance-settings.blade.php.
+These 3 are linked together for customize.

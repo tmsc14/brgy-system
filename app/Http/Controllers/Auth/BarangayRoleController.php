@@ -235,14 +235,13 @@ class BarangayRoleController extends Controller
             'contact_no' => $user_details['contact_no'],
             'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
-            'password' => Hash::make($request->input('password')),
+            'password' => Hash::make($request->input('password')), // Ensure the password is hashed here
             'valid_id' => $data['valid_id'],
             'position' => $role === 'barangay_official' ? $request->input('position') : null,
             'role' => $role === 'barangay_staff' ? $request->input('role') : null,
             'user_type' => $role,  // Ensure the user_type is set
-        ]);        
+        ]);              
         
-    
         return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration request submitted successfully.');
     }    
 
@@ -283,12 +282,6 @@ class BarangayRoleController extends Controller
         }
     
         if ($user) {
-            if ($user->status !== 'active') {
-                return back()->withErrors([
-                    'status' => 'Your account is pending approval by the Barangay Captain.',
-                ]);
-            }
-    
             if (Hash::check($credentials['password'], $user->password)) {
                 Auth::guard($role)->login($user);
                 Log::info(ucfirst($role) . ' login successful');
@@ -307,7 +300,7 @@ class BarangayRoleController extends Controller
         return back()->withErrors([
             'barangay' => 'The provided credentials do not match our records or the selected barangay is incorrect.',
         ]);
-    }
+    }    
     
     public function showBarangayOfficialDashboard()
     {
