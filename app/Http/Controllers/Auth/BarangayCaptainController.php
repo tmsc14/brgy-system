@@ -10,6 +10,8 @@ use App\Models\BarangayCaptain;
 use App\Models\BarangayOfficial; 
 use App\Models\Staff;            
 use App\Models\Resident;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -108,29 +110,21 @@ class BarangayCaptainController extends Controller
 
     public function postStep3(Request $request)
     {
-        // Validate the request
         $request->validate([
             'password' => [
                 'required',
                 'confirmed',
-                'min:8', // Minimum length
-                'regex:/[A-Z]/', // Must contain at least one uppercase letter
-                'regex:/[a-z]/', // Must contain at least one lowercase letter
-                'regex:/[0-9]/', // Must contain at least one number
-                'regex:/[@$!%*?&#]/', // Must contain at least one special character
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
             ],
             'access_code' => 'required|exists:access_codes,code',
-        ], [
-            'password.required' => 'Password is required',
-            'password.confirmed' => 'Passwords do not match',
-            'password.min' => 'Password must be at least 8 characters',
-            'password.regex' => 'Password must include uppercase, lowercase, number, and special character',
-            'access_code.required' => 'Access code is required',
-            'access_code.exists' => 'Invalid access code',
         ]);
     
         // Create the Barangay Captain
-        BarangayCaptain::create([
+        $user = BarangayCaptain::create([
             'region' => session('region'),
             'province' => session('province'),
             'city_municipality' => session('city_municipality'),
@@ -146,13 +140,79 @@ class BarangayCaptainController extends Controller
             'password' => Hash::make($request->password),
         ]);
     
-        // Clear the session data
+        // Create the role without barangay_id initially
+        Role::create([
+            'user_id' => $user->id,
+            'barangay_id' => null,
+            'role_type' => 'barangay_captain',
+            'active' => true,
+        ]);
+    
+        // Clear session data
         session()->flush();
     
-        // Redirect to the login page with a success message
         return redirect()->route('barangay_captain.login')->with('success', 'Registration successful! Please log in.');
-    }    
+    }     
     
+    public function showTurnover()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+        
+        // Fetch the barangay details and active role for the current Barangay Captain
+        $barangay = $user->barangayDetails;
+        $activeRole = $user->activeRole;
+        
+        // Fetch appearance settings
+        $appearanceSettings = $user->appearanceSettings;
+        
+        // Pass the necessary data to the turnover view
+        return view('barangay_captain.settings.bc-turnover', compact('user', 'barangay', 'activeRole', 'appearanceSettings'));
+    }      
+
+    public function initiateTurnover(Request $request)
+    {
+        $request->validate([
+            'new_captain_email' => 'required|email|exists:barangay_captains,email',
+        ]);
+    
+        $user = Auth::guard('barangay_captain')->user();
+        $barangay = $user->barangayDetails;
+        $newCaptain = BarangayCaptain::where('email', $request->input('new_captain_email'))->first();
+    
+        if (!$newCaptain) {
+            return back()->withErrors(['new_captain_email' => 'New Barangay Captain not found']);
+        }
+    
+        // Deactivate the current captain's role
+        $user->roles()->update(['active' => false]);
+    
+        // Assign a new role to the new captain
+        Role::create([
+            'user_id' => $newCaptain->id,
+            'barangay_id' => $barangay->id,
+            'role_type' => 'barangay_captain',
+            'active' => true,
+        ]);
+    
+        // Update the barangay's captain
+        $barangay->barangay_captain_id = $newCaptain->id;
+        $barangay->save();
+    
+        // Log the current user out
+        Auth::guard('barangay_captain')->logout();
+    
+        return redirect()->route('barangay_captain.login')->with('success', 'Turnover successful! Please login again.');
+    }
+    
+    public function revokeAccess($id)
+    {
+        $role = Role::findOrFail($id);
+        $role->active = false;
+        $role->save();
+
+        return redirect()->route('barangay_captain.dashboard')->with('success', 'Access revoked successfully.');
+    }
+
     public function showLogin()
     {
         return view('auth.barangay_captain.bc-login');
@@ -164,18 +224,26 @@ class BarangayCaptainController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+    
         $credentials = $request->only('email', 'password');
-
-        if (Auth::guard('barangay_captain')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended(route('barangay_captain.dashboard'));
+    
+        $user = BarangayCaptain::where('email', $credentials['email'])->first();
+    
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            $activeRole = $user->roles()->where('active', true)->first();
+    
+            if ($activeRole && $activeRole->role_type === 'barangay_captain') { // Check 'role_type' instead of 'role_name'
+                Auth::guard('barangay_captain')->login($user);
+                return redirect()->intended(route('barangay_captain.dashboard'));
+            }
+            
+            return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
         }
-
+    
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-    }
+    }    
 
     public function showDashboard()
     {
@@ -186,6 +254,7 @@ class BarangayCaptainController extends Controller
         }
     
         $barangayDetails = $user->barangayDetails;
+        $appearanceSettings = $user->appearanceSettings;
     
         return view('auth.barangay_captain.dashboard', compact('user', 'barangayDetails'));
     }
@@ -237,7 +306,7 @@ class BarangayCaptainController extends Controller
 
         $user = Auth::guard('barangay_captain')->user();
 
-        Barangay::create([
+        $barangay = Barangay::create([
             'barangay_captain_id' => $user->id,
             'barangay_name' => $request->barangay_name,
             'barangay_email' => $request->barangay_email,
@@ -251,6 +320,8 @@ class BarangayCaptainController extends Controller
             'city' => $user->city_municipality,
             'barangay' => $user->barangay
         ]);
+
+        $user->activeRole()->update(['barangay_id' => $barangay->id]);
 
         return redirect()->route('barangay_captain.dashboard')->with('success', 'Barangay created successfully!');
     }
@@ -502,21 +573,17 @@ class BarangayCaptainController extends Controller
         $request = SignupRequest::findOrFail($id);
         $userModel = $this->getUserModel($request->user_type);
     
-        // Check for existing email, contact number, or BRIC number in the destination table
         $existingUser = $userModel::where('email', $request->email)
             ->orWhere('contact_no', $request->contact_no)
             ->orWhere('bric_no', $request->bric_no)
             ->first();
     
         if ($existingUser) {
-            // Handle the conflict: notify the Barangay Captain or update the existing record
             return redirect()->route('bc-requests')->with('error', 'A user with the same email, contact number, or BRIC number already exists.');
         }
     
-        // Use the password directly from the sign-up request since it's already hashed
         $hashedPassword = $request->password;
     
-        // Create the new user record
         $user = $userModel::create([
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
@@ -527,42 +594,38 @@ class BarangayCaptainController extends Controller
             'contact_no' => $request->contact_no,
             'bric_no' => $request->bric_no,
             'barangay_id' => $request->barangay_id,
-            'password' => $hashedPassword, // Use the hashed password here
+            'password' => $hashedPassword,
             'valid_id' => $request->valid_id,
             'position' => $request->position,
         ]);
     
-        // Update the signup request status to accepted
         $request->update([
             'user_id' => $user->id,
             'status' => 'accepted',
         ]);
     
-        // Send an email notification to the user (commented out for now)
-        // Mail::to($user->email)->send(new \App\Mail\SignupAcceptedMail($user));
+        // Assign Role
+        Role::create([
+            'user_id' => $user->id,
+            'role_name' => $request->user_type,
+            'active' => true,
+        ]);
     
         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
-    }      
+    }    
         
     public function denyRequest($id)
     {
         $request = SignupRequest::findOrFail($id);
     
-        // Delete the valid_id file if it exists
         if ($request->valid_id && Storage::disk('public')->exists($request->valid_id)) {
             Storage::disk('public')->delete($request->valid_id);
         }
     
-        // Update the request status to 'denied'
-        $request->update([
-            'status' => 'denied',
-        ]);
-    
-        // Optionally, send an email notification to the user
-        // Mail::to($request->email)->send(new \App\Mail\SignupDeniedMail($request));
+        $request->update(['status' => 'denied']);
     
         return redirect()->route('bc-requests')->with('success', 'Request denied and valid ID deleted successfully.');
-    }    
+    }   
     
     private function getUserModel($userType)
     {
@@ -593,5 +656,13 @@ class BarangayCaptainController extends Controller
         $appearanceSettings = $user->appearanceSettings;
     
         return view('barangay_captain.bc-request-history', compact('requests', 'appearanceSettings'));
+    }
+
+    public function showSettings()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+        $appearanceSettings = $user->appearanceSettings;
+
+        return view('barangay_captain.settings.bc-settings', compact('appearanceSettings'));
     }
 }

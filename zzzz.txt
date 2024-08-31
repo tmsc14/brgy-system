@@ -1,0 +1,317 @@
+npm run dev          
+php artisan serve
+
+href="{{url('resources/css/welcome.css')}}"   ------ link to other resources
+href="{{route('resources/css/welcome.css')}}"   ------ link to other files using web.php
+
+
+Commit - error fixing v1
+
+updated:
+- fixed the error for duplicate emails
+- fixed the error for routes
+- added a template using layouts for consistency
+- a reusable access code for alpha testing -- file is accesscodeseeder.php for codes -- migrate for changes
+
+Commit - v1.1 - Alpha stage
+
+- error fixing v2
+updated:
+- created a temporary dashboard
+- enhance session login
+- bc complete sign up and login
+- 
+
+next goal:
+- create barangay - check
+- initial design
+- lock contact no. for ph only
+- refine temporary dashboard
+
+Comit - v1.1.1 Alpha stage
+
+updated:
+- no changes at all
+- updating purpose only
+
+Commit - v1.2 Alpha stage
+
+updated: 
+- Created a link for barangay captain and create barangay
+- Barangay name auto fill based on barangay captain registration
+- Barangay captain login/signup complete
+
+next goal:
+- UI/UX bc login/signup -- create barangay -- temporary dashboard {check!}
+- Creation of other users
+- for better experience. When a user wants to go back the login details or the user details will retain
+
+Commit - v1.3.1 Alpha stage
+
+updated:
+- css for bc sign up and login
+
+next goal:
+- make the forgot password work
+
+Commit - v1.3.2 Alpha stage
+
+updated: 
+- made a template for dashboard
+
+Bugs need to be fix:
+- conduct a simple QA ---- partial done
+- Login needs some error handling ---- fixed
+- provide more visible and organized error displays ---- fixed
+- address the issue for the temporary dashboard after creating a barangay ---- failed
+- Make it sequencial for login/signups restrict going back
+
+Commit 1.3.3 Alpha stage
+
+updated:
+- Error handling for login and sign up
+- Emphasize errors and account creation requirements
+
+Needs fixing:
+- dashboard error
+- Sign up process (first letter converts if its lowercase to uppercase)
+
+
+Access control
+- every barangay captain can only be assigned and create one barangay (solo)
+
+Commit 1.3.4 Alpha stage
+
+updated:
+- error handling for other sign up process
+- conducted a simple qa and found some things needed to fix
+- Show password
+- sign up restrictions
+- Properly organized data for database eg. uppercase first letter and lowercase for the rest.
+
+Commit 1.3.5 Alpha stage
+
+details:
+- fixed the conflict in database
+
+
+
+needs fixing:
+- BRIC no. automatically detecs for already taken same with contact number
+- restrict users if below the age of 18
+
+
+Commit 1.4.1 Alpha stage
+
+updated:
+- creating other roles sign up and login
+- created new controllers and allow link between controllers
+- created new tables for database
+- created models
+- created views
+
+Commit 1.4.2 Alpha stage
+
+updated:
+- allows the find barangay to fetch data from barangays table
+- allows the find barangay to read json files locally to display descriptions instead of codes
+
+next goal:
+- Barangay Captain:
+  - create the requests page
+  - allows the barangay captain to deny and reject logins
+  - make the valid id upload requirement from the sign up of users to be viewable by barangay captain dashboard
+  - make the requirements for login top to bottom instead of left to right
+
+
+July 26 plan:
+- create seperate dashboards for the users. A placeholder to verify logins
+- create signup restrictions
+- create login restrictions
+- design
+- create sign up restriction access (barangay captain to verify accounts first before the users can use the account)
+
+Commit 1.4.3 Alpha stage
+
+progress:
+- a little to none progress just to save some works
+
+Commit 1.4.4 Alpha stage
+
+progress:
+- savepoint before finalizing initial or raw sign up/login for other roles
+
+Commit 1.4.5 Alpha stage
+
+progress:
+- signup process fix
+- made sure database recieves data
+- login process fix
+
+next progress:
+- design
+- signup restrictions
+- login restrictions
+- initial dashboard
+- - create sign up restriction access (barangay captain to verify accounts first before the users can use the account)
+
+Commit 1.4.6 Alpha stage
+
+progress:
+- sign up design
+- needs sign up restrictions
+
+Commit 1.4.7 Alpha stage
+
+progress:
+- savepoint for the user_details with finalized design and restrictions
+
+
+Aug 1 2024
+
+Needs fixing:
+- barangay captain - step 2 - email, contact, bric read other tables to check for uniqueness. {done}
+- apply alpha_spaces rule for the step 3 {done}
+
+Commit 1.5.1 Alpha stage
+
+progress:
+- Finalized the barangay captain sign up fixes
+- Finalized the unified sign up
+
+next goal:
+- login
+- dashboard for every users
+- apply npm vite starting with dashboard
+
+Commit 1.5.2 Alpha stage
+
+progress:
+- Made some small changes to the bc-login
+- finalized the unified login functions
+- added a logic for the barangay field
+
+needs more idea:
+- change layout of the fields
+- showing of error and signup success
+
+next goal:
+- making the dashboard for every user come to life
+- make the dashboard unique for every barangay
+- make the registration to show in the barangay captain to accept and deny
+
+
+Aug 4 2024:
+- create barangay
+- make it progress up to features
+- next button is currently set up to info 
+
+Commit 1.5.3 Alpha stage
+
+progress:
+- Savepoint to create the appearance settings
+
+Commit 1.5.4 Alpha stage
+
+progress:
+- appearance settings - themes - logo - custom colors
+- created a new table in the database for appearance settings
+
+next goal:
+- apply the appearance set by the barangay captain to the dashboard of other users
+- fix the routing - remove the temporary dashboard and implement flow of create barangay
+
+find icons
+employees - same as admin icon
+documents *
+residents - same as admin icon
+calendar *
+announcement
+
+
+Commit 1.5.5 Alpha stage
+
+progress:
+- applied the appearance settings set by the barangay captain for the other users role
+- currently tested in officials only
+- uploaded icons to be used in the navbar
+
+next goal
+- test for other roles
+
+Commit 1.5.6 Alpha stage
+
+progress: 
+- fixed the issues in the css of templates of role dashboard
+- made vite handle the css for templates
+
+Commit 1.5.7 Alpha stage
+
+progress:
+- Converted the codes to description in the dashboard banner
+- Made the pages dynamic for different resolutions
+
+Commit 1.5.8
+
+progress:
+- created the request page database and initial design
+- succesfully populated the request
+
+needs fixing:
+- mail not working (caused an error)
+- password not hashed
+- the bc accepted login but the signup request data stayed. Gather more info or suggestions here
+
+Aug 25, 2024
+Commit 1.6.1 Alpha Stage
+needs fixing:
+- Restrict going next if data is duplicate.
+- ensure that password is hashed from sign up request to designated
+- thats all for now.
+
+progress:
+- error handling added for table sign up request
+- thinking if I should implement delete valid id after approve/deny from bc
+- password is now hashed
+  - options:
+     a. Automatically delete valid ids
+     b. Store with access control
+     c. A added feature where bc can check if it will automatically delete or retain
+
+    
+
+Commit 1.6.2 Alpha Stage
+
+progress:
+- Request page is done with history
+- automaticall deletes the valid id after the request approve/deny
+- initial design implemented
+
+
+Goals:
+- Finalized the desision if the customization will be fixed in the customized navigation instead.
+- 
+
+
+Aug 27, 2024:
+Goal:
+- Remove the temporary dashboard.
+- Make the customization appear after logging in if the user did not create a barangay or did the customization
+- After doing the create barangay process/customization, the next login should directly route the user to the dashboard
+- The customization/create barangay should move into the customize navigation in the dashboard.
+
+The create barangay consists of create-barangay-info.blade.php, features-settings.blade.php, and appearance-settings.blade.php.
+These 3 are linked together for customize.
+
+
+Commit 1.6.3
+
+progress:
+- roles table
+- bc to populate roles table
+- initial implementation of turnover (work in progress)
+- settings page
+
+Goal:
+- turnover, succesfully transfer access to a new bc
+- implement new requirement for residents.

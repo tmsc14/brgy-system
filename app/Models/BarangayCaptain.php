@@ -39,4 +39,14 @@ class BarangayCaptain extends Authenticatable
     {
         return $this->hasOne(AppearanceSetting::class);
     }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class, 'user_id');
+    }
+
+    public function activeRole()
+    {
+        return $this->hasOne(Role::class, 'user_id')->where('active', true);
+    }  
 }

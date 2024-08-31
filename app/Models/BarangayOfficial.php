@@ -32,4 +32,14 @@ class BarangayOfficial extends Authenticatable
     {
         return $this->belongsTo(Barangay::class, 'barangay_id');
     }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class, 'user_id');
+    }
+    
+    public function activeRole()
+    {
+        return $this->hasOne(Role::class, 'user_id')->where('active', true);
+    }    
 }

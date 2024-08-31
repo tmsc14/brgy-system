@@ -48,4 +48,9 @@ class Barangay extends Model
     {
         return $this->hasMany(Resident::class);
     }
+
+    public function roles()
+    {
+        return $this->hasMany(Role::class);
+    }
 }

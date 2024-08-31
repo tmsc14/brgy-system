@@ -197,10 +197,10 @@ class BarangayRoleController extends Controller
                 'required',
                 'string',
                 'min:8',
-                'regex:/[a-z]/',      // must contain at least one lowercase letter
-                'regex:/[A-Z]/',      // must contain at least one uppercase letter
-                'regex:/[0-9]/',      // must contain at least one digit
-                'regex:/[@$!%*#?&]/', // must contain a special character
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*#?&]/',
                 'confirmed'
             ],
             'valid_id' => 'required|mimes:jpeg,jpg,png|max:2048',
@@ -218,14 +218,14 @@ class BarangayRoleController extends Controller
             'contact_no' => $user_details['contact_no'],
             'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
-            'password' => Hash::make($request->input('password')),  // Hash the password here
+            'password' => Hash::make($request->input('password')),
         ];
     
         if ($request->hasFile('valid_id')) {
             $data['valid_id'] = $request->file('valid_id')->store('valid_ids', 'public');
         }
     
-        SignupRequest::create([
+        $signupRequest = SignupRequest::create([
             'first_name' => $user_details['first_name'],
             'middle_name' => $user_details['middle_name'],
             'last_name' => $user_details['last_name'],
@@ -235,15 +235,21 @@ class BarangayRoleController extends Controller
             'contact_no' => $user_details['contact_no'],
             'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
-            'password' => Hash::make($request->input('password')), // Ensure the password is hashed here
+            'password' => $data['password'],
             'valid_id' => $data['valid_id'],
             'position' => $role === 'barangay_official' ? $request->input('position') : null,
-            'role' => $role === 'barangay_staff' ? $request->input('role') : null,
-            'user_type' => $role,  // Ensure the user_type is set
-        ]);              
-        
+            'user_type' => $role,
+        ]);
+    
+        // Assign Role for the signup request
+        Role::create([
+            'user_id' => $signupRequest->id,
+            'role_name' => $role,
+            'active' => false, // Inactive until approved
+        ]);
+    
         return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration request submitted successfully.');
-    }    
+    }  
 
     public function showUnifiedLogin()
     {
@@ -253,7 +259,6 @@ class BarangayRoleController extends Controller
     
     public function unifiedLogin(Request $request)
     {
-        Log::info('Login attempt started');
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -264,8 +269,6 @@ class BarangayRoleController extends Controller
         $credentials = $request->only('email', 'password');
         $role = $request->input('role');
         $barangay_id = $request->input('barangay');
-    
-        Log::info('Login role: ' . $role);
     
         $user = null;
     
@@ -282,21 +285,26 @@ class BarangayRoleController extends Controller
         }
     
         if ($user) {
-            if (Hash::check($credentials['password'], $user->password)) {
-                Auth::guard($role)->login($user);
-                Log::info(ucfirst($role) . ' login successful');
-                $request->session()->regenerate();
+            $activeRole = $user->roles()->where('active', true)->first();
     
-                return redirect()->route("{$role}.dashboard");
+            if ($activeRole && $activeRole->role_name === $role) {
+                if (Hash::check($credentials['password'], $user->password)) {
+                    Auth::guard($role)->login($user);
+                    $request->session()->regenerate();
+    
+                    return redirect()->route("{$role}.dashboard");
+                }
+    
+                return back()->withErrors([
+                    'password' => 'The provided password is incorrect.',
+                ]);
             }
     
-            Log::warning('Login failed due to incorrect password');
             return back()->withErrors([
-                'password' => 'The provided password is incorrect.',
+                'email' => 'Your account is inactive or you do not have access.',
             ]);
         }
     
-        Log::warning('Login failed for role: ' . $role);
         return back()->withErrors([
             'barangay' => 'The provided credentials do not match our records or the selected barangay is incorrect.',
         ]);

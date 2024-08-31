@@ -108,3 +108,8 @@ Route::prefix('barangay-captain')->middleware(['auth:barangay_captain'])->group(
 
 });
 
+//Settings routes
+Route::get('barangay-captain/settings', [BarangayCaptainController::class, 'showSettings'])->name('barangay_captain.settings')->middleware('auth:barangay_captain');
+Route::get('barangay-captain/settings/turnover', [BarangayCaptainController::class, 'showTurnover'])->name('barangay_captain.show_turnover')->middleware('auth:barangay_captain');
+Route::get('barangay-captain/turnover', [BarangayCaptainController::class, 'initiateTurnover'])->name('barangay_captain.turnover')->middleware('auth:barangay_captain');
+

@@ -42,8 +42,8 @@
             <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo" class="brgy-logo">
         </div>
         <div class="barangay-logo-container">
-            @if($appearanceSettings && $appearanceSettings->logo_path)
-                <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" alt="Barangay Logo" class="barangay-logo">
+            @if(isset($appearanceSettings) && $appearanceSettings->logo_path)
+            <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" alt="Barangay Logo" class="barangay-logo">
             @else
                 <img src="{{ asset('resources/img/default-logo.png') }}" alt="Default Barangay Logo" class="barangay-logo">
             @endif
@@ -80,7 +80,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('settings') ? 'active' : '' }}">
+                <a href="{{ route('barangay_captain.settings')}}" class="{{ request()->routeIs('barangay_captain.settings') ? 'active' : '' }}">
                     <img src="{{ request()->routeIs('settings') ? asset('resources/img/sidebar-icons/settings-sblogo.png') : asset('resources/img/sidebar-icons/settings-sblogo-inactive.png') }}" class="icon" alt="Settings Icon">
                     Settings
                 </a>
