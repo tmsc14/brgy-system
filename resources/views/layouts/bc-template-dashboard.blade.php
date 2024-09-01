@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/bc-template-dashboard.css', 'resources/js/app.js'])
+    @vite(['resources/css/bc-template-dashboard.css', 'resources/js/notification.js'])
     <title>Barangay Dashboard</title>
     @yield('styles')
     <style>
@@ -106,12 +106,28 @@
             <div class="search">
                 <input type="text" placeholder="Search here">
             </div>
+            <div class="notification" onclick="toggleNotificationDropdown()">
+                <img src="{{ asset('resources/img/notification-icon.png') }}" class="notification-icon" alt="Notifications">
+                <div class="notification-dropdown" id="notification-dropdown">
+                    @if (session('success'))
+                        <div class="notification-item">
+                            <span>🎉 {{ session('success') }}</span>
+                        </div>
+                    @else
+                        <div class="notification-item">
+                            <p>No notifications</p>
+                        </div>
+                    @endif
+                    <div class="clear-notifications">
+                        <a href="{{ route('clear-notifications') }}">Clear All</a>
+                    </div>
+                </div>
+            </div>                       
         </div>
         <hr class="header-line">
         <div class="content-wrapper">
             @yield('content')
         </div>
-    </div>
-    @yield('scripts')
+    </div> 
 </body>
 </html>

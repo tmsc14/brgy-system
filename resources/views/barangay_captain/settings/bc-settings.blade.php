@@ -11,7 +11,7 @@
         <div class="section">
             <h3>Account Management</h3>
             <p>Manage your barangay captain account settings and transfer access to a new captain.</p>
-            <button class="btn-turnover" onclick="initiateTurnover()">Initiate Turnover</button>
+            <a href="{{route('barangay_captain.show_turnover')}}" class="btn-appearance">Initiate Turnover</a>
         </div>
 
         <div class="section">

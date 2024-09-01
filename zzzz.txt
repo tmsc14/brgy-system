@@ -315,3 +315,9 @@ progress:
 Goal:
 - turnover, succesfully transfer access to a new bc
 - implement new requirement for residents.
+
+
+Commit 1.6.4
+progres:
+- temporary dashboard removed
+- notification (work in progress/needs more testing)

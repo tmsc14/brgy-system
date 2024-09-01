@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/css/barangay_captain/bc-dashboard.css',
                 'resources/css/barangay_captain/bc-requests.css',
                 'resources/js/app.js',
+                'notification.js',
             ],
             refresh: true,
         }),

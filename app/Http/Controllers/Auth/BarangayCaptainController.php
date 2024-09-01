@@ -213,6 +213,14 @@ class BarangayCaptainController extends Controller
         return redirect()->route('barangay_captain.dashboard')->with('success', 'Access revoked successfully.');
     }
 
+    public function showPendingTurnover()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+        $appearanceSettings = $user->appearanceSettings;
+
+        return view('auth.barangay_captain.pending-turnover', compact('user', 'appearanceSettings'));
+    }
+
     public function showLogin()
     {
         return view('auth.barangay_captain.bc-login');
@@ -232,18 +240,30 @@ class BarangayCaptainController extends Controller
         if ($user && Hash::check($credentials['password'], $user->password)) {
             $activeRole = $user->roles()->where('active', true)->first();
     
-            if ($activeRole && $activeRole->role_type === 'barangay_captain') { // Check 'role_type' instead of 'role_name'
+            if ($activeRole && $activeRole->role_type === 'barangay_captain') {
+                // Check if a barangay already exists for this user's location
+                $existingBarangay = Barangay::where('region', $user->region)
+                    ->where('province', $user->province)
+                    ->where('city', $user->city_municipality)
+                    ->where('barangay', $user->barangay)
+                    ->first();
+    
+                if ($existingBarangay && $existingBarangay->barangay_captain_id != $user->id) {
+                    // Redirect to the placeholder view if the barangay already exists
+                    return redirect()->route('barangay_captain.pending_turnover');
+                }
+    
                 Auth::guard('barangay_captain')->login($user);
                 return redirect()->intended(route('barangay_captain.dashboard'));
             }
-            
+    
             return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
         }
     
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-    }    
+    }
 
     public function showDashboard()
     {
@@ -303,9 +323,9 @@ class BarangayCaptainController extends Controller
             'barangay_description' => 'required|string',
             'barangay_contact_number' => 'required|string|max:20'
         ]);
-
+    
         $user = Auth::guard('barangay_captain')->user();
-
+    
         $barangay = Barangay::create([
             'barangay_captain_id' => $user->id,
             'barangay_name' => $request->barangay_name,
@@ -320,11 +340,11 @@ class BarangayCaptainController extends Controller
             'city' => $user->city_municipality,
             'barangay' => $user->barangay
         ]);
-
+    
         $user->activeRole()->update(['barangay_id' => $barangay->id]);
-
-        return redirect()->route('barangay_captain.dashboard')->with('success', 'Barangay created successfully!');
-    }
+    
+        return redirect()->route('barangay_captain.appearance_settings')->with('success', 'Barangay created successfully!');
+    }    
     
     public function showAppearanceSettings()
     {
@@ -374,8 +394,8 @@ class BarangayCaptainController extends Controller
     
         $appearanceSettings->save();
     
-        return redirect()->route('barangay_captain.dashboard')->with('success', 'Appearance settings saved successfully!');
-    }
+        return redirect()->route('barangay_captain.features_settings')->with('success', 'Appearance settings saved successfully!');
+    }    
     
     private function getThemes()
     {
@@ -490,14 +510,26 @@ class BarangayCaptainController extends Controller
     public function saveFeaturesSettings(Request $request)
     {
         $request->validate([
+            // Assuming we have a feature_1, add more features as needed
             'feature_1' => 'required|boolean',
             // Add other features settings fields validation
         ]);
-
-        // Save features settings logic here
-
-        return redirect()->route('barangay_captain.dashboard')->with('success', 'Features settings saved successfully!');
-    }
+    
+        $user = Auth::guard('barangay_captain')->user();
+    
+        // Save features settings logic
+        // Assuming you have a FeatureSetting model or similar to save the feature settings
+        // For now, we'll just use the provided feature_1 field as an example
+    
+        // $featureSettings = new FeatureSetting();
+        // $featureSettings->barangay_id = $user->barangayDetails->id;
+        // $featureSettings->feature_1 = $request->input('feature_1');
+        // $featureSettings->save();
+    
+        // Once saved, redirect to the dashboard with a success message
+    
+        return redirect()->route('bc-dashboard')->with('success', 'Barangay creation process completed successfully!');
+    }    
 
     public function showBcDashboard()
     {

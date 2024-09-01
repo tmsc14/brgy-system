@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\BarangayCaptainController;
 use App\Http\Controllers\Auth\BarangayRoleController;
 use App\Http\Controllers\API\LocationController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,17 +39,12 @@ Route::post('login/barangay-captain', [BarangayCaptainController::class, 'login'
 Route::get('dashboard/barangay-captain', [BarangayCaptainController::class, 'showDashboard'])->name('barangay_captain.dashboard')->middleware('auth:barangay_captain');
 Route::get('dashboard/barangay-captain/main', [BarangayCaptainController::class, 'showBcDashboard'])->name('bc-dashboard')->middleware('auth:barangay_captain');
 
-// Routes for first-time access after login
 Route::middleware(['auth:barangay_captain'])->group(function () {
-    // Create Barangay Info - First Time
     Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
     Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
 
-    // Appearance Settings - First Time
     Route::get('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettings'])->name('barangay_captain.appearance_settings');
     Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'saveAppearanceSettings'])->name('barangay_captain.appearance_settings.post');
-
-    // Features Settings - First Time
     Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
     Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
 });
@@ -112,4 +108,7 @@ Route::prefix('barangay-captain')->middleware(['auth:barangay_captain'])->group(
 Route::get('barangay-captain/settings', [BarangayCaptainController::class, 'showSettings'])->name('barangay_captain.settings')->middleware('auth:barangay_captain');
 Route::get('barangay-captain/settings/turnover', [BarangayCaptainController::class, 'showTurnover'])->name('barangay_captain.show_turnover')->middleware('auth:barangay_captain');
 Route::get('barangay-captain/turnover', [BarangayCaptainController::class, 'initiateTurnover'])->name('barangay_captain.turnover')->middleware('auth:barangay_captain');
+Route::get('/barangay-captain/pending-turnover', [BarangayCaptainController::class, 'showPendingTurnover'])->name('barangay_captain.pending_turnover');
 
+//notifications
+Route::post('/clear-notifications', [NotificationController::class, 'clearNotifications'])->name('clear-notifications');

@@ -247,3 +247,50 @@ body {
         font-size: 12px;
     }
 }
+
+.notification {
+    position: relative;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.notification-icon {
+    width: 25px;
+    height: 25px;
+}
+.notification-dropdown {
+    display: none; /* Hide by default */
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: 200px;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.notification-dropdown.active {
+    display: block; /* Show when active */
+}
+
+.notification-item {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.clear-notifications {
+    text-align: center;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.clear-notifications a {
+    color: #ff0000;
+    text-decoration: none;
+    font-weight: bold;
+}

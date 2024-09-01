@@ -1,17 +1,27 @@
 @extends('layouts.create-barangay')
 
 @section('content')
-<div class="container">
-    <h2>Features Settings</h2>
+<div class="features-settings-container">
+    <h1>Features Settings</h1>
+    <p>Configure the features for your barangay.</p>
+    
     <form action="{{ route('barangay_captain.features_settings.post') }}" method="POST">
         @csrf
-        <!-- Add your form fields here -->
+
         <div class="form-group">
-            <label for="feature_1">Feature 1</label>
-            <input type="text" name="feature_1" id="feature_1" class="form-control" required>
+            <label for="feature_1">Enable Feature 1</label>
+            <input type="checkbox" name="feature_1" id="feature_1" value="1">
         </div>
-        <!-- Add more features settings fields as needed -->
-        <button type="submit" class="btn btn-primary">Finish</button>
+
+        <!-- Add more feature settings fields as needed -->
+
+        <button type="submit" class="btn-primary">Confirm and Finish</button>
     </form>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+// Add any specific JavaScript or validation scripts here if needed
+</script>
 @endsection
