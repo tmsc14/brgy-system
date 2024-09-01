@@ -12,6 +12,7 @@ use App\Models\Staff;
 use App\Models\Resident;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\TurnoverRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -157,52 +158,47 @@ class BarangayCaptainController extends Controller
     public function showTurnover()
     {
         $user = Auth::guard('barangay_captain')->user();
-        
+    
         // Fetch the barangay details and active role for the current Barangay Captain
         $barangay = $user->barangayDetails;
         $activeRole = $user->activeRole;
-        
-        // Fetch appearance settings
+    
+        // Get the list of other potential barangay captains in the same location
+        $potentialCaptains = BarangayCaptain::where('region', $user->region)
+            ->where('province', $user->province)
+            ->where('city_municipality', $user->city_municipality)
+            ->where('barangay', $user->barangay)
+            ->where('id', '!=', $user->id)
+            ->get();
+    
         $appearanceSettings = $user->appearanceSettings;
-        
-        // Pass the necessary data to the turnover view
-        return view('barangay_captain.settings.bc-turnover', compact('user', 'barangay', 'activeRole', 'appearanceSettings'));
-    }      
+    
+        return view('barangay_captain.settings.bc-turnover', compact('user', 'barangay', 'activeRole', 'potentialCaptains', 'appearanceSettings'));
+    }       
 
     public function initiateTurnover(Request $request)
     {
-        $request->validate([
-            'new_captain_email' => 'required|email|exists:barangay_captains,email',
-        ]);
+        $currentUser = Auth::guard('barangay_captain')->user();
+        $newCaptain = BarangayCaptain::findOrFail($request->input('new_captain_id'));
     
-        $user = Auth::guard('barangay_captain')->user();
-        $barangay = $user->barangayDetails;
-        $newCaptain = BarangayCaptain::where('email', $request->input('new_captain_email'))->first();
+        // Deactivate the current Barangay Captain's role
+        $currentUser->activeRole()->update(['active' => false]);
     
-        if (!$newCaptain) {
-            return back()->withErrors(['new_captain_email' => 'New Barangay Captain not found']);
-        }
-    
-        // Deactivate the current captain's role
-        $user->roles()->update(['active' => false]);
-    
-        // Assign a new role to the new captain
-        Role::create([
-            'user_id' => $newCaptain->id,
-            'barangay_id' => $barangay->id,
+        // Assign the new Barangay Captain role
+        $newCaptain->roles()->create([
+            'barangay_id' => $currentUser->barangayDetails->id,
             'role_type' => 'barangay_captain',
             'active' => true,
         ]);
     
-        // Update the barangay's captain
-        $barangay->barangay_captain_id = $newCaptain->id;
-        $barangay->save();
+        // Update the barangay's captain_id
+        $currentUser->barangayDetails->update(['barangay_captain_id' => $newCaptain->id]);
     
-        // Log the current user out
+        // Logout the current Barangay Captain
         Auth::guard('barangay_captain')->logout();
     
-        return redirect()->route('barangay_captain.login')->with('success', 'Turnover successful! Please login again.');
-    }
+        return redirect()->route('login')->with('success', 'Turnover process completed successfully.');
+    }           
     
     public function revokeAccess($id)
     {
@@ -216,11 +212,10 @@ class BarangayCaptainController extends Controller
     public function showPendingTurnover()
     {
         $user = Auth::guard('barangay_captain')->user();
-        $appearanceSettings = $user->appearanceSettings;
 
-        return view('auth.barangay_captain.pending-turnover', compact('user', 'appearanceSettings'));
+        return view('auth.barangay_captain.pending-turnover', compact('user'));
     }
-
+    
     public function showLogin()
     {
         return view('auth.barangay_captain.bc-login');
@@ -253,8 +248,15 @@ class BarangayCaptainController extends Controller
                     return redirect()->route('barangay_captain.pending_turnover');
                 }
     
-                Auth::guard('barangay_captain')->login($user);
-                return redirect()->intended(route('barangay_captain.dashboard'));
+                // Check if the user's account has created a barangay
+                if ($existingBarangay && $existingBarangay->barangay_captain_id == $user->id) {
+                    // Redirect to the dashboard if the barangay already exists
+                    Auth::guard('barangay_captain')->login($user);
+                    return redirect()->intended(route('bc-dashboard'));
+                }
+    
+                // If no barangay is created, redirect to the create barangay page
+                return redirect()->route('barangay_captain.create_barangay');
             }
     
             return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
@@ -263,7 +265,7 @@ class BarangayCaptainController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-    }
+    }       
 
     public function showDashboard()
     {

@@ -321,3 +321,9 @@ Commit 1.6.4
 progres:
 - temporary dashboard removed
 - notification (work in progress/needs more testing)
+
+Commit 1.6.5
+progress:
+- Turnover feature working
+- roles table
+- Active to inactive account

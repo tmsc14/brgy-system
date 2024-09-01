@@ -1,0 +1,41 @@
+    body {
+        background-color: #FAEED8;
+        color: #503C2F;
+    }
+
+    .placeholder-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 1.25rem;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        color: #fff;
+        background-color: #503C2F;
+        border: none;
+        border-radius: 5px;
+        margin: 10px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .btn:hover {
+        background-color: #3F2D23; /* Example: replace with a darker shade of your button color */
+    }

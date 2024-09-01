@@ -6,39 +6,26 @@
 
 @section('content')
 <div class="turnover-container">
-    <h1>Turnover Process</h1>
-    <p>Transfer the role of Barangay Captain to another individual.</p>
+    <h1>Initiate Turnover</h1>
+    <p>Select the new Barangay Captain from the list of eligible candidates who have signed up with your barangay's location.</p>
     
-    <form action="{{ route('barangay_captain.turnover') }}" method="POST">
+    <form action="{{ route('barangay_captain.initiate_turnover') }}" method="POST">
         @csrf
+        <!-- Example of a dropdown to select the new Barangay Captain -->
         <div class="form-group">
-            <label for="new_captain_email">New Barangay Captain Email</label>
-            <input type="email" name="email" id="new_captain_email" required>
+            <label for="new_captain_id">Select New Barangay Captain</label>
+            <select name="new_captain_id" id="new_captain_id" required>
+                @foreach ($potentialCaptains as $captain)
+                    <option value="{{ $captain->id }}">{{ $captain->first_name }} {{ $captain->last_name }} ({{ $captain->email }})</option>
+                @endforeach
+            </select>
         </div>
-
-        <!-- Additional form fields for the new Barangay Captain -->
-        <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" name="first_name" id="first_name" required>
-        </div>
-
-        <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" name="last_name" id="last_name" required>
-        </div>
-
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-        </div>
-
+    
         <button type="submit" class="btn-primary">Initiate Turnover</button>
-    </form>
+    </form>         
 </div>
 @endsection
 
 @section('scripts')
-<script>
-// Add any specific JavaScript or validation scripts here if needed
-</script>
+@vite(['resources/js/barangay_captain/turnover.js'])
 @endsection

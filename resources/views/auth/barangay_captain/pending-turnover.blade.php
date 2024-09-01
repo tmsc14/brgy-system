@@ -1,14 +1,21 @@
-@extends('layouts.bc-template-dashboard')
-
-@section('styles')
-@vite(['resources/css/barangay_captain/pending-turnover.css'])
-@endsection
-
-@section('content')
-<div class="pending-turnover-container">
-    <h1>Barangay Already Exists</h1>
-    <p>Your barangay location already has an existing Barangay Captain. You cannot create a new barangay until the current Barangay Captain transfers access to you.</p>
-
-    <p>Please wait for the current Barangay Captain to initiate the turnover process.</p>
-</div>
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Already Exists</title>
+    @vite(['resources/css/barangay_captain/pending-turnover.css'])
+</head>
+<body>
+    <div class="placeholder-container">
+        <h1>Barangay Already Exists</h1>
+        <p>This barangay has already been created by another Barangay Captain.</p>
+    
+        <!-- Logout Button -->
+        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+            @csrf
+            <button type="submit" class="btn btn-danger">Logout</button>
+        </form>
+    </div>   
+</body>
+</html>
