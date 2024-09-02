@@ -193,13 +193,20 @@ class BarangayCaptainController extends Controller
     
         // Update the barangay's captain_id
         $currentUser->barangayDetails->update(['barangay_captain_id' => $newCaptain->id]);
+
+        // Transfer the appearance settings to the new Barangay Captain
+        $appearanceSettings = $currentUser->appearanceSettings;
+        if ($appearanceSettings) {
+            $appearanceSettings->update(['barangay_captain_id' => $newCaptain->id]);
+        }
     
         // Logout the current Barangay Captain
         Auth::guard('barangay_captain')->logout();
     
-        return redirect()->route('login')->with('success', 'Turnover process completed successfully.');
+        return redirect()->route('barangay_captain.login')->with('success', 'Turnover process completed successfully.');
     }           
     
+    //optional - currently not being used.
     public function revokeAccess($id)
     {
         $role = Role::findOrFail($id);

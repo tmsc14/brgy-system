@@ -327,3 +327,11 @@ progress:
 - Turnover feature working
 - roles table
 - Active to inactive account
+
+Commit 1.6.6
+progres:
+- Appearance settings to old captain to new captain
+- fixed the routine issues
+
+goal:
+- start the implementation of new entries with barangay residents. (might need more data about this).
