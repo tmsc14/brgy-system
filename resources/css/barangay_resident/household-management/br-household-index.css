@@ -1,0 +1,78 @@
+/* household-index.css */
+:root {
+    --theme-color: {{ $appearanceSettings->theme_color ?? '#FAEED8' }};
+    --primary-color: {{ $appearanceSettings->primary_color ?? '#503C2F' }};
+    --secondary-color: {{ $appearanceSettings->secondary_color ?? '#FAFAFA' }};
+    --text-color: {{ $appearanceSettings->text_color ?? '#000000' }};
+}
+
+.household-index-container {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 20px;
+    border-radius: 16px;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.household-index-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--theme-color);
+}
+
+.household-member {
+    background-color: var(--theme-color);
+    color: var(--primary-color);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.household-member p {
+    margin: 5px 0;
+}
+
+.alert.alert-success {
+    background-color: var(--theme-color);
+    color: var(--primary-color);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: var(--theme-color);
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 16px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 20px auto 0;
+    text-align: center;
+    width: 200px;
+}
+
+.btn-primary:hover {
+    background-color: #e2d1b9;
+}
+
+/* Adaptive design */
+@media screen and (max-width: 768px) {
+    .household-index-container {
+        padding: 15px;
+    }
+
+    .btn-primary {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}

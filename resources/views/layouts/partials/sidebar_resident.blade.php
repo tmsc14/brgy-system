@@ -6,6 +6,12 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('households.index') }}" class="{{ request()->routeIs('households.*') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('households.*') ? asset('resources/img/sidebar-icons/admins-sblogo.png') : asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}" class="icon" alt="Household Management Icon">
+            Household Management
+        </a>
+    </li>    
+    <li>
         <a href="#" class="{{ request()->routeIs('documents') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('documents') ? asset('resources/img/sidebar-icons/documents-sblogo.png') : asset('resources/img/sidebar-icons/documents-sblogo-inactive.png') }}" class="icon" alt="Documents Icon">
             Documents

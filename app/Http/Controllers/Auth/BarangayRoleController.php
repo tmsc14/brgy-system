@@ -197,10 +197,10 @@ class BarangayRoleController extends Controller
                 'required',
                 'string',
                 'min:8',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[@$!%*#?&]/',
+                'regex:/[a-z]/',      // must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // must contain at least one uppercase letter
+                'regex:/[0-9]/',      // must contain at least one digit
+                'regex:/[@$!%*#?&]/', // must contain a special character
                 'confirmed'
             ],
             'valid_id' => 'required|mimes:jpeg,jpg,png|max:2048',
@@ -218,14 +218,14 @@ class BarangayRoleController extends Controller
             'contact_no' => $user_details['contact_no'],
             'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
-            'password' => Hash::make($request->input('password')),
+            'password' => Hash::make($request->input('password')),  // Hash the password here
         ];
     
         if ($request->hasFile('valid_id')) {
             $data['valid_id'] = $request->file('valid_id')->store('valid_ids', 'public');
         }
     
-        $signupRequest = SignupRequest::create([
+        SignupRequest::create([
             'first_name' => $user_details['first_name'],
             'middle_name' => $user_details['middle_name'],
             'last_name' => $user_details['last_name'],
@@ -235,21 +235,16 @@ class BarangayRoleController extends Controller
             'contact_no' => $user_details['contact_no'],
             'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
-            'password' => $data['password'],
+            'password' => Hash::make($request->input('password')),
             'valid_id' => $data['valid_id'],
             'position' => $role === 'barangay_official' ? $request->input('position') : null,
-            'user_type' => $role,
-        ]);
-    
-        // Assign Role for the signup request
-        Role::create([
-            'user_id' => $signupRequest->id,
-            'role_name' => $role,
-            'active' => false, // Inactive until approved
-        ]);
+            'role' => $role === 'barangay_staff' ? $request->input('role') : null,
+            'user_type' => $role,  // Ensure the user_type is set
+        ]);        
+        
     
         return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration request submitted successfully.');
-    }  
+    }    
 
     public function showUnifiedLogin()
     {
@@ -259,6 +254,7 @@ class BarangayRoleController extends Controller
     
     public function unifiedLogin(Request $request)
     {
+        Log::info('Login attempt started');
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -270,8 +266,10 @@ class BarangayRoleController extends Controller
         $role = $request->input('role');
         $barangay_id = $request->input('barangay');
     
-        $user = null;
+        Log::info('Login role: ' . $role);
     
+        $user = null;
+
         switch ($role) {
             case 'barangay_official':
                 $user = BarangayOfficial::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
@@ -283,32 +281,47 @@ class BarangayRoleController extends Controller
                 $user = Resident::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
                 break;
         }
-    
+        
+        Log::info('User retrieved: ', ['user' => $user]);
+        
         if ($user) {
-            $activeRole = $user->roles()->where('active', true)->first();
-    
-            if ($activeRole && $activeRole->role_name === $role) {
-                if (Hash::check($credentials['password'], $user->password)) {
-                    Auth::guard($role)->login($user);
-                    $request->session()->regenerate();
-    
-                    return redirect()->route("{$role}.dashboard");
+            Log::info('User retrieved: ' . json_encode($user));
+            Log::info('Reached after user retrieval.');
+        
+            // Status check
+            if (isset($user->status)) {
+                Log::info('User status: ' . $user->status);
+                if ($user->status !== 'active') {
+                    Log::info('Status is not active, returning with error.');
+                    return back()->withErrors([
+                        'status' => 'Your account is pending approval by the Barangay Captain.',
+                    ]);
                 }
-    
-                return back()->withErrors([
-                    'password' => 'The provided password is incorrect.',
-                ]);
+            } else {
+                Log::info('No status field found.');
             }
-    
+        
+            // Password check
+            Log::info('Checking password for user: ' . $user->email);
+            if (Hash::check($credentials['password'], $user->password)) {
+                Auth::guard($role)->login($user);
+                Log::info(ucfirst($role) . ' login successful');
+                $request->session()->regenerate();
+        
+                return redirect()->route("{$role}.dashboard");
+            }
+        
+            Log::warning('Login failed due to incorrect password');
             return back()->withErrors([
-                'email' => 'Your account is inactive or you do not have access.',
+                'password' => 'The provided password is incorrect.',
             ]);
-        }
-    
-        return back()->withErrors([
-            'barangay' => 'The provided credentials do not match our records or the selected barangay is incorrect.',
-        ]);
-    }    
+        } else {
+            Log::warning('Login failed for role: ' . $role);
+            return back()->withErrors([
+                'barangay' => 'The provided credentials do not match our records or the selected barangay is incorrect.',
+            ]);
+        }             
+    }
     
     public function showBarangayOfficialDashboard()
     {

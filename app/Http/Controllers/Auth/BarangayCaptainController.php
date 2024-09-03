@@ -645,13 +645,6 @@ class BarangayCaptainController extends Controller
             'status' => 'accepted',
         ]);
     
-        // Assign Role
-        Role::create([
-            'user_id' => $user->id,
-            'role_name' => $request->user_type,
-            'active' => true,
-        ]);
-    
         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
     }    
         

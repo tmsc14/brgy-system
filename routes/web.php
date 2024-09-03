@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\BarangayCaptainController;
 use App\Http\Controllers\Auth\BarangayRoleController;
 use App\Http\Controllers\API\LocationController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\HouseholdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,3 +113,12 @@ Route::get('/barangay-captain/pending-turnover', [BarangayCaptainController::cla
 
 //notifications
 Route::post('/clear-notifications', [NotificationController::class, 'clearNotifications'])->name('clear-notifications');
+
+//household management
+Route::middleware(['auth:barangay_resident'])->group(function () {
+    Route::get('/settings/households', [HouseholdController::class, 'index'])->name('households.index');
+    Route::get('/settings/households/create', [HouseholdController::class, 'create'])->name('households.create');
+    Route::post('/settings/households', [HouseholdController::class, 'store'])->name('households.store');
+});
+
+

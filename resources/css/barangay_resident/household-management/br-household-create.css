@@ -1,0 +1,137 @@
+:root {
+    --theme-color: {{ $appearanceSettings->theme_color ?? '#FAEED8' }};
+    --primary-color: {{ $appearanceSettings->primary_color ?? '#503C2F' }};
+    --secondary-color: {{ $appearanceSettings->secondary_color ?? '#FAFAFA' }};
+    --text-color: #FAEED8; /* Fixed light color for text */
+}
+
+.household-management-container {
+    background-color: var(--primary-color);
+    color: var(--text-color); /* Apply light color for text */
+    padding: 20px;
+    border-radius: 16px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.household-management-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color); /* Light color for heading */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color); /* Light color for labels */
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group input[type="number"],
+.form-group select {
+    width: 80%; /* Smaller width for input fields */
+    padding: 8px;
+    border-radius: 10px;
+    border: 1px solid var(--theme-color);
+    background-color: #ffffff; /* Maintain white background for input fields */
+    color: var(--primary-color); /* Dark text color for input content */
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.form-group-inline {
+    display: flex;
+    gap: 15px;
+}
+
+.form-group-inline .form-group {
+    flex: 1;
+}
+
+#num_residents {
+    width: 150px; /* Smaller width for the number of residents input */
+}
+
+#residents-container {
+    margin-top: 20px;
+}
+
+.resident-fields {
+    background-color: var(--primary-color); /* Match the background to the main container */
+    color: var(--text-color); /* Light color for text */
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--theme-color); /* Optional: Add a border to separate each resident */
+}
+
+.resident-fields h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-color); /* Light color for resident headers */
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.btn-primary {
+    background-color: var(--theme-color);
+    color: var(--primary-color);
+    padding: 10px 20px;
+    border-radius: 16px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 20px auto 0;
+}
+
+.btn-primary:hover {
+    background-color: #e2d1b9;
+}
+
+/* Adaptive design */
+@media screen and (max-width: 768px) {
+    .household-management-container {
+        padding: 15px;
+    }
+
+    .form-group-inline {
+        flex-direction: column;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="date"],
+    .form-group input[type="number"],
+    .form-group select {
+        width: 100%; /* Full width for input fields on smaller screens */
+    }
+
+    .btn-primary {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+.error-message {
+    color: var(--secondary-color); /* Use secondary color for error messages to contrast with the background */
+    font-size: 12px; /* Slightly smaller font size */
+    margin-top: 2px; /* Small margin to keep it close to the field */
+    display: inline-block; /* Keep the error message in one line */
+}
+
+
+

@@ -335,3 +335,8 @@ progres:
 
 goal:
 - start the implementation of new entries with barangay residents. (might need more data about this).
+
+Commit 1.6.7
+progress:
+- household management (pending approval)
+- applied restrictiosn in adding members
