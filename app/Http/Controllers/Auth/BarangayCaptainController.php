@@ -20,6 +20,7 @@ use Illuminate\Validation\Rule;
 use App\Models\SignupRequest;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class BarangayCaptainController extends Controller
 {
@@ -144,7 +145,7 @@ class BarangayCaptainController extends Controller
         // Create the role without barangay_id initially
         Role::create([
             'user_id' => $user->id,
-            'barangay_id' => null,
+            'barangay_id' => null, // This will be updated once the barangay is created
             'role_type' => 'barangay_captain',
             'active' => true,
         ]);
@@ -153,7 +154,7 @@ class BarangayCaptainController extends Controller
         session()->flush();
     
         return redirect()->route('barangay_captain.login')->with('success', 'Registration successful! Please log in.');
-    }     
+    }       
     
     public function showTurnover()
     {
@@ -244,26 +245,16 @@ class BarangayCaptainController extends Controller
     
             if ($activeRole && $activeRole->role_type === 'barangay_captain') {
                 // Check if a barangay already exists for this user's location
-                $existingBarangay = Barangay::where('region', $user->region)
-                    ->where('province', $user->province)
-                    ->where('city', $user->city_municipality)
-                    ->where('barangay', $user->barangay)
-                    ->first();
+                $existingBarangay = Barangay::where('barangay_captain_id', $user->id)->first();
     
-                if ($existingBarangay && $existingBarangay->barangay_captain_id != $user->id) {
-                    // Redirect to the placeholder view if the barangay already exists
-                    return redirect()->route('barangay_captain.pending_turnover');
-                }
-    
-                // Check if the user's account has created a barangay
-                if ($existingBarangay && $existingBarangay->barangay_captain_id == $user->id) {
-                    // Redirect to the dashboard if the barangay already exists
+                if ($existingBarangay) {
+                    // If barangay exists and belongs to the current user, redirect to the dashboard
                     Auth::guard('barangay_captain')->login($user);
                     return redirect()->intended(route('bc-dashboard'));
+                } else {
+                    // No barangay found for this user, redirect to create barangay page
+                    return redirect()->route('barangay_captain.create_barangay_info_form');
                 }
-    
-                // If no barangay is created, redirect to the create barangay page
-                return redirect()->route('barangay_captain.create_barangay');
             }
     
             return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
@@ -272,7 +263,7 @@ class BarangayCaptainController extends Controller
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
-    }       
+    }     
 
     public function showDashboard()
     {

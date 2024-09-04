@@ -1,5 +1,9 @@
 npm run dev          
 php artisan serve
+php artisan db:seed --class=AccessCodeSeeder
+php artisan tinker
+php artisan storage:link
+
 
 href="{{url('resources/css/welcome.css')}}"   ------ link to other resources
 href="{{route('resources/css/welcome.css')}}"   ------ link to other files using web.php
