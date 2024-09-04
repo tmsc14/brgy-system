@@ -231,6 +231,7 @@ class BarangayCaptainController extends Controller
 
     public function login(Request $request)
     {
+        // Validate the input fields
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -238,33 +239,52 @@ class BarangayCaptainController extends Controller
     
         $credentials = $request->only('email', 'password');
     
+        // Check if the user exists based on email
         $user = BarangayCaptain::where('email', $credentials['email'])->first();
     
         if ($user && Hash::check($credentials['password'], $user->password)) {
-            $activeRole = $user->roles()->where('active', true)->first();
+            // Invalidate any previous session
+            Auth::guard('barangay_captain')->logout(); // Log out previous user if any
+            session()->invalidate();  // Invalidate the session
+            session()->regenerateToken(); // Regenerate CSRF token for security
     
-            if ($activeRole && $activeRole->role_type === 'barangay_captain') {
-                // Check if a barangay already exists for this user's location
-                $existingBarangay = Barangay::where('barangay_captain_id', $user->id)->first();
+            // Check for active role in the roles table
+            $activeRole = $user->roles()->where('active', true)->where('role_type', 'barangay_captain')->first();
     
-                if ($existingBarangay) {
-                    // If barangay exists and belongs to the current user, redirect to the dashboard
-                    Auth::guard('barangay_captain')->login($user);
-                    return redirect()->intended(route('bc-dashboard'));
-                } else {
-                    // No barangay found for this user, redirect to create barangay page
-                    return redirect()->route('barangay_captain.create_barangay_info_form');
+            if ($activeRole) {
+                // Check if the user's barangay exists
+                $existingBarangay = Barangay::where('region', $user->region)
+                    ->where('province', $user->province)
+                    ->where('city', $user->city_municipality)
+                    ->where('barangay', $user->barangay)
+                    ->first();
+    
+                if ($existingBarangay && $existingBarangay->barangay_captain_id != $user->id) {
+                    // Redirect to the placeholder view if the barangay already exists with another captain
+                    return redirect()->route('barangay_captain.pending_turnover');
                 }
+    
+                if ($existingBarangay && $existingBarangay->barangay_captain_id == $user->id) {
+                    // Redirect to the dashboard if the barangay already exists with this captain
+                    Auth::guard('barangay_captain')->login($user);
+                    session()->regenerate(); // Generate a new session ID for the new user
+                    return redirect()->intended(route('bc-dashboard'));
+                }
+    
+                // No barangay found, redirect to create barangay info
+                Auth::guard('barangay_captain')->login($user);
+                session()->regenerate(); // Generate a new session ID for the new user
+                return redirect()->route('barangay_captain.create_barangay_info_form');
+            } else {
+                return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
             }
-    
-            return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
+        } else {
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ]);
         }
-    
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
-    }     
-
+    }                
+            
     public function showDashboard()
     {
         $user = Auth::guard('barangay_captain')->user();

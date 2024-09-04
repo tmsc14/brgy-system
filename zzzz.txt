@@ -344,3 +344,8 @@ Commit 1.6.7
 progress:
 - household management (pending approval)
 - applied restrictiosn in adding members
+
+
+Goal:
+- make the barangay captain signup proccess update or upload data into tables when the signup process is done.
+- Current process, it 
