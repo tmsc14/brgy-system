@@ -79,16 +79,6 @@ class BarangayCaptainController extends Controller
                 Rule::unique('barangay_residents', 'contact_no'),
                 Rule::unique('barangays', 'barangay_contact_number'),
             ],
-            'bric' => [
-                'required',
-                'alpha_num',
-                'min:6',
-                'max:20',
-                Rule::unique('barangay_captains', 'bric'),
-                Rule::unique('barangay_officials', 'bric_no'),
-                Rule::unique('barangay_staff', 'bric_no'),
-                Rule::unique('barangay_residents', 'bric_no'),
-            ],
         ]);
     
         session([
@@ -99,7 +89,6 @@ class BarangayCaptainController extends Controller
             'gender' => $request->gender,
             'email' => $request->email,
             'contact_no' => $request->contact_no,
-            'bric' => $request->bric,
         ]);
     
         return redirect()->route('barangay_captain.register.step3');
@@ -138,7 +127,6 @@ class BarangayCaptainController extends Controller
             'gender' => session('gender'),
             'email' => session('email'),
             'contact_no' => session('contact_no'),
-            'bric' => session('bric'),
             'password' => Hash::make($request->password),
         ]);
     
@@ -627,16 +615,15 @@ class BarangayCaptainController extends Controller
     
         $existingUser = $userModel::where('email', $request->email)
             ->orWhere('contact_no', $request->contact_no)
-            ->orWhere('bric_no', $request->bric_no)
             ->first();
     
         if ($existingUser) {
-            return redirect()->route('bc-requests')->with('error', 'A user with the same email, contact number, or BRIC number already exists.');
+            return redirect()->route('bc-requests')->with('error', 'A user with the same email or contact number already exists.');
         }
     
         $hashedPassword = $request->password;
     
-        $user = $userModel::create([
+        $data = [
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
             'last_name' => $request->last_name,
@@ -644,12 +631,20 @@ class BarangayCaptainController extends Controller
             'gender' => $request->gender,
             'email' => $request->email,
             'contact_no' => $request->contact_no,
-            'bric_no' => $request->bric_no,
             'barangay_id' => $request->barangay_id,
             'password' => $hashedPassword,
             'valid_id' => $request->valid_id,
             'position' => $request->position,
-        ]);
+        ];
+    
+        if ($request->user_type === 'barangay_resident') {
+            $data['house_number_building_name'] = $request->house_number_building_name;
+            $data['street_purok_sitio'] = $request->street_purok_sitio;
+            $data['is_renter'] = $request->is_renter;
+            $data['is_employed'] = $request->is_employed;
+        }
+    
+        $user = $userModel::create($data);
     
         $request->update([
             'user_id' => $user->id,
@@ -657,7 +652,7 @@ class BarangayCaptainController extends Controller
         ]);
     
         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
-    }    
+    }   
         
     public function denyRequest($id)
     {

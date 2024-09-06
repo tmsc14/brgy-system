@@ -17,12 +17,15 @@ class CreateBarangayResidentsTable extends Migration
             $table->string('gender');
             $table->string('email')->unique();
             $table->string('contact_no');
-            $table->string('bric_no');
             $table->unsignedBigInteger('barangay_id');
             $table->string('password');
             $table->string('valid_id');
+            $table->string('street_purok_sitio')->nullable();
+            $table->string('house_number_building_name')->nullable();
+            $table->boolean('is_renter')->default(false);
+            $table->boolean('is_employed')->default(false);
             $table->timestamps();
-
+        
             $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }

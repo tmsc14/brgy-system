@@ -22,7 +22,6 @@ class BarangayCaptain extends Authenticatable
         'gender',
         'email',
         'contact_no',
-        'bric',
         'password',
     ];
 

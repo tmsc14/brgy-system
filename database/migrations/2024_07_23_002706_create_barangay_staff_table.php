@@ -17,15 +17,14 @@ class CreateBarangayStaffTable extends Migration
             $table->string('gender');
             $table->string('email')->unique();
             $table->string('contact_no');
-            $table->string('bric_no');
+            $table->string('position');
             $table->unsignedBigInteger('barangay_id');
             $table->string('password');
             $table->string('valid_id');
-            $table->string('role');
             $table->timestamps();
-
+        
             $table->foreign('barangay_id')->references('id')->on('barangays');
-        });
+        });        
     }
 
     public function down()

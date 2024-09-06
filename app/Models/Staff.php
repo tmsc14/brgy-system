@@ -19,11 +19,10 @@ class Staff extends Authenticatable
         'gender',
         'email',
         'contact_no',
-        'bric_no',
         'barangay_id',
         'password',
         'valid_id',
-        'role',
+        'position',
         'status'
     ];
 

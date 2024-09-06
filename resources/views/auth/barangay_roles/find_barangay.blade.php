@@ -3,7 +3,7 @@
 @section('title', 'Find Barangay')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('resources/css/unified_login_signup/find_barangay.css') }}">
+    @vite(['resources/css/unified_login_signup/find_barangay.css'])
 @endsection
 
 @section('content')

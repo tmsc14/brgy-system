@@ -20,12 +20,17 @@ class CreateSignupRequestsTable extends Migration
             $table->string('gender');
             $table->string('email')->unique();
             $table->string('contact_no');
-            $table->string('bric_no');
             $table->string('valid_id');
             $table->string('password');
             $table->string('position')->nullable();
+            $table->string('house_number_building_name')->nullable();
+            $table->string('street_purok_sitio')->nullable();
+            $table->boolean('is_renter')->default(false);
+            $table->boolean('is_employed')->default(false); 
             $table->string('status')->default('pending');
             $table->timestamps();
+    
+            $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }
 

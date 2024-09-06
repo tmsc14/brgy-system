@@ -3,8 +3,9 @@
 @section('title', 'User Details')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('resources/css/unified_login_signup/user_details.css') }}">
+    @vite(['resources/css/unified_login_signup/user_details.css'])
 @endsection
+
 
 @section('content')
 <div class="signup-container">
@@ -79,15 +80,55 @@
                 <div class="error-message">{{ $errors->first('dob') }}</div>
             @endif
         </div>
-        <div class="form-group">
-            <label for="bric_no">BRIC #</label>
-            <input type="text" id="bric_no" name="bric_no" required value="{{ old('bric_no') }}">
-            @if ($errors->has('bric_no'))
-                <div class="error-message">{{ $errors->first('bric_no') }}</div>
-            @endif
-        </div>
-        <button type="submit" class="btn-primary">Next</button>
+        <!-- For Barangay Resident only -->
+        @if (session('role') === 'barangay_resident')
+            <div class="form-group">
+                <label for="house_number_building_name">House No./Building</label>
+                <input type="text" id="house_number_building_name" name="house_number_building_name" required value="{{ old('house_number_building_name') }}">
+                @if ($errors->has('house_number_building_name'))
+                    <div class="error-message">{{ $errors->first('house_number_building_name') }}</div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="street_purok_sitio">Street/Purok/Sitio</label>
+                <input type="text" id="street_purok_sitio" name="street_purok_sitio" required value="{{ old('street_purok_sitio') }}">
+                @if ($errors->has('street_purok_sitio'))
+                    <div class="error-message">{{ $errors->first('street_purok_sitio') }}</div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="is_renter">Are you a renter?</label>
+                <select id="is_renter" name="is_renter" required>
+                    <option value="1" {{ old('is_renter') == '1' ? 'selected' : '' }}>Yes</option>
+                    <option value="0" {{ old('is_renter') == '0' ? 'selected' : '' }}>No</option>
+                </select>
+                @if ($errors->has('is_renter'))
+                    <div class="error-message">{{ $errors->first('is_renter') }}</div>
+                @endif
+            </div>
+
+            <div class="form-group">
+                <label for="employment_status">Employment Status</label>
+                <select id="employment_status" name="employment_status" required>
+                    <option value="employed" {{ old('employment_status') == 'employed' ? 'selected' : '' }}>Employed</option>
+                    <option value="unemployed" {{ old('employment_status') == 'unemployed' ? 'selected' : '' }}>Unemployed</option>
+                </select>
+                @if ($errors->has('employment_status'))
+                    <div class="error-message">{{ $errors->first('employment_status') }}</div>
+                @endif
+            </div>
+        @endif
     </form>
-    <button onclick="window.location='{{ route('barangay_roles.findBarangay') }}'" class="btn-secondary">Back</button>
+        <!-- Centering the Next button and placing it below the form -->
+        <div class="text-center mt-4">
+            <button type="submit" form="user-details-form" class="btn-primary">Next</button>
+        </div>
+    
+        <!-- Back button centered as well -->
+        <div class="text-center mt-2">
+            <button onclick="window.location='{{ route('barangay_roles.findBarangay') }}'" class="btn-secondary">Back</button>
+        </div>
 </div>
 @endsection

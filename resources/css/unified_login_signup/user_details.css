@@ -1,0 +1,137 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #FAEED8;
+    color: #503C2F;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signup-container {
+    position: relative;
+    background-color: #503C2F;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1100px;
+    margin: 50px auto;
+}
+
+h1 {
+    color: #FAFAFA;
+    margin-bottom: 19px;
+    text-align: center;
+}
+
+label {
+    color: #FAEED8;
+}
+
+input, select {
+    background-color: #FAEED8;
+    color: #503C2F;
+    border-radius: 10px;
+}
+
+.error-message {
+    color: #f44336;
+    font-size: 0.875em;
+}
+
+.btn-primary, .btn-secondary {
+    border-radius: 10px;
+}
+
+.logo img {
+    width: 300px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.separator {
+    width: 80%;
+    height: 1px;
+    background-color: #FFFFFF;
+    margin: 10px auto;
+}
+
+.btn-primary {
+    background-color: #FAEED8;
+    color: #503C2F;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1em;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 200px;
+    align-self: center;
+}
+
+button:hover {
+    background-color: #e0a800;
+}
+
+.btn-secondary {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background-color: #FAEED8;
+    color: #503C2F;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1em;
+    text-decoration: none;
+    display: inline-block;
+    width: 80px; /* Adjust width as needed */
+}
+
+/* Ensure buttons don't overlap on small screens */
+@media (max-width: 768px) {
+    .btn-primary {
+        width: 100%; /* Make Next button full width */
+        max-width: none; /* Remove max-width */
+    }
+
+    .btn-secondary {
+        width: 100%; /* Make Back button full width */
+        position: static; /* Remove absolute positioning */
+        margin-top: 10px; /* Add margin above Back button */
+    }
+}
+
+button:hover {
+    background-color: #e0a800;
+}
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 20px; /* Spacing between fields */
+    width: 100%;
+    max-width: 800px; /* Set a max-width */
+    margin: 0 auto; /* Center the form */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}

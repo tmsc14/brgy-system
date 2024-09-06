@@ -3,7 +3,7 @@
 @section('title', 'Sign Up As')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('resources/css/unified_login_signup/select_role.css') }}">
+    @vite(['resources/css/unified_login_signup/select_role.css'])
 @endsection
 
 @section('content')

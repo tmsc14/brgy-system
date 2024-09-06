@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/barangay_captain/bc-requests.css',
                 'pending-turnover.css',
                 'resources/js/app.js',
+                'resources/css/app.scss',
                 'notification.js',
             ],
             refresh: true,

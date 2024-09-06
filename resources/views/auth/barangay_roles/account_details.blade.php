@@ -3,13 +3,13 @@
 @section('title', 'Account Details')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('resources/css/unified_login_signup/account_details.css') }}">
+    @vite(['resources/css/unified_login_signup/account_details.css'])
 @endsection
 
 @section('content')
 <div class="signup-container">
     <div class="logo">
-        <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo">
+        <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo" class="img-fluid">
     </div>
     <div class="separator"></div>
     <h1>
@@ -23,12 +23,12 @@
             Account Details
         @endif
     </h1>
-    <form action="{{ route('barangay_roles.accountDetails') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('barangay_roles.accountDetails') }}" method="POST" enctype="multipart/form-data" class="needs-validation">
         @csrf
         <div class="form-group">
             <label for="password">Create Your Own Password:</label>
             <div class="password-wrapper">
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" class="form-control" required>
                 <img src="{{ asset('resources/img/login-icons/hidepass.png') }}" id="toggle-password" class="toggle-password" alt="Toggle Password">
                 <div id="password-requirements" class="password-requirements">
                     <ul>
@@ -47,7 +47,7 @@
         <div class="form-group">
             <label for="password_confirmation">Re-type Your Password:</label>
             <div class="password-wrapper">
-                <input type="password" id="password_confirmation" name="password_confirmation" required>
+                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" required>
                 <img src="{{ asset('resources/img/login-icons/hidepass.png') }}" id="toggle-password-confirmation" class="toggle-password" alt="Toggle Password">
             </div>
             @if ($errors->has('password_confirmation'))
@@ -56,7 +56,7 @@
         </div>
         <div class="form-group">
             <label for="valid_id">Valid ID:</label>
-            <input type="file" id="valid_id" name="valid_id" required>
+            <input type="file" id="valid_id" name="valid_id" class="form-control-file" required>
             <div class="note">File types: jpg, png, pdf. Max size: 5MB.</div>
             @if ($errors->has('valid_id'))
                 <div class="error">{{ $errors->first('valid_id') }}</div>
@@ -65,7 +65,7 @@
         @if(session('role') == 'barangay_official')
             <div class="form-group">
                 <label for="position">Position:</label>
-                <select id="position" name="position" required>
+                <select id="position" name="position" class="form-control" required>
                     <option value="Sangguniang Barangay Member">Sangguniang Barangay Member</option>
                     <option value="SK Chairperson">SK Chairperson</option>
                     <option value="Barangay Secretary">Barangay Secretary</option>
@@ -77,7 +77,7 @@
         @elseif(session('role') == 'barangay_staff')
             <div class="form-group">
                 <label for="role">Role:</label>
-                <select id="role" name="role" required>
+                <select id="role" name="role" class="form-control" required>
                     <option value="Cashier">Cashier</option>
                     <option value="Clerk">Clerk</option>
                     <option value="Manager">Manager</option>
@@ -93,6 +93,7 @@
 </div>
 
 <script>
+// Toggle password visibility and password strength requirements
 document.addEventListener("DOMContentLoaded", function() {
     const togglePassword = document.getElementById('toggle-password');
     const password = document.getElementById('password');

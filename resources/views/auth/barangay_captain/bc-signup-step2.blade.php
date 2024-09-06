@@ -70,13 +70,6 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
-            <div class="form-group">
-                <label for="bric">BRIC #</label>
-                <input type="text" name="bric" id="bric" value="{{ old('bric', session('bric')) }}" required>
-                @error('bric')
-                    <span class="error">{{ $message }}</span>
-                @enderror
-            </div>
         </div>
         <button type="submit" class="btn btn-primary">Next</button>
         <a href="{{ route('barangay_captain.register.step1') }}" class="btn btn-secondary">Back</a>

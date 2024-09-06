@@ -131,6 +131,7 @@ class BarangayRoleController extends Controller
 
     public function userDetails(Request $request)
     {
+        // Common validation for all roles
         $request->validate([
             'first_name' => 'required|alpha|min:2|max:50',
             'middle_name' => 'nullable|alpha|max:50',
@@ -156,25 +157,34 @@ class BarangayRoleController extends Controller
                 Rule::unique('barangay_captains', 'contact_no'),
                 Rule::unique('signup_requests', 'contact_no'),
                 Rule::unique('barangays', 'barangay_contact_number')
-            ],
-            'bric_no' => [
-                'required',
-                'alpha_num',
-                'min:6',
-                'max:20',
-                Rule::unique('barangay_officials', 'bric_no'),
-                Rule::unique('barangay_staff', 'bric_no'),
-                Rule::unique('barangay_residents', 'bric_no'),
-                Rule::unique('barangay_captains', 'bric'),
-                Rule::unique('signup_requests', 'bric_no')
-            ],
+            ],        
         ]);
     
+        // Additional validation for residents
+        if (session('role') === 'barangay_resident') {
+            $request->validate([
+                'house_number_building_name' => session('role') === 'barangay_resident' ? 'required|string|max:255' : '',
+                'street_purok_sitio' => session('role') === 'barangay_resident' ? 'required|string|max:255' : '',
+                'is_renter' => session('role') === 'barangay_resident' ? 'required|boolean' : '',
+                'employment_status' => session('role') === 'barangay_resident' ? 'required|in:employed,unemployed' : '',
+            ]);
+    
+            // Store all resident-specific details in the session
+            $request->session()->put('resident_details', $request->only([
+                'house_number_building_name', 'street_purok_sitio', 'is_renter', 'employment_status'
+            ]));
+        }
+    
+        // Store common user details
         $request->session()->put('user_details', $request->only([
-            'first_name', 'middle_name', 'last_name', 'dob', 'gender', 'email', 'contact_no', 'bric_no'
+            'first_name', 'middle_name', 'last_name', 'dob', 'gender', 'email', 'contact_no'
         ]));
+    
+        // Debug to check what's in the session
+        //dd($request->session()->all());
+    
         return redirect()->route('barangay_roles.showAccountDetails');
-    }
+    }                
     
     public function showAccountDetails()
     {
@@ -204,10 +214,9 @@ class BarangayRoleController extends Controller
                 'confirmed'
             ],
             'valid_id' => 'required|mimes:jpeg,jpg,png|max:2048',
-            'position' => $role === 'barangay_official' ? 'required|alpha_spaces' : '',
-            'role' => $role === 'barangay_staff' ? 'required|alpha_spaces' : '',
         ]);
     
+        // Store common user details
         $data = [
             'first_name' => $user_details['first_name'],
             'middle_name' => $user_details['middle_name'],
@@ -216,7 +225,6 @@ class BarangayRoleController extends Controller
             'gender' => $user_details['gender'],
             'email' => $user_details['email'],
             'contact_no' => $user_details['contact_no'],
-            'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
             'password' => Hash::make($request->input('password')),  // Hash the password here
         ];
@@ -225,6 +233,7 @@ class BarangayRoleController extends Controller
             $data['valid_id'] = $request->file('valid_id')->store('valid_ids', 'public');
         }
     
+        // Save the signup request
         SignupRequest::create([
             'first_name' => $user_details['first_name'],
             'middle_name' => $user_details['middle_name'],
@@ -233,18 +242,22 @@ class BarangayRoleController extends Controller
             'gender' => $user_details['gender'],
             'email' => $user_details['email'],
             'contact_no' => $user_details['contact_no'],
-            'bric_no' => $user_details['bric_no'],
             'barangay_id' => $barangay_id,
-            'password' => Hash::make($request->input('password')),
+            'password' => $data['password'],
             'valid_id' => $data['valid_id'],
-            'position' => $role === 'barangay_official' ? $request->input('position') : null,
-            'role' => $role === 'barangay_staff' ? $request->input('role') : null,
-            'user_type' => $role,  // Ensure the user_type is set
-        ]);        
-        
+            'user_type' => $role,
+            'position' => $role !== 'barangay_resident' ? $request->input('position') : null,
+    
+            // Add resident-specific details if the role is 'barangay_resident'
+            'house_number_building_name' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['house_number_building_name'] : null,
+            'street_purok_sitio' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['street_purok_sitio'] : null,
+            'is_renter' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['is_renter'] : null,
+            'is_employed' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['employment_status'] : null, // This line handles the employment status
+            'status' => 'pending',  // Default status for signup request
+        ]);
     
         return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration request submitted successfully.');
-    }    
+    }                
 
     public function showUnifiedLogin()
     {

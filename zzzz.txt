@@ -349,3 +349,14 @@ progress:
 Goal:
 - make the barangay captain signup proccess update or upload data into tables when the signup process is done.
 - Current process, it 
+- create barangay to features settings needs some restriction
+- household management needs an edit feature. Maybe moved it to the settings or sign up
+
+Commit 1.7.0
+
+- Refreshed the database
+- Dropped the unused database tables
+- BRIC # removed from all user tables and replaced as renter's option (in residents sign up only)
+- Added the address fields for residents
+- Added the is employed
+- Added mobile view for unified login and signup

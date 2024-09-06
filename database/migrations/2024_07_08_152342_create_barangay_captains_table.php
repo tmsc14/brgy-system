@@ -21,7 +21,6 @@ class CreateBarangayCaptainsTable extends Migration
             $table->string('gender');
             $table->string('email')->unique();
             $table->string('contact_no');
-            $table->string('bric');
             $table->string('password');
             $table->timestamps();
         });

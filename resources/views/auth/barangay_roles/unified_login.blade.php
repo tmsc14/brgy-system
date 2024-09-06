@@ -3,7 +3,7 @@
 @section('title', 'Login')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('resources/css/unified_login_signup/unified_login.css') }}">
+    @vite(['resources/css/unified_login_signup/unified_login.css'])
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
     </div>
     <h2>Barangay Login</h2>
     @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success" id="success-message">
             {{ session('success') }}
         </div>
     @endif
@@ -80,17 +80,17 @@
         }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-    const successMessage = document.getElementById('success-message');
-    if (successMessage) {
-        setTimeout(() => {
-            successMessage.classList.add('hide');
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 500); // Match this time with the CSS transition time
-        }, 5000); // Adjust the time as needed (5000 milliseconds = 5 seconds)
-    }
-});
-
+    document.addEventListener('DOMContentLoaded', function () {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.transition = 'opacity 1s';
+                    successMessage.style.opacity = '0';
+                }, 3000); // Time in milliseconds before it fades out
+                setTimeout(() => {
+                    successMessage.remove();
+                }, 4000); // Total time in milliseconds before it is removed
+            }
+        });
 </script>
 @endsection
