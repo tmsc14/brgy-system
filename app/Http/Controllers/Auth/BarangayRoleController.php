@@ -339,27 +339,34 @@ class BarangayRoleController extends Controller
     public function showBarangayOfficialDashboard()
     {
         $user = Auth::guard('barangay_official')->user();
+        $barangay = $user->barangay;
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
     
         $role = 'barangay_official';
-        return view('barangay_official.bo-dashboard', compact('user', 'appearanceSettings', 'role'));
+        return view('barangay_official.bo-dashboard', compact('user', 'appearanceSettings', 'role', 'barangay'));
     }
     
     public function showStaffDashboard()
     {
         $user = Auth::guard('barangay_staff')->user();
-        $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
+        $barangay = $user->barangay;  // Ensure this retrieves the correct Barangay object
+        $appearanceSettings = $barangay ? $barangay->appearanceSettings : null;
+    
+        if (!$barangay) {
+            return redirect()->route('login')->with('error', 'No Barangay found for this user.');
+        }
     
         $role = 'barangay_staff';
-        return view('barangay_staff.bs-dashboard', compact('user', 'appearanceSettings', 'role'));
-    }
+        return view('barangay_staff.bs-dashboard', compact('user', 'appearanceSettings', 'role', 'barangay'));
+    }    
     
     public function showResidentDashboard()
     {
         $user = Auth::guard('barangay_resident')->user();
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
+        $barangay = $user->barangay;
     
         $role = 'barangay_resident';
-        return view('barangay_resident.br-dashboard', compact('user', 'appearanceSettings', 'role'));
+        return view('barangay_resident.br-dashboard', compact('user', 'appearanceSettings', 'role', 'barangay'));
     }    
 }

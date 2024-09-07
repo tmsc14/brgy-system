@@ -47,5 +47,11 @@ class BarangayCaptain extends Authenticatable
     public function activeRole()
     {
         return $this->hasOne(Role::class, 'user_id')->where('active', true);
-    }  
+    }
+    public function features()
+    {
+        return $this->belongsToMany(Feature::class, 'barangay_feature_settings', 'barangay_id', 'feature_id')
+                    ->withPivot('is_enabled')
+                    ->withTimestamps();
+    }
 }

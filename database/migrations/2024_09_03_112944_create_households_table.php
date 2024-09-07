@@ -15,7 +15,6 @@ class CreateHouseholdsTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->date('dob');
-            $table->string('bric_no');
             $table->string('gender');
             $table->boolean('is_employee')->default(false);
             $table->timestamps();

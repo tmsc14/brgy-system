@@ -50,9 +50,9 @@
                 @endif
             </div>
             @if($role == 'barangay_official')
-            @include('layouts.partials.sidebar_barangay_official')
+                @include('layouts.partials.sidebar_barangay_official', ['barangay' => $barangay])
             @elseif($role == 'barangay_staff')
-                @include('layouts.partials.sidebar_staff')
+                @include('layouts.partials.sidebar_staff', ['barangay' => $barangay])
             @elseif($role == 'barangay_resident')
                 @include('layouts.partials.sidebar_resident')
             @endif

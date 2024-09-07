@@ -360,3 +360,11 @@ Commit 1.7.0
 - Added the address fields for residents
 - Added the is employed
 - Added mobile view for unified login and signup
+
+Commit 1.7.1
+
+progress:
+- Added new tables household and barangay features settings
+- statistics page
+- statistics navigation will show if barangay captain allowed statistics
+- statistics for household and residents are working.

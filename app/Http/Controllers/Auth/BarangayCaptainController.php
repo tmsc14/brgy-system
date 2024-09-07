@@ -21,6 +21,9 @@ use App\Models\SignupRequest;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use App\Models\Feature;
+use App\Models\BarangayFeatureSetting;
+use Illuminate\Support\Facades\DB;
 
 class BarangayCaptainController extends Controller
 {
@@ -512,32 +515,53 @@ class BarangayCaptainController extends Controller
 
     public function showFeaturesSettings()
     {
-        return view('auth.barangay_captain.features-settings');
+        // Get the current Barangay Captain
+        $barangayCaptain = Auth::guard('barangay_captain')->user();
+
+        if (!$barangayCaptain) {
+            return redirect()->route('login')->with('error', 'Please login first.');
+        }
+
+        // Get the barangay_id associated with the captain
+        $barangayId = $barangayCaptain->barangay_id;
+
+        // Fetch the selected features for the current barangay
+        $selectedFeatures = $barangayCaptain->features()->pluck('features.id')->toArray();
+
+        // Get all available features
+        $features = Feature::all();
+
+        return view('auth.barangay_captain.features-settings', compact('features', 'selectedFeatures'));
     }
 
+    // Save Features Settings
     public function saveFeaturesSettings(Request $request)
     {
+        // Get the authenticated Barangay Captain
+        $barangayCaptain = Auth::guard('barangay_captain')->user();
+        $barangayId = $barangayCaptain->barangay_id;
+
+        // Validate the request if necessary
         $request->validate([
-            // Assuming we have a feature_1, add more features as needed
-            'feature_1' => 'required|boolean',
-            // Add other features settings fields validation
+            'features' => 'array', // Expecting features as an array
+            'features.*' => 'boolean', // Each feature should be a boolean
         ]);
-    
-        $user = Auth::guard('barangay_captain')->user();
-    
-        // Save features settings logic
-        // Assuming you have a FeatureSetting model or similar to save the feature settings
-        // For now, we'll just use the provided feature_1 field as an example
-    
-        // $featureSettings = new FeatureSetting();
-        // $featureSettings->barangay_id = $user->barangayDetails->id;
-        // $featureSettings->feature_1 = $request->input('feature_1');
-        // $featureSettings->save();
-    
-        // Once saved, redirect to the dashboard with a success message
-    
-        return redirect()->route('bc-dashboard')->with('success', 'Barangay creation process completed successfully!');
-    }    
+
+        // Preparing the data to sync
+        $featureData = [];
+        if ($request->has('features')) {
+            foreach ($request->features as $featureId => $isEnabled) {
+                $featureData[$featureId] = [
+                    'is_enabled' => $isEnabled ? true : false
+                ];
+            }
+        }
+
+        // Sync features for the specific barangay, not the barangay_captain
+        $barangayCaptain->features()->sync($featureData);
+
+        return redirect()->route('bc-dashboard')->with('success', 'Features updated successfully!');
+    }
 
     public function showBcDashboard()
     {

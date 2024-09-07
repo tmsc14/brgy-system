@@ -24,16 +24,22 @@
         </a>
     </li>
     <li>
-        <a href="#" class="{{ request()->routeIs('calendar') ? 'active' : '' }}">
-            <img src="{{ request()->routeIs('calendar') ? asset('resources/img/sidebar-icons/calendar-sblogo.png') : asset('resources/img/sidebar-icons/calendar-sblogo-inactive.png') }}" class="icon" alt="Calendar Icon">
-            Calendar
-        </a>
-    </li>
-    <li>
-        <a href="#" class="{{ request()->routeIs('statistics') ? 'active' : '' }}">
-            <img src="{{ request()->routeIs('statistics') ? asset('resources/img/sidebar-icons/statistics-sblogo.png') : asset('resources/img/sidebar-icons/statistics-sblogo-inactive.png') }}" class="icon" alt="Statistics Icon">
-            Statistics
-        </a>
+        @php
+            // Check if any statistics-related features are enabled
+            $statisticsEnabled = $barangay->features()
+                                        ->where('category', 'statistics')  // Check only for features in the 'statistics' category
+                                        ->wherePivot('is_enabled', true)   // Ensure the feature is enabled
+                                        ->exists();                        // Check if such features exist
+        @endphp
+        
+        @if($statisticsEnabled)
+            <li>
+                <a href="{{ route('barangay_staff.statistics')}}" class="{{ request()->routeIs('barangay_staff.statistics') ? 'active' : '' }}">
+                    <img src="{{ request()->routeIs('barangay_staff.statistics') ? asset('resources/img/sidebar-icons/statistics-sblogo.png') : asset('resources/img/sidebar-icons/statistics-sblogo-inactive.png') }}" class="icon" alt="Statistics Icon">
+                    Statistics
+                </a>
+            </li>
+        @endif
     </li>
     <li>
         <a href="#" class="{{ request()->routeIs('settings') ? 'active' : '' }}">

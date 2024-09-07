@@ -76,14 +76,14 @@
             </div>
         @elseif(session('role') == 'barangay_staff')
             <div class="form-group">
-                <label for="role">Role:</label>
-                <select id="role" name="role" class="form-control" required>
+                <label for="position">Role:</label>
+                <select id="position" name="position" class="form-control" required>
                     <option value="Cashier">Cashier</option>
                     <option value="Clerk">Clerk</option>
                     <option value="Manager">Manager</option>
                 </select>
-                @if ($errors->has('role'))
-                    <div class="error">{{ $errors->first('role') }}</div>
+                @if ($errors->has('position'))
+                    <div class="error">{{ $errors->first('position') }}</div>
                 @endif
             </div>
         @endif

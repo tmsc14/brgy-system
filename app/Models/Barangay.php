@@ -53,4 +53,10 @@ class Barangay extends Model
     {
         return $this->hasMany(Role::class);
     }
+
+    public function features()
+    {
+        return $this->belongsToMany(Feature::class, 'barangay_feature_settings')
+                    ->withPivot('is_enabled');
+    }    
 }

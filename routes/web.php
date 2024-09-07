@@ -5,7 +5,9 @@ use App\Http\Controllers\Auth\BarangayCaptainController;
 use App\Http\Controllers\Auth\BarangayRoleController;
 use App\Http\Controllers\API\LocationController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\HouseholdController;
+use App\Http\Controllers\BarangayResidentController;
+use App\Http\Controllers\BarangayStaffController;
+use App\Http\Controllers\BarangayOfficialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,9 +118,22 @@ Route::post('/clear-notifications', [NotificationController::class, 'clearNotifi
 
 //household management
 Route::middleware(['auth:barangay_resident'])->group(function () {
-    Route::get('/settings/households', [HouseholdController::class, 'index'])->name('households.index');
-    Route::get('/settings/households/create', [HouseholdController::class, 'create'])->name('households.create');
-    Route::post('/settings/households', [HouseholdController::class, 'store'])->name('households.store');
+    Route::get('/settings/households', [BarangayResidentController::class, 'index'])->name('households.index');
+    Route::get('/settings/households/create', [BarangayResidentController::class, 'create'])->name('households.create');
+    Route::post('/settings/households', [BarangayResidentController::class, 'store'])->name('households.store');
 });
+
+// For Barangay Staff Statistics
+Route::middleware(['auth:barangay_staff'])->group(function () {
+    Route::get('/barangay_staff/statistics', [BarangayStaffController::class, 'showStaffStatistics'])->name('barangay_staff.statistics');
+});
+
+// For Barangay Official Statistics
+Route::middleware(['auth:barangay_official'])->group(function(){
+    Route::get('/barangay-official/statistics', [BarangayOfficialController::class, 'showOfficialStatistics'])->name('barangay_official.statistics');
+});
+
+
+
 
 
