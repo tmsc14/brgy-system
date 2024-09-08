@@ -540,28 +540,28 @@ class BarangayCaptainController extends Controller
         // Get the authenticated Barangay Captain
         $barangayCaptain = Auth::guard('barangay_captain')->user();
         $barangayId = $barangayCaptain->barangay_id;
-
-        // Validate the request if necessary
+    
+        // Validate the request
         $request->validate([
-            'features' => 'array', // Expecting features as an array
-            'features.*' => 'boolean', // Each feature should be a boolean
+            'features' => 'array', // Expecting an array of features
+            'features.*' => 'boolean', // Each feature value should be a boolean
         ]);
-
-        // Preparing the data to sync
+    
+        // Prepare the data for syncing
         $featureData = [];
         if ($request->has('features')) {
             foreach ($request->features as $featureId => $isEnabled) {
                 $featureData[$featureId] = [
-                    'is_enabled' => $isEnabled ? true : false
+                    'is_enabled' => (bool) $isEnabled
                 ];
             }
         }
-
-        // Sync features for the specific barangay, not the barangay_captain
+    
+        // Sync features for the specific barangay
         $barangayCaptain->features()->sync($featureData);
-
+    
         return redirect()->route('bc-dashboard')->with('success', 'Features updated successfully!');
-    }
+    }    
 
     public function showBcDashboard()
     {

@@ -368,3 +368,15 @@ progress:
 - statistics page
 - statistics navigation will show if barangay captain allowed statistics
 - statistics for household and residents are working.
+
+Commit 1.7.2
+
+progress:
+- Added new entries in the features settings statistics
+- Applied the new entries in staff and officials statsitics page
+- Added design and icons for the statsitics page.
+
+Plan:
+- Add the employed and unemployed
+- Display it as pie chart
+- Add a bar graph for residents.

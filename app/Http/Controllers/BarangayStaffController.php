@@ -41,9 +41,55 @@ class BarangayStaffController extends Controller
                             ->where('barangay_residents.barangay_id', $barangay->id)
                             ->count();
     
-        // If you need the total count of residents and household members, you can add them together
+        // Total residents including household members
         $totalResidentsCount = $residentsCount + $householdsCount;
     
-        return view('barangay_staff.statistics.bs-statistics', compact('barangay', 'features', 'totalResidentsCount', 'householdsCount', 'appearanceSettings', 'role'));
-    }      
+        // Gender Demographics
+        $genderDemographicsResidents = DB::table('barangay_residents')
+            ->select(DB::raw('gender, COUNT(*) as count'))
+            ->where('barangay_id', $barangay->id)
+            ->groupBy('gender')
+            ->get();
+    
+        $genderDemographicsHouseholds = DB::table('households')
+            ->join('barangay_residents', 'households.resident_id', '=', 'barangay_residents.id')
+            ->where('barangay_residents.barangay_id', $barangay->id)
+            ->select(DB::raw('households.gender, COUNT(*) as count'))
+            ->groupBy('households.gender')
+            ->get();
+    
+        $genderDemographics = $genderDemographicsResidents->merge($genderDemographicsHouseholds)
+            ->groupBy('gender')
+            ->map(function ($group) {
+                return $group->sum('count');
+            });
+    
+        // Age Demographics (Group by Age Ranges)
+        $ageDemographicsResidents = DB::table('barangay_residents')
+            ->select(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'))
+            ->where('barangay_id', $barangay->id)
+            ->get();
+    
+        $ageDemographicsHouseholds = DB::table('households')
+            ->join('barangay_residents', 'households.resident_id', '=', 'barangay_residents.id')
+            ->where('barangay_residents.barangay_id', $barangay->id)
+            ->select(DB::raw('TIMESTAMPDIFF(YEAR, households.dob, CURDATE()) AS age'))
+            ->get();
+    
+        $ageDemographics = $ageDemographicsResidents->merge($ageDemographicsHouseholds)
+            ->groupBy(function ($person) {
+                $age = $person->age;
+                if ($age < 18) {
+                    return 'children';
+                } elseif ($age >= 18 && $age < 60) {
+                    return 'adults';
+                } else {
+                    return 'senior_citizens';
+                }
+            })->map(function ($group) {
+                return count($group);
+            });
+    
+        return view('barangay_staff.statistics.bs-statistics', compact('barangay', 'features', 'totalResidentsCount', 'householdsCount', 'genderDemographics', 'ageDemographics', 'appearanceSettings', 'role'));
+    }    
 }
