@@ -301,6 +301,10 @@ class BarangayCaptainController extends Controller
     public function showCreateBarangayInfo()
     {
         $user = Auth::guard('barangay_captain')->user();
+        
+        // Get the existing barangay if it exists
+        $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
+    
         $geographicData = [
             'region' => $user->region,
             'province' => $user->province,
@@ -308,8 +312,8 @@ class BarangayCaptainController extends Controller
             'barangay' => $user->barangay,
             'barangayDesc' => $this->getBarangayDesc($user->barangay)
         ];
-
-        return view('auth.barangay_captain.create-barangay-info', compact('geographicData'));
+    
+        return view('auth.barangay_captain.create-barangay-info', compact('geographicData', 'barangay'));
     }
 
     private function getBarangayDesc($barangayCode)
@@ -337,25 +341,49 @@ class BarangayCaptainController extends Controller
     
         $user = Auth::guard('barangay_captain')->user();
     
-        $barangay = Barangay::create([
-            'barangay_captain_id' => $user->id,
-            'barangay_name' => $request->barangay_name,
-            'barangay_email' => $request->barangay_email,
-            'barangay_office_address' => $request->barangay_office_address,
-            'barangay_complete_address_1' => $request->barangay_complete_address_1,
-            'barangay_complete_address_2' => $request->barangay_complete_address_2,
-            'barangay_description' => $request->barangay_description,
-            'barangay_contact_number' => $request->barangay_contact_number,
-            'region' => $user->region,
-            'province' => $user->province,
-            'city' => $user->city_municipality,
-            'barangay' => $user->barangay
-        ]);
+        // Check if the barangay already exists for the user (barangay captain)
+        $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
     
-        $user->activeRole()->update(['barangay_id' => $barangay->id]);
+        if ($barangay) {
+            // Update existing barangay
+            $barangay->update([
+                'barangay_name' => $request->barangay_name,
+                'barangay_email' => $request->barangay_email,
+                'barangay_office_address' => $request->barangay_office_address,
+                'barangay_complete_address_1' => $request->barangay_complete_address_1,
+                'barangay_complete_address_2' => $request->barangay_complete_address_2,
+                'barangay_description' => $request->barangay_description,
+                'barangay_contact_number' => $request->barangay_contact_number,
+            ]);
+        } else {
+            // Create new barangay if it doesn't exist
+            $barangay = Barangay::create([
+                'barangay_captain_id' => $user->id,
+                'barangay_name' => $request->barangay_name,
+                'barangay_email' => $request->barangay_email,
+                'barangay_office_address' => $request->barangay_office_address,
+                'barangay_complete_address_1' => $request->barangay_complete_address_1,
+                'barangay_complete_address_2' => $request->barangay_complete_address_2,
+                'barangay_description' => $request->barangay_description,
+                'barangay_contact_number' => $request->barangay_contact_number,
+                'region' => $user->region,
+                'province' => $user->province,
+                'city' => $user->city_municipality,
+                'barangay' => $user->barangay,
+            ]);
     
+            // Update the active role with the new barangay ID
+            $user->activeRole()->update(['barangay_id' => $barangay->id]);
+        }
+    
+        // Check if the request is AJAX
+        if ($request->ajax()) {
+            return response()->json(['success' => true]);
+        }
+    
+        // Normal redirect if not AJAX (this shouldn't trigger for AJAX requests)
         return redirect()->route('barangay_captain.appearance_settings')->with('success', 'Barangay created successfully!');
-    }    
+    }         
     
     public function showAppearanceSettings()
     {
@@ -561,8 +589,8 @@ class BarangayCaptainController extends Controller
         $barangayCaptain->features()->sync($featureData);
     
         return redirect()->route('bc-dashboard')->with('success', 'Features updated successfully!');
-    }    
-
+    }
+    
     public function showBcDashboard()
     {
         $user = Auth::guard('barangay_captain')->user();

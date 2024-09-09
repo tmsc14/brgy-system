@@ -130,3 +130,9 @@ textarea {
 .btn-primary:hover {
     background-color: #e0a800;
 }
+
+a.disabled {
+    pointer-events: none;
+    color: grey;
+    cursor: not-allowed;
+}
