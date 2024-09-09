@@ -380,3 +380,11 @@ Plan:
 - Add the employed and unemployed
 - Display it as pie chart
 - Add a bar graph for residents.
+
+
+Commit 1.7.3
+- goal:
+ i. Edit the add household fields. Change is employee to is pwd and change bric to is employed when age above 21 yrs old.
+ ii. Fix the address, is renter, and is employed not updating in the database table. -- fixed
+ iii. Allow edit and delete household members.
+ iv. Create a dedicated blade files to view list of residents who are senior citizen, pwd, and employed and unemployed.

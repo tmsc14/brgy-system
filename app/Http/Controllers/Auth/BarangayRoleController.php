@@ -233,6 +233,14 @@ class BarangayRoleController extends Controller
             $data['valid_id'] = $request->file('valid_id')->store('valid_ids', 'public');
         }
     
+        // Only add these fields if the user is a resident
+        if ($role === 'barangay_resident') {
+            $data['house_number_building_name'] = $request->session()->get('resident_details')['house_number_building_name'];
+            $data['street_purok_sitio'] = $request->session()->get('resident_details')['street_purok_sitio'];
+            $data['is_renter'] = $request->session()->get('resident_details')['is_renter'];
+            $data['is_employed'] = ($request->session()->get('resident_details')['employment_status'] === 'employed') ? 1 : 0; // Boolean for employed/unemployed
+        }
+    
         // Save the signup request
         SignupRequest::create([
             'first_name' => $user_details['first_name'],
@@ -248,17 +256,17 @@ class BarangayRoleController extends Controller
             'user_type' => $role,
             'position' => $role !== 'barangay_resident' ? $request->input('position') : null,
     
-            // Add resident-specific details if the role is 'barangay_resident'
-            'house_number_building_name' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['house_number_building_name'] : null,
-            'street_purok_sitio' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['street_purok_sitio'] : null,
-            'is_renter' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['is_renter'] : null,
-            'is_employed' => $role === 'barangay_resident' ? $request->session()->get('resident_details')['employment_status'] : null, // This line handles the employment status
+            // Resident-specific details
+            'house_number_building_name' => $role === 'barangay_resident' ? $data['house_number_building_name'] : null,
+            'street_purok_sitio' => $role === 'barangay_resident' ? $data['street_purok_sitio'] : null,
+            'is_renter' => $role === 'barangay_resident' ? $data['is_renter'] : null,
+            'is_employed' => $role === 'barangay_resident' ? $data['is_employed'] : null,
             'status' => 'pending',  // Default status for signup request
         ]);
     
         return redirect()->route('barangay_roles.showUnifiedLogin')->with('success', 'Registration request submitted successfully.');
-    }                
-
+    }
+    
     public function showUnifiedLogin()
     {
         $barangays = DB::table('barangays')->get(); // Fetch all barangays
