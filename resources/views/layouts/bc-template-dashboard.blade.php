@@ -74,8 +74,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('barangay_captain.create_barangay_info_form')}}" class="{{ request()->routeIs('barangay_captain.create_barangay_info_form') ? 'active' : '' }}">
-                    <img src="{{ request()->routeIs('customize') ? asset('resources/img/sidebar-icons/customize-sblogo.png') : asset('resources/img/sidebar-icons/customize-sblogo-inactive.png') }}" class="icon" alt="Customize Icon">
+                <a href="{{ route('barangay_captain.customize_barangay')}}" class="{{ request()->routeIs('barangay_captain.customize_barangay') ? 'active' : '' }}">
+                    <img src="{{ request()->routeIs('barangay_captain.customize_barangay') ? asset('resources/img/sidebar-icons/customize-sblogo.png') : asset('resources/img/sidebar-icons/customize-sblogo-inactive.png') }}" class="icon" alt="Customize Icon">
                     Customize
                 </a>
             </li>

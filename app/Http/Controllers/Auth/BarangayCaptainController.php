@@ -757,4 +757,28 @@ class BarangayCaptainController extends Controller
 
         return view('barangay_captain.settings.bc-settings', compact('appearanceSettings'));
     }
+
+    public function showCustomizeBarangay()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+
+        if ($user === null) {
+            return redirect()->route('login')->with('error', 'Please login to access the dashboard.');
+        }
+
+        // Fetch the current barangay info
+        $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
+
+        // Fetch appearance settings
+        $appearanceSettings = $user->appearanceSettings ?? new AppearanceSetting();
+
+        // Fetch selected features
+        $selectedFeatures = $user->features()->pluck('features.id')->toArray();
+
+        // Fetch all available features
+        $features = Feature::all();
+
+        // Pass all the necessary data to the customize view
+        return view('barangay_captain.customize.bc-customize', compact('user', 'barangay', 'appearanceSettings', 'features', 'selectedFeatures'));
+    }
 }

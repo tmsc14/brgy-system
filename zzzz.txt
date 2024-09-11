@@ -388,3 +388,8 @@ Commit 1.7.3
  ii. Fix the address, is renter, and is employed not updating in the database table. -- fixed
  iii. Allow edit and delete household members.
  iv. Create a dedicated blade files to view list of residents who are senior citizen, pwd, and employed and unemployed.
+
+ Commit 1.7.4
+ progress:
+ - created a customize page for barangay captain (work in progress)
+ - savepoint
