@@ -567,29 +567,37 @@ class BarangayCaptainController extends Controller
     {
         // Get the authenticated Barangay Captain
         $barangayCaptain = Auth::guard('barangay_captain')->user();
-        $barangayId = $barangayCaptain->barangay_id;
+        
+        // Fetch the barangay that the Barangay Captain manages (using the barangayDetails relationship)
+        $barangay = $barangayCaptain->barangayDetails;
     
-        // Validate the request
+        // If no barangay is found, return an error
+        if (!$barangay) {
+            return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
+        }
+    
+        // Validate the incoming request
         $request->validate([
-            'features' => 'array', // Expecting an array of features
-            'features.*' => 'boolean', // Each feature value should be a boolean
+            'features' => 'array', // Ensure an array of features is submitted
+            'features.*' => 'boolean', // Each feature must have a boolean value
         ]);
     
-        // Prepare the data for syncing
+        // Prepare the data for syncing features
         $featureData = [];
         if ($request->has('features')) {
             foreach ($request->features as $featureId => $isEnabled) {
                 $featureData[$featureId] = [
-                    'is_enabled' => (bool) $isEnabled
+                    'is_enabled' => (bool) $isEnabled,
                 ];
             }
         }
     
-        // Sync features for the specific barangay
-        $barangayCaptain->features()->sync($featureData);
+        // Sync features for the specific barangay (use the Barangay model's features() relationship)
+        $barangay->features()->sync($featureData); // Sync the features for this barangay
     
+        // Redirect back with a success message
         return redirect()->route('bc-dashboard')->with('success', 'Features updated successfully!');
-    }
+    }           
     
     public function showBcDashboard()
     {
@@ -761,24 +769,28 @@ class BarangayCaptainController extends Controller
     public function showCustomizeBarangay()
     {
         $user = Auth::guard('barangay_captain')->user();
-
+    
         if ($user === null) {
             return redirect()->route('login')->with('error', 'Please login to access the dashboard.');
         }
-
-        // Fetch the current barangay info
-        $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
-
+    
+        // Fetch the current barangay info (fetch through the relationship)
+        $barangay = $user->barangayDetails;
+    
+        if (!$barangay) {
+            return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
+        }
+    
         // Fetch appearance settings
         $appearanceSettings = $user->appearanceSettings ?? new AppearanceSetting();
-
-        // Fetch selected features
-        $selectedFeatures = $user->features()->pluck('features.id')->toArray();
-
+    
+        // Fetch selected features for the barangay
+        $selectedFeatures = $barangay->features()->pluck('features.id')->toArray();
+    
         // Fetch all available features
         $features = Feature::all();
-
+    
         // Pass all the necessary data to the customize view
         return view('barangay_captain.customize.bc-customize', compact('user', 'barangay', 'appearanceSettings', 'features', 'selectedFeatures'));
     }
-}
+}    

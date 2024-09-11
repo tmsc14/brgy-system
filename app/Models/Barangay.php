@@ -57,6 +57,7 @@ class Barangay extends Model
     public function features()
     {
         return $this->belongsToMany(Feature::class, 'barangay_feature_settings')
-                    ->withPivot('is_enabled');
-    }    
+                    ->withPivot('is_enabled')
+                    ->withTimestamps();
+    }     
 }

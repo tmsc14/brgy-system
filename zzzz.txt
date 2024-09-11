@@ -393,3 +393,7 @@ Commit 1.7.3
  progress:
  - created a customize page for barangay captain (work in progress)
  - savepoint
+
+ Commit 1.7.5
+ progress:
+ - fixed the issue for features settings.

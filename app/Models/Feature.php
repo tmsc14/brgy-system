@@ -13,7 +13,7 @@ class Feature extends Model
         return $this->belongsToMany(Barangay::class, 'barangay_feature_settings')
                     ->withPivot('is_enabled')
                     ->withTimestamps();
-    }
+    }    
 
     public function isEnabled($barangay)
     {
