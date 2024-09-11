@@ -545,22 +545,27 @@ class BarangayCaptainController extends Controller
     {
         // Get the current Barangay Captain
         $barangayCaptain = Auth::guard('barangay_captain')->user();
-
+    
         if (!$barangayCaptain) {
             return redirect()->route('login')->with('error', 'Please login first.');
         }
-
-        // Get the barangay_id associated with the captain
-        $barangayId = $barangayCaptain->barangay_id;
-
+    
+        // Get the barangay associated with the Barangay Captain
+        $barangay = $barangayCaptain->barangayDetails; // Use the relationship to get the Barangay
+    
+        if (!$barangay) {
+            return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
+        }
+    
         // Fetch the selected features for the current barangay
-        $selectedFeatures = $barangayCaptain->features()->pluck('features.id')->toArray();
-
+        $selectedFeatures = $barangay->features()->pluck('features.id')->toArray();
+    
         // Get all available features
         $features = Feature::all();
-
+    
+        // Return the view with the necessary data
         return view('auth.barangay_captain.features-settings', compact('features', 'selectedFeatures'));
-    }
+    }    
 
     // Save Features Settings
     public function saveFeaturesSettings(Request $request)

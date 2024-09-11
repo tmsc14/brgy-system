@@ -25,7 +25,7 @@
                         </label>
                     @endif
                 @endforeach
-
+            
                 <div class="custom-input">
                     <input type="text" name="custom_statistic" placeholder="No. of Renters">
                     <button type="button">Add</button>
