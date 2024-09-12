@@ -56,6 +56,7 @@
         <div class="appearance-container">
             <form action="{{ route('barangay_captain.appearance_settings.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="from_customization" value="true">
                 <div class="appearance-form-group">
                     <label for="theme">Select Theme</label>
                     <select name="theme" id="theme" class="appearance-form-control">
@@ -92,7 +93,7 @@
                     @if($appearanceSettings->logo_path)
                         <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" alt="Logo" class="appearance-logo-preview">
                     @endif
-                </div>
+                </div>                
                 <button type="submit" class="appearance-btn-primary">Save Appearance</button>
             </form>
         </div>

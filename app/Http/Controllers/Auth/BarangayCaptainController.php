@@ -340,8 +340,6 @@ class BarangayCaptainController extends Controller
         ]);
     
         $user = Auth::guard('barangay_captain')->user();
-    
-        // Check if the barangay already exists for the user (barangay captain)
         $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
     
         if ($barangay) {
@@ -371,17 +369,18 @@ class BarangayCaptainController extends Controller
                 'city' => $user->city_municipality,
                 'barangay' => $user->barangay,
             ]);
-    
-            // Update the active role with the new barangay ID
             $user->activeRole()->update(['barangay_id' => $barangay->id]);
         }
     
-        // Check if the request is AJAX
         if ($request->ajax()) {
             return response()->json(['success' => true]);
         }
+
+        // Check if the request is coming from bc-customize page
+        if ($request->input('from_customization') === 'true') {
+            return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Barangay information updated successfully!');
+        }
     
-        // Normal redirect if not AJAX (this shouldn't trigger for AJAX requests)
         return redirect()->route('barangay_captain.appearance_settings')->with('success', 'Barangay created successfully!');
     }         
     
@@ -432,6 +431,11 @@ class BarangayCaptainController extends Controller
         }                          
     
         $appearanceSettings->save();
+
+        // Redirect based on the source of the request
+        if ($request->input('from_customization') === 'true') {
+            return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Appearance settings updated successfully!');
+        }
     
         return redirect()->route('barangay_captain.features_settings')->with('success', 'Appearance settings saved successfully!');
     }    
@@ -543,51 +547,39 @@ class BarangayCaptainController extends Controller
 
     public function showFeaturesSettings()
     {
-        // Get the current Barangay Captain
         $barangayCaptain = Auth::guard('barangay_captain')->user();
     
         if (!$barangayCaptain) {
             return redirect()->route('login')->with('error', 'Please login first.');
         }
     
-        // Get the barangay associated with the Barangay Captain
-        $barangay = $barangayCaptain->barangayDetails; // Use the relationship to get the Barangay
+        $barangay = $barangayCaptain->barangayDetails;
     
         if (!$barangay) {
             return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
         }
     
-        // Fetch the selected features for the current barangay
         $selectedFeatures = $barangay->features()->pluck('features.id')->toArray();
     
-        // Get all available features
         $features = Feature::all();
     
-        // Return the view with the necessary data
         return view('auth.barangay_captain.features-settings', compact('features', 'selectedFeatures'));
     }    
 
-    // Save Features Settings
     public function saveFeaturesSettings(Request $request)
     {
-        // Get the authenticated Barangay Captain
         $barangayCaptain = Auth::guard('barangay_captain')->user();
-        
-        // Fetch the barangay that the Barangay Captain manages (using the barangayDetails relationship)
         $barangay = $barangayCaptain->barangayDetails;
     
-        // If no barangay is found, return an error
         if (!$barangay) {
             return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
         }
     
-        // Validate the incoming request
         $request->validate([
-            'features' => 'array', // Ensure an array of features is submitted
-            'features.*' => 'boolean', // Each feature must have a boolean value
+            'features' => 'array',
+            'features.*' => 'boolean',
         ]);
     
-        // Prepare the data for syncing features
         $featureData = [];
         if ($request->has('features')) {
             foreach ($request->features as $featureId => $isEnabled) {
@@ -597,10 +589,13 @@ class BarangayCaptainController extends Controller
             }
         }
     
-        // Sync features for the specific barangay (use the Barangay model's features() relationship)
-        $barangay->features()->sync($featureData); // Sync the features for this barangay
+        $barangay->features()->sync($featureData);
+
+        // Redirect based on the source of the request
+        if ($request->input('from_customization') === 'true') {
+            return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Features updated successfully!');
+        }
     
-        // Redirect back with a success message
         return redirect()->route('bc-dashboard')->with('success', 'Features updated successfully!');
     }           
     
@@ -612,10 +607,9 @@ class BarangayCaptainController extends Controller
             return redirect()->route('barangay_captain.login')->with('error', 'Please login to access the dashboard.');
         }
     
-        $barangayDetails = $user->barangayDetails; // Assuming this is from the barangays table
+        $barangayDetails = $user->barangayDetails;
         $appearanceSettings = $user->appearanceSettings;
     
-        // Load JSON files using the correct path
         $provinceJson = json_decode(file_get_contents(public_path('json/refprovince.json')), true);
         $citymunJson = json_decode(file_get_contents(public_path('json/refcitymun.json')), true);
     

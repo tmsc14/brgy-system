@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const primaryColorInput = document.getElementById('primary_color');
     const secondaryColorInput = document.getElementById('secondary_color');
     const textColorInput = document.getElementById('text_color');
-    
+
     const themeColorBox = document.getElementById('theme_color_box');
     const primaryColorBox = document.getElementById('primary_color_box');
     const secondaryColorBox = document.getElementById('secondary_color_box');
@@ -43,22 +43,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function applyTheme(theme) {
         const colors = themes[theme];
-        themeColorInput.value = colors.theme_color;
-        primaryColorInput.value = colors.primary_color;
-        secondaryColorInput.value = colors.secondary_color;
-        textColorInput.value = colors.text_color;
+        if (colors) {
+            themeColorInput.value = colors.theme_color;
+            primaryColorInput.value = colors.primary_color;
+            secondaryColorInput.value = colors.secondary_color;
+            textColorInput.value = colors.text_color;
 
-        updateColorBox(themeColorInput, themeColorBox);
-        updateColorBox(primaryColorInput, primaryColorBox);
-        updateColorBox(secondaryColorInput, secondaryColorBox);
-        updateColorBox(textColorInput, textColorBox);
+            updateColorBox(themeColorInput, themeColorBox);
+            updateColorBox(primaryColorInput, primaryColorBox);
+            updateColorBox(secondaryColorInput, secondaryColorBox);
+            updateColorBox(textColorInput, textColorBox);
+        }
     }
 
     themeSelect.addEventListener('change', function() {
         const selectedTheme = themeSelect.value;
-        if (themes[selectedTheme]) {
-            applyTheme(selectedTheme);
-        }
+        applyTheme(selectedTheme);
     });
 
     themeColorInput.addEventListener('input', function() {
@@ -76,4 +76,15 @@ document.addEventListener("DOMContentLoaded", function() {
     textColorInput.addEventListener('input', function() {
         updateColorBox(textColorInput, textColorBox);
     });
+});
+
+document.getElementById('logo').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.querySelector('.appearance-logo-preview').setAttribute('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+    }
 });

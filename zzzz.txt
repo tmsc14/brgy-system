@@ -397,3 +397,8 @@ Commit 1.7.3
  Commit 1.7.5
  progress:
  - fixed the issue for features settings.
+
+ Commit 1.7.6
+ progress:
+ - finalized the design of bc-customize page.
+ - allowed the backend to handle 2 blade files in 1 function
