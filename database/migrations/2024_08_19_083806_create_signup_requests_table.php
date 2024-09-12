@@ -10,7 +10,7 @@ class CreateSignupRequestsTable extends Migration
     {
         Schema::create('signup_requests', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable(); // Will be filled when approved
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('user_type');
             $table->unsignedBigInteger('barangay_id');
             $table->string('first_name');
@@ -25,8 +25,8 @@ class CreateSignupRequestsTable extends Migration
             $table->string('position')->nullable();
             $table->string('house_number_building_name')->nullable();
             $table->string('street_purok_sitio')->nullable();
-            $table->boolean('is_renter')->default(false);
-            $table->boolean('is_employed')->default(false); 
+            $table->boolean('is_renter')->default(false)->nullable();
+            $table->boolean('is_employed')->default(false)->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
     
