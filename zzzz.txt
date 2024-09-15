@@ -402,3 +402,9 @@ Commit 1.7.3
  progress:
  - finalized the design of bc-customize page.
  - allowed the backend to handle 2 blade files in 1 function
+
+ Commit 1.7.7
+ progres:
+ - fixed middleware for other roles
+ - Added trait to reduce lines in controllers
+ - Reverted to old version (discontinued the development of appearance settings in other roles.)

@@ -13,7 +13,13 @@ class Authenticate extends Middleware
     protected function redirectTo(Request $request): ?string
     {
         if (!$request->expectsJson()) {
-            return route('barangay_captain.login'); // Update this line to use the correct login route
+            $role = session('role');
+    
+            if ($role === 'barangay_staff' || $role === 'barangay_official') {
+                return route('barangay_roles.showUnifiedLogin'); // Redirect to unified login for roles
+            }
+    
+            return route('barangay_captain.login'); // Redirect to barangay captain login
         }
     }
 }

@@ -56,7 +56,7 @@
             @elseif($role == 'barangay_staff')
                 @include('layouts.partials.sidebar_staff', ['barangay' => $barangay])
             @elseif($role == 'barangay_resident')
-                @include('layouts.partials.sidebar_resident')
+                @include('layouts.partials.sidebar_resident', ['barangay' => $barangay])
             @endif
             <div class="logout-container">
                 <form action="{{ route('logout') }}" method="POST">
@@ -85,6 +85,17 @@
             </div>
         </div>
     </div>
+
+    @vite(['resources/js/app.js'])
+    <script>
+            document.querySelectorAll('.settings-toggle').forEach(function(toggle) {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();  // Prevent navigation to '#'
+                    let submenu = this.nextElementSibling;
+                    submenu.classList.toggle('open');  // Toggle open/closed state
+                });
+            });
+        </script>
     @yield('scripts')
 </body>
 </html>

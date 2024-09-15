@@ -18,8 +18,9 @@ class BarangayResidentController extends Controller
         $households = Household::where('resident_id', $user->id)->get();
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
         $role = 'barangay_resident';
+        $barangay = $user->barangay;
 
-        return view('barangay_resident.household-management.br-household-index', compact('households', 'appearanceSettings', 'role'));
+        return view('barangay_resident.household-management.br-household-index', compact('households', 'appearanceSettings', 'role', 'barangay'));
     }
 
     // Show the form for creating new household members

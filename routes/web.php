@@ -42,6 +42,7 @@ Route::post('login/barangay-captain', [BarangayCaptainController::class, 'login'
 Route::get('dashboard/barangay-captain', [BarangayCaptainController::class, 'showDashboard'])->name('barangay_captain.dashboard')->middleware('auth:barangay_captain');
 Route::get('dashboard/barangay-captain/main', [BarangayCaptainController::class, 'showBcDashboard'])->name('bc-dashboard')->middleware('auth:barangay_captain');
 
+//create barangay
 Route::middleware(['auth:barangay_captain'])->group(function () {
     Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
     Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
@@ -136,6 +137,13 @@ Route::middleware(['auth:barangay_official'])->group(function(){
     Route::get('/barangay-official/statistics', [BarangayOfficialController::class, 'showOfficialStatistics'])->name('barangay_official.statistics');
 });
 
+// Route for customizing appearance settings for barangay roles (staff, officials)
+Route::middleware(['auth:barangay_staff,barangay_official'])->group(function () {
+    Route::get('/barangay-roles/customize/appearance-settings', [BarangayRoleController::class, 'showAppearanceSettings'])
+        ->name('barangay_roles.customize');
+    Route::post('/barangay-roles/customize/appearance-settings', [BarangayRoleController::class, 'saveAppearanceSettings'])
+        ->name('barangay_roles.appearance_settings.post');
+});
 
 
 
