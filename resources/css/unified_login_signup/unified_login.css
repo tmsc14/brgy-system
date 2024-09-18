@@ -55,7 +55,7 @@ body {
     width: 350px;
     border-radius: 10px;
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Reduced this to reduce the space between fields */
 }
 
 .form-group label {
@@ -72,6 +72,7 @@ body {
     border-radius: 10px;
     background-color: #FAEED8;
     color: #503C2F;
+    margin-bottom: 5px; /* Add margin below to separate error message */
 }
 
 .password-wrapper {
@@ -94,6 +95,13 @@ body {
     font-size: 0.875em;
     margin-top: 5px;
     white-space: normal;
+}
+
+.form-group .error {
+    margin-top: 5px;
+    margin-bottom: 10px; /* Ensure there’s only minimal spacing */
+    font-size: 0.85em; /* Make the error text slightly smaller */
+    color: #f44336; /* Error text color */
 }
 
 .btn-primary {

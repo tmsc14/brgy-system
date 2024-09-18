@@ -55,6 +55,10 @@
             @error('barangay')
                 <span class="error">{{ $message }}</span>
             @enderror
+            <!-- Error message for inactive account under the password field -->
+            @if ($errors->has('status'))
+                <span class="error">{{ $errors->first('status') }}</span>
+            @endif
         </div>
         <div class="form-group checkbox-group">
             <label>

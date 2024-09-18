@@ -276,6 +276,8 @@ class BarangayRoleController extends Controller
     public function unifiedLogin(Request $request)
     {
         Log::info('Login attempt started');
+        
+        // Validate the login request
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
@@ -290,26 +292,67 @@ class BarangayRoleController extends Controller
         Log::info('Login role: ' . $role);
     
         $user = null;
-
+    
+        // Retrieve the user based on the role
         switch ($role) {
             case 'barangay_official':
-                $user = BarangayOfficial::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
+                $user = BarangayOfficial::where('email', $credentials['email'])
+                    ->where('barangay_id', $barangay_id)
+                    ->first();
+    
+                // Check the active status from the roles table
+                if ($user) {
+                    $roleRecord = DB::table('roles')
+                        ->where('user_id', $user->id)
+                        ->where('role_type', 'barangay_official')
+                        ->where('barangay_id', $barangay_id)
+                        ->first();
+                    
+                    if (!$roleRecord || !$roleRecord->active) {
+                        return back()->withErrors([
+                            'status' => 'Your account is currently deactivated.',
+                        ]);
+                    }
+                }
                 break;
+    
             case 'barangay_staff':
-                $user = Staff::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
+                $user = Staff::where('email', $credentials['email'])
+                    ->where('barangay_id', $barangay_id)
+                    ->first();
+    
+                // Check the active status from the roles table
+                if ($user) {
+                    $roleRecord = DB::table('roles')
+                        ->where('user_id', $user->id)
+                        ->where('role_type', 'barangay_staff')
+                        ->where('barangay_id', $barangay_id)
+                        ->first();
+                    
+                    if (!$roleRecord || !$roleRecord->active) {
+                        return back()->withErrors([
+                            'status' => 'Your account is currently deactivated.',
+                        ]);
+                    }
+                }
                 break;
+    
             case 'barangay_resident':
-                $user = Resident::where('email', $credentials['email'])->where('barangay_id', $barangay_id)->first();
+                $user = Resident::where('email', $credentials['email'])
+                    ->where('barangay_id', $barangay_id)
+                    ->first();
+                // No roles table check needed for residents
                 break;
         }
-        
+    
         Log::info('User retrieved: ', ['user' => $user]);
-        
+    
+        // If user exists, proceed to check status and password
         if ($user) {
             Log::info('User retrieved: ' . json_encode($user));
             Log::info('Reached after user retrieval.');
-        
-            // Status check
+    
+            // Check status field, if applicable
             if (isset($user->status)) {
                 Log::info('User status: ' . $user->status);
                 if ($user->status !== 'active') {
@@ -321,17 +364,17 @@ class BarangayRoleController extends Controller
             } else {
                 Log::info('No status field found.');
             }
-        
+    
             // Password check
             Log::info('Checking password for user: ' . $user->email);
             if (Hash::check($credentials['password'], $user->password)) {
                 Auth::guard($role)->login($user);
                 Log::info(ucfirst($role) . ' login successful');
                 $request->session()->regenerate();
-        
+    
                 return redirect()->route("{$role}.dashboard");
             }
-        
+    
             Log::warning('Login failed due to incorrect password');
             return back()->withErrors([
                 'password' => 'The provided password is incorrect.',
@@ -341,8 +384,8 @@ class BarangayRoleController extends Controller
             return back()->withErrors([
                 'barangay' => 'The provided credentials do not match our records or the selected barangay is incorrect.',
             ]);
-        }             
-    }
+        }
+    }    
     
     public function showBarangayOfficialDashboard()
     {

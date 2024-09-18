@@ -16,10 +16,20 @@ class Role extends Model
         'active',
     ];
 
+    // Define the relationship based on role_type
     public function user()
     {
-        return $this->belongsTo(BarangayCaptain::class, 'user_id');
-    }
+        switch ($this->role_type) {
+            case 'barangay_official':
+                return $this->belongsTo(BarangayOfficial::class, 'user_id');
+            case 'barangay_staff':
+                return $this->belongsTo(Staff::class, 'user_id');
+            case 'barangay_captain':
+                return $this->belongsTo(BarangayCaptain::class, 'user_id');
+            default:
+                return null;
+        }
+    }    
 
     public function barangay()
     {

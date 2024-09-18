@@ -414,3 +414,8 @@ Commit 1.7.3
  - added a statistics page for bc
  - fixed the routing issue for bc-customize
  
+ Commit 1.7.9
+ progres:
+ - applied roles table to officials and staff
+ - created admins page from barangay captain
+ - activate and deactivate admins account from barangay captain admins page.

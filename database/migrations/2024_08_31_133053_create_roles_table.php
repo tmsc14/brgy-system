@@ -10,7 +10,7 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Reference to users (Barangay Captain, Staff, etc.)
+            $table->dropForeign(['user_id']); // Drop the existing foreign key constraint
             $table->unsignedBigInteger('barangay_id')->nullable(); // Reference to the Barangay
             $table->string('role_type'); // e.g., 'barangay_captain', 'barangay_official', etc.
             $table->boolean('active')->default(true); // Indicates if this is the current active role

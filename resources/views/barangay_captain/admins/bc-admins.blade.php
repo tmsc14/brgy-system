@@ -1,0 +1,45 @@
+@extends('layouts.bc-template-dashboard')
+
+@section('styles')
+    @vite(['resources/css/barangay_captain/admins/bc-admins.css'])
+@endsection
+
+@section('content')
+<div class="admins-container">
+    <h1>Admins</h1>
+
+    <div class="admin-list">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($admins as $admin)
+                    <tr>
+                        <td>
+                            {{ $admin->first_name }} {{ $admin->last_name }}
+                        </td>
+                        <td>
+                            {{ ucfirst($admin->position) }}
+                        </td>
+                        <td>
+                            <form action="{{ route('barangay_captain.toggle_role_status', ['roleId' => $admin->id]) }}" method="POST">
+                                @csrf
+                                @if($admin->active)
+                                    <button type="submit" class="btn btn-danger">Deactivate</button>
+                                @else
+                                    <button type="submit" class="btn btn-success">Activate</button>
+                                @endif
+                            </form>
+                        </td>                        
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endsection

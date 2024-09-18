@@ -64,11 +64,11 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('admins') ? 'active' : '' }}">
-                    <img src="{{ request()->routeIs('admins') ? asset('resources/img/sidebar-icons/admins-sblogo.png') : asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}" class="icon" alt="Admins Icon">
+                <a href="{{ route('barangay_captain.admins') }}" class="{{ request()->routeIs('barangay_captain.admins') ? 'active' : '' }}">
+                    <img src="{{ request()->routeIs('barangay_captain.admins') ? asset('resources/img/sidebar-icons/admins-sblogo.png') : asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}" class="icon" alt="Admins Icon">
                     Admins
                 </a>
-            <li>
+            </li>            
                 @php
                     // Check if any statistics-related features are enabled for the barangay captain
                     $statisticsEnabled = Auth::guard('barangay_captain')->user()->barangayDetails

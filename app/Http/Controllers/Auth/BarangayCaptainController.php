@@ -560,22 +560,45 @@ class BarangayCaptainController extends Controller
         return view('barangay_captain.bc-requests', compact('requests', 'appearanceSettings'));
     }
     
-    
     public function approveRequest($id)
     {
+        // Log the request approval process
+        Log::info('Approve request triggered for request ID: ' . $id);
+        
+        // Retrieve the signup request by ID
         $request = SignupRequest::findOrFail($id);
+        
+        // Get the user model based on the user type (barangay_official, barangay_staff)
         $userModel = $this->getUserModel($request->user_type);
-    
+        
+        // Check if a user with the same email or contact number already exists
         $existingUser = $userModel::where('email', $request->email)
             ->orWhere('contact_no', $request->contact_no)
             ->first();
-    
+        
         if ($existingUser) {
-            return redirect()->route('bc-requests')->with('error', 'A user with the same email or contact number already exists.');
+            // If user exists, check if the request status is still pending
+            if ($request->status === 'pending') {
+                Log::info('User exists, but request is pending. Proceeding to update role and request status.');
+                
+                // Update the role and set the status to accepted
+                $this->assignRole($existingUser->id, $request->barangay_id, $request->user_type);
+                
+                $request->update([
+                    'status' => 'accepted',
+                ]);
+                
+                return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
+            } else {
+                Log::warning('User already exists and the request is already processed.');
+                return redirect()->route('bc-requests')->with('error', 'This request has already been processed.');
+            }
         }
     
-        $hashedPassword = $request->password;
-    
+        // Hash the password
+        $hashedPassword = $request->password; // Ensure password is hashed if necessary
+        
+        // Prepare the data to be inserted into the user table (BarangayOfficial, Staff, etc.)
         $data = [
             'first_name' => $request->first_name,
             'middle_name' => $request->middle_name,
@@ -590,22 +613,42 @@ class BarangayCaptainController extends Controller
             'position' => $request->position,
         ];
     
-        if ($request->user_type === 'barangay_resident') {
-            $data['house_number_building_name'] = $request->house_number_building_name;
-            $data['street_purok_sitio'] = $request->street_purok_sitio;
-            $data['is_renter'] = $request->is_renter;
-            $data['is_employed'] = $request->is_employed;
-        }
-    
+        // Log the data being inserted
+        Log::info('Data to be inserted: ', $data);
+        
+        // Create the user in the respective table
         $user = $userModel::create($data);
-    
+        
+        // Log user creation
+        Log::info('User created with ID: ' . $user->id);
+        
+        // Assign a role to the user
+        $this->assignRole($user->id, $request->barangay_id, $request->user_type);
+        
+        // Update the signup request with the newly created user ID and change the status to accepted
         $request->update([
             'user_id' => $user->id,
             'status' => 'accepted',
         ]);
     
+        // Log role creation
+        Log::info('Request approved for user ID: ' . $user->id);
+    
+        // Redirect back to the requests page with a success message
         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
-    }   
+    }
+        
+    private function assignRole($userId, $barangayId, $userType)
+    {
+        Role::create([
+            'user_id' => $userId,
+            'barangay_id' => $barangayId,
+            'role_type' => $userType,  // This could be 'barangay_official' or 'barangay_staff'
+            'active' => true,
+        ]);
+
+        Log::info('Role assigned to user ID: ' . $userId . ' as ' . $userType);
+    }
         
     public function denyRequest($id)
     {
@@ -632,7 +675,7 @@ class BarangayCaptainController extends Controller
             default:
                 throw new \Exception("Unknown user type: $userType");
         }
-    }
+    }    
     
     public function showRequestHistory()
     {
@@ -775,5 +818,48 @@ class BarangayCaptainController extends Controller
         return view('barangay_captain.statistics.bc-statistics', compact(
                     'barangay', 'features', 'totalResidentsCount', 'householdsCount', 'appearanceSettings', 'genderDemographics', 'ageDemographics'
         ));                
-    }          
+    }
+    
+    //admins page
+    public function showAdmins()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+    
+        $appearanceSettings = $user->appearanceSettings;
+    
+        // Fetch the officials and staff only if they exist in the roles table and ensure the names are not null
+        $admins = DB::table('roles')
+            ->leftJoin('barangay_officials', function ($join) {
+                $join->on('roles.user_id', '=', 'barangay_officials.id')
+                    ->where('roles.role_type', '=', 'barangay_official');
+            })
+            ->leftJoin('barangay_staff', function ($join) {
+                $join->on('roles.user_id', '=', 'barangay_staff.id')
+                    ->where('roles.role_type', '=', 'barangay_staff');
+            })
+            ->where('roles.barangay_id', $user->barangayDetails->id)
+            ->where(function ($query) {
+                $query->whereNotNull('barangay_officials.first_name')
+                      ->orWhereNotNull('barangay_staff.first_name'); // Ensure there is at least one valid name
+            })
+            ->select(
+                DB::raw('COALESCE(barangay_officials.first_name, barangay_staff.first_name) as first_name'),
+                DB::raw('COALESCE(barangay_officials.last_name, barangay_staff.last_name) as last_name'),
+                DB::raw('COALESCE(barangay_officials.position, barangay_staff.position) as position'),
+                'roles.active',
+                'roles.id'
+            )
+            ->get();
+    
+        return view('barangay_captain.admins.bc-admins', compact('admins', 'appearanceSettings'));
+    }                 
+    
+    public function toggleRoleStatus($roleId)
+    {
+        $role = Role::findOrFail($roleId);
+        $role->active = !$role->active; // Toggle active/inactive
+        $role->save();
+    
+        return redirect()->back()->with('success', 'Role status updated successfully!');
+    }      
 }    
