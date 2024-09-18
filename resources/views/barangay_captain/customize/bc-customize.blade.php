@@ -13,6 +13,7 @@
         <h2>Barangay Information</h2>
         <form action="{{ route('barangay_captain.create_barangay_info') }}" method="POST" id="barangay-info-form">
             @csrf
+            <input type="hidden" name="from_customization" value="true">
             <div class="form-group">
                 <label for="barangay_name">Barangay Name/Title:</label>
                 <input type="text" name="barangay_name" id="barangay_name" 
@@ -104,6 +105,7 @@
         <h2>Features Settings</h2>
         <form action="{{ route('barangay_captain.features_settings.post') }}" method="POST">
             @csrf
+            <input type="hidden" name="from_customization" value="true">
             <div class="form-group">
                 <label>Available Features</label>
                 <div class="features-list">

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite(['resources/css/bc-template-dashboard.css', 'resources/js/notification.js'])
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <title>Barangay Dashboard</title>
     @yield('styles')
     <style>
@@ -66,14 +68,25 @@
                     <img src="{{ request()->routeIs('admins') ? asset('resources/img/sidebar-icons/admins-sblogo.png') : asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}" class="icon" alt="Admins Icon">
                     Admins
                 </a>
-            </li>
             <li>
-                <a href="#" class="{{ request()->routeIs('statistics') ? 'active' : '' }}">
-                    <img src="{{ request()->routeIs('statistics') ? asset('resources/img/sidebar-icons/statistics-sblogo.png') : asset('resources/img/sidebar-icons/statistics-sblogo-inactive.png') }}" class="icon" alt="Statistics Icon">
-                    Statistics
-                </a>
+                @php
+                    // Check if any statistics-related features are enabled for the barangay captain
+                    $statisticsEnabled = Auth::guard('barangay_captain')->user()->barangayDetails
+                        ->features()
+                        ->where('category', 'statistics')  // Check only for features in the 'statistics' category
+                        ->wherePivot('is_enabled', true)   // Ensure the feature is enabled
+                        ->exists();                        // Check if such features exist
+                @endphp
+
+                @if($statisticsEnabled)
+                    <li>
+                        <a href="{{ route('barangay_captain.statistics') }}" class="{{ request()->routeIs('barangay_captain.statistics') ? 'active' : '' }}">
+                            <img src="{{ request()->routeIs('barangay_captain.statistics') ? asset('resources/img/sidebar-icons/statistics-sblogo.png') : asset('resources/img/sidebar-icons/statistics-sblogo-inactive.png') }}" class="icon" alt="Statistics Icon">
+                            Statistics
+                        </a>
+                    </li>
+                @endif
             </li>
-            <li>
                 <a href="{{ route('barangay_captain.customize_barangay')}}" class="{{ request()->routeIs('barangay_captain.customize_barangay') ? 'active' : '' }}">
                     <img src="{{ request()->routeIs('barangay_captain.customize_barangay') ? asset('resources/img/sidebar-icons/customize-sblogo.png') : asset('resources/img/sidebar-icons/customize-sblogo-inactive.png') }}" class="icon" alt="Customize Icon">
                     Customize

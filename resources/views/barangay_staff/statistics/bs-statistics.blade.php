@@ -63,7 +63,7 @@
 @endsection
 
 @section('styles')
-    @vite(['resources/css/barangay_staff/statistics/bs-statistics.css']) <!-- Modify for bo-statistics -->
+    @vite(['resources/css/barangay_role/statistics/statistics.css'])
 @endsection
 
 @section('scripts')

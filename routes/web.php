@@ -54,6 +54,8 @@ Route::middleware(['auth:barangay_captain'])->group(function () {
     Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
 
     Route::get('/customize-barangay', [BarangayCaptainController::class, 'showCustomizeBarangay'])->name('barangay_captain.customize_barangay');
+
+    Route::get('/barangay-captain/statistics', [BarangayCaptainController::class, 'showCaptainStatistics'])->name('barangay_captain.statistics');
 });
 
 // Routes for accessing through the dashboard's sidebar

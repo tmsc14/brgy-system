@@ -14,6 +14,7 @@
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.3",
         "chart.js": "^4.4.4",
+        "chartjs-plugin-datalabels": "^2.2.0",
         "sass": "^1.78.0"
     }
 }

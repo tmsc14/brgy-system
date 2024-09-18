@@ -408,3 +408,9 @@ Commit 1.7.3
  - fixed middleware for other roles
  - Added trait to reduce lines in controllers
  - Reverted to old version (discontinued the development of appearance settings in other roles.)
+
+ Commit 1.7.8
+ progres:
+ - added a statistics page for bc
+ - fixed the routing issue for bc-customize
+ 

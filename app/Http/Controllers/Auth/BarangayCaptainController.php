@@ -375,11 +375,7 @@ class BarangayCaptainController extends Controller
             $user->activeRole()->update(['barangay_id' => $barangay->id]);
         }
     
-        if ($request->ajax()) {
-            return response()->json(['success' => true]);
-        }
-
-        // Check if the request is coming from bc-customize page
+        // Check if the request is coming from the bc-customize page
         if ($request->input('from_customization') === 'true') {
             return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Barangay information updated successfully!');
         }
@@ -431,17 +427,17 @@ class BarangayCaptainController extends Controller
         if ($request->hasFile('logo')) {
             $logoPath = $request->file('logo')->store('logos', 'public');
             $appearanceSettings->logo_path = $logoPath;
-        }                          
+        }
     
         $appearanceSettings->save();
-
+    
         // Redirect based on the source of the request
         if ($request->input('from_customization') === 'true') {
             return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Appearance settings updated successfully!');
         }
     
         return redirect()->route('barangay_captain.features_settings')->with('success', 'Appearance settings saved successfully!');
-    }        
+    }           
 
     public function showFeaturesSettings()
     {
@@ -690,4 +686,94 @@ class BarangayCaptainController extends Controller
         // Pass all the necessary data to the customize view
         return view('barangay_captain.customize.bc-customize', compact('user', 'barangay', 'appearanceSettings', 'features', 'selectedFeatures'));
     }
+
+    //statistics
+    public function showCaptainStatistics()
+    {
+        $user = Auth::guard('barangay_captain')->user();
+    
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Please login to access the dashboard.');
+        }
+    
+        // Fetch the barangay managed by the Barangay Captain
+        $barangay = $user->barangayDetails;
+    
+        if (!$barangay) {
+            return redirect()->back()->with('error', 'No barangay found for this Barangay Captain.');
+        }
+    
+        // The rest of the logic can stay the same as in other roles.
+        $appearanceSettings = $barangay->appearanceSettings;
+    
+        // Fetch enabled features for the barangay
+        $enabledFeatures = DB::table('barangay_feature_settings')
+            ->where('barangay_id', $barangay->id)
+            ->where('is_enabled', true)
+            ->pluck('feature_id')
+            ->toArray();
+    
+        $features = Feature::whereIn('id', $enabledFeatures)->get();
+    
+        // Fetch number of residents
+        $residentsCount = DB::table('barangay_residents')->where('barangay_id', $barangay->id)->count();
+    
+        // Fetch number of households by joining 'households' and 'barangay_residents' tables
+        $householdsCount = DB::table('households')
+            ->join('barangay_residents', 'households.resident_id', '=', 'barangay_residents.id')
+            ->where('barangay_residents.barangay_id', $barangay->id)
+            ->count();
+    
+        $totalResidentsCount = $residentsCount + $householdsCount;
+    
+                // Gender Demographics
+                $genderDemographicsResidents = DB::table('barangay_residents')
+                ->select(DB::raw('gender, COUNT(*) as count'))
+                ->where('barangay_id', $barangay->id)
+                ->groupBy('gender')
+                ->get();
+        
+            $genderDemographicsHouseholds = DB::table('households')
+                ->join('barangay_residents', 'households.resident_id', '=', 'barangay_residents.id')
+                ->where('barangay_residents.barangay_id', $barangay->id)
+                ->select(DB::raw('households.gender, COUNT(*) as count'))
+                ->groupBy('households.gender')
+                ->get();
+        
+            $genderDemographics = $genderDemographicsResidents->merge($genderDemographicsHouseholds)
+                ->groupBy('gender')
+                ->map(function ($group) {
+                    return $group->sum('count');
+                });
+        
+            // Age Demographics (Group by Age Ranges)
+            $ageDemographicsResidents = DB::table('barangay_residents')
+                ->select(DB::raw('TIMESTAMPDIFF(YEAR, dob, CURDATE()) AS age'))
+                ->where('barangay_id', $barangay->id)
+                ->get();
+        
+            $ageDemographicsHouseholds = DB::table('households')
+                ->join('barangay_residents', 'households.resident_id', '=', 'barangay_residents.id')
+                ->where('barangay_residents.barangay_id', $barangay->id)
+                ->select(DB::raw('TIMESTAMPDIFF(YEAR, households.dob, CURDATE()) AS age'))
+                ->get();
+        
+            $ageDemographics = $ageDemographicsResidents->merge($ageDemographicsHouseholds)
+                ->groupBy(function ($person) {
+                    $age = $person->age;
+                    if ($age < 18) {
+                        return 'children';
+                    } elseif ($age >= 18 && $age < 60) {
+                        return 'adults';
+                    } else {
+                        return 'senior_citizens';
+                    }
+                })->map(function ($group) {
+                    return count($group);
+                });
+    
+        return view('barangay_captain.statistics.bc-statistics', compact(
+                    'barangay', 'features', 'totalResidentsCount', 'householdsCount', 'appearanceSettings', 'genderDemographics', 'ageDemographics'
+        ));                
+    }          
 }    

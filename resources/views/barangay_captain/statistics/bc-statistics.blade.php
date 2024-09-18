@@ -1,4 +1,4 @@
-@extends('layouts.role_dashboard')
+@extends('layouts.bc-template-dashboard')
 
 @section('content')
 <div class="statistics-container">
@@ -67,11 +67,12 @@
 @endsection
 
 @section('scripts')
-    <script>
-        var genderDemographicsMale = {{ $genderDemographics['Male'] ?? 0 }};
-        var genderDemographicsFemale = {{ $genderDemographics['Female'] ?? 0 }};
-        var genderDemographicsOther = {{ $genderDemographics['Other'] ?? 0 }};
-    </script>
+<script>
+    var genderDemographicsMale = {{ $genderDemographics['Male'] ?? 0 }};
+    var genderDemographicsFemale = {{ $genderDemographics['Female'] ?? 0 }};
+    var genderDemographicsOther = {{ $genderDemographics['Other'] ?? 0 }};
+</script>
+
 
     @vite(['resources/js/statistics.js'])
 @endsection
