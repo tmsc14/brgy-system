@@ -139,6 +139,7 @@ class BarangayCaptainController extends Controller
         // Create the role without barangay_id initially
         Role::create([
             'user_id' => $user->id,
+            'user_type' => \App\Models\BarangayCaptain::class, // Add user_type here (polymorphic)
             'barangay_id' => null, // This will be updated once the barangay is created
             'role_type' => 'barangay_captain',
             'active' => true,
@@ -179,16 +180,28 @@ class BarangayCaptainController extends Controller
         // Deactivate the current Barangay Captain's role
         $currentUser->activeRole()->update(['active' => false]);
     
-        // Assign the new Barangay Captain role
-        $newCaptain->roles()->create([
-            'barangay_id' => $currentUser->barangayDetails->id,
-            'role_type' => 'barangay_captain',
-            'active' => true,
-        ]);
+        // Check if the new captain already has a role in the roles table
+        $newCaptainRole = $newCaptain->roles()->where('role_type', 'barangay_captain')->first();
     
-        // Update the barangay's captain_id
+        if ($newCaptainRole) {
+            // If a role exists for the new captain, update it
+            $newCaptainRole->update([
+                'active' => true,
+                'barangay_id' => $currentUser->barangayDetails->id,
+            ]);
+        } else {
+            // If no role exists, create a new role
+            $newCaptain->roles()->create([
+                'user_type' => \App\Models\BarangayCaptain::class,
+                'barangay_id' => $currentUser->barangayDetails->id,
+                'role_type' => 'barangay_captain',
+                'active' => true,
+            ]);
+        }
+    
+        // Update the barangay's captain_id to the new captain
         $currentUser->barangayDetails->update(['barangay_captain_id' => $newCaptain->id]);
-
+    
         // Transfer the appearance settings to the new Barangay Captain
         $appearanceSettings = $currentUser->appearanceSettings;
         if ($appearanceSettings) {
@@ -199,7 +212,7 @@ class BarangayCaptainController extends Controller
         Auth::guard('barangay_captain')->logout();
     
         return redirect()->route('barangay_captain.login')->with('success', 'Turnover process completed successfully.');
-    }           
+    }                   
     
     //optional - currently not being used.
     public function revokeAccess($id)
@@ -582,7 +595,7 @@ class BarangayCaptainController extends Controller
                 Log::info('User exists, but request is pending. Proceeding to update role and request status.');
                 
                 // Update the role and set the status to accepted
-                $this->assignRole($existingUser->id, $request->barangay_id, $request->user_type);
+                $this->assignRole($existingUser, $request->barangay_id, $request->user_type); // Pass the model, not just the ID
                 
                 $request->update([
                     'status' => 'accepted',
@@ -623,7 +636,7 @@ class BarangayCaptainController extends Controller
         Log::info('User created with ID: ' . $user->id);
         
         // Assign a role to the user
-        $this->assignRole($user->id, $request->barangay_id, $request->user_type);
+        $this->assignRole($user, $request->barangay_id, $request->user_type); // Pass the model, not just the ID
         
         // Update the signup request with the newly created user ID and change the status to accepted
         $request->update([
@@ -636,19 +649,21 @@ class BarangayCaptainController extends Controller
     
         // Redirect back to the requests page with a success message
         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
-    }
+    }    
         
-    private function assignRole($userId, $barangayId, $userType)
+    private function assignRole($user, $barangayId, $userType)
     {
+        // Use the polymorphic relationship
         Role::create([
-            'user_id' => $userId,
+            'user_id' => $user->id,        // Reference to the user's ID
+            'user_type' => get_class($user),  // The class of the user (e.g., BarangayOfficial, Staff)
             'barangay_id' => $barangayId,
             'role_type' => $userType,  // This could be 'barangay_official' or 'barangay_staff'
             'active' => true,
         ]);
-
-        Log::info('Role assigned to user ID: ' . $userId . ' as ' . $userType);
-    }
+    
+        Log::info('Role assigned to user ID: ' . $user->id . ' as ' . $userType);
+    }    
         
     public function denyRequest($id)
     {
@@ -824,36 +839,22 @@ class BarangayCaptainController extends Controller
     public function showAdmins()
     {
         $user = Auth::guard('barangay_captain')->user();
-    
+        
         $appearanceSettings = $user->appearanceSettings;
     
-        // Fetch the officials and staff only if they exist in the roles table and ensure the names are not null
-        $admins = DB::table('roles')
-            ->leftJoin('barangay_officials', function ($join) {
-                $join->on('roles.user_id', '=', 'barangay_officials.id')
-                    ->where('roles.role_type', '=', 'barangay_official');
-            })
-            ->leftJoin('barangay_staff', function ($join) {
-                $join->on('roles.user_id', '=', 'barangay_staff.id')
-                    ->where('roles.role_type', '=', 'barangay_staff');
-            })
-            ->where('roles.barangay_id', $user->barangayDetails->id)
-            ->where(function ($query) {
-                $query->whereNotNull('barangay_officials.first_name')
-                      ->orWhereNotNull('barangay_staff.first_name'); // Ensure there is at least one valid name
-            })
-            ->select(
-                DB::raw('COALESCE(barangay_officials.first_name, barangay_staff.first_name) as first_name'),
-                DB::raw('COALESCE(barangay_officials.last_name, barangay_staff.last_name) as last_name'),
-                DB::raw('COALESCE(barangay_officials.position, barangay_staff.position) as position'),
-                'roles.role_type',  // Include role_type to indicate whether they are an official or staff
-                'roles.active',
-                'roles.id'
-            )
-            ->get();
+        // Fetch roles with user relation (barangay_official or barangay_staff)
+        $admins = Role::where('barangay_id', $user->barangayDetails->id)
+                      ->whereIn('role_type', ['barangay_official', 'barangay_staff']) // Only include officials and staff
+                      ->with('user') // Load the user associated with the role
+                      ->get();
     
-        return view('barangay_captain.admins.bc-admins', compact('admins', 'appearanceSettings'));
-    }                     
+        // Ensure we have valid users in the list
+        $filteredAdmins = $admins->filter(function ($admin) {
+            return $admin->user; // Only return roles where a valid user exists
+        });
+    
+        return view('barangay_captain.admins.bc-admins', compact('filteredAdmins', 'appearanceSettings'));
+    }                           
     
     public function toggleRoleStatus($roleId)
     {

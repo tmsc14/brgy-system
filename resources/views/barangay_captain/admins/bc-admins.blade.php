@@ -19,13 +19,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($admins as $admin)
+                @foreach ($filteredAdmins as $admin)
                     <tr>
                         <td>
-                            {{ $admin->first_name }} {{ $admin->last_name }}
+                            {{ $admin->user->first_name }} {{ $admin->user->last_name }}
                         </td>
                         <td>
-                            {{ ucfirst($admin->position) }}
+                            {{ ucfirst($admin->user->position) }}
                         </td>
                         <td>
                             {{ $admin->role_type === 'barangay_official' ? 'Barangay Official' : 'Barangay Staff' }}

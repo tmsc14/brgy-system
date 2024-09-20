@@ -431,3 +431,13 @@ Commit 1.7.3
    are not properly configured to the schema which creates a mismatch.
  - In the system itself, no issues showing which makes it a good sign.
  - To fix, introduce polymorphic relationships.
+
+ Comit 1.8.2
+ progres:
+ - Fixed roles table intiate turnover
+ - Fixed bc-admins page displaying the correct admins
+ - Overall no bugs and all working.
+
+ WIP (done)
+ - Roles table - When initiating turnover, instead of updating the new account data in the table it creates another entry resulting in duplicate data.
+ - bc-admins page. No names are showing.

@@ -10,30 +10,21 @@ class Role extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'user_id',  // Removed as it will be handled by the polymorphic relation
+        'user_type', // The model type
         'barangay_id',
         'role_type',
         'active',
     ];
 
-    // Define the relationship based on role_type
+    // Define the polymorphic relationship
     public function user()
     {
-        switch ($this->role_type) {
-            case 'barangay_official':
-                return $this->belongsTo(BarangayOfficial::class, 'user_id');
-            case 'barangay_staff':
-                return $this->belongsTo(Staff::class, 'user_id');
-            case 'barangay_captain':
-                return $this->belongsTo(BarangayCaptain::class, 'user_id');
-            default:
-                return null;
-        }
-    }    
+        return $this->morphTo();
+    }
 
     public function barangay()
     {
         return $this->belongsTo(Barangay::class);
     }
 }
-

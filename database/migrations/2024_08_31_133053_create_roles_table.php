@@ -10,14 +10,13 @@ class CreateRolesTable extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Corrected here, passing string instead of array
             $table->unsignedBigInteger('barangay_id')->nullable(); // Reference to the Barangay
+            $table->morphs('user'); // Polymorphic user relationship
             $table->string('role_type'); // e.g., 'barangay_captain', 'barangay_official', etc.
             $table->boolean('active')->default(true); // Indicates if this is the current active role
             $table->timestamps();
 
             // Foreign key constraints
-            $table->foreign('user_id')->references('id')->on('barangay_captains')->onDelete('cascade');
             $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('cascade');
         });
     }

@@ -29,8 +29,9 @@ class BarangayResidentController extends Controller
         $user = Auth::guard('barangay_resident')->user();
         $appearanceSettings = $user->barangay ? $user->barangay->appearanceSettings : null;
         $role = 'barangay_resident';
+        $barangay = $user->barangay;
 
-        return view('barangay_resident.household-management.br-household-create', compact('appearanceSettings', 'role'));
+        return view('barangay_resident.household-management.br-household-create', compact('appearanceSettings', 'role', 'barangay'));
     }
 
     // Store the household members in the database
