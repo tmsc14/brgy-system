@@ -12,32 +12,31 @@
         <div class="appearance-form-group">
             <label for="theme">Select Theme</label>
             <select name="theme" id="theme" class="appearance-form-control">
-                <option value="">Custom</option>
-                <option value="default">Default</option>
-                <option value="dark">Dark</option>
-                <option value="blue">Blue</option>
-                <option value="green">Green</option>
+                <option value="default" {{ $appearanceSettings->theme_color == '#FAEED8' ? 'selected' : '' }}>Default</option>
+                <option value="dark" {{ $appearanceSettings->theme_color == '#2E2E2E' ? 'selected' : '' }}>Dark</option>
+                <option value="blue" {{ $appearanceSettings->theme_color == '#E3F2FD' ? 'selected' : '' }}>Blue</option>
+                <option value="green" {{ $appearanceSettings->theme_color == '#E8F5E9' ? 'selected' : '' }}>Green</option>
             </select>
         </div>
         <div class="appearance-form-group">
             <label for="theme_color">Theme Color</label>
-            <input type="color" name="theme_color" id="theme_color" class="appearance-form-control" value="{{ $appearanceSettings->theme_color }}" required>
-            <span class="color-box" id="theme_color_box" style="background-color: {{ $appearanceSettings->theme_color }}"></span>
+            <input type="color" name="theme_color" id="theme_color" class="appearance-form-control" value="{{ $appearanceSettings->theme_color ?? '#FAEED8' }}" required>
+            <span class="color-box" id="theme_color_box" style="background-color: {{ $appearanceSettings->theme_color ?? '#FAEED8' }}"></span>
         </div>
         <div class="appearance-form-group">
             <label for="primary_color">Primary Color</label>
-            <input type="color" name="primary_color" id="primary_color" class="appearance-form-control" value="{{ $appearanceSettings->primary_color }}" required>
-            <span class="color-box" id="primary_color_box" style="background-color: {{ $appearanceSettings->primary_color }}"></span>
+            <input type="color" name="primary_color" id="primary_color" class="appearance-form-control" value="{{ $appearanceSettings->primary_color ?? '#503C2F' }}" required>
+            <span class="color-box" id="primary_color_box" style="background-color: {{ $appearanceSettings->primary_color ?? '#503C2F' }}"></span>
         </div>
         <div class="appearance-form-group">
             <label for="secondary_color">Secondary Color</label>
-            <input type="color" name="secondary_color" id="secondary_color" class="appearance-form-control" value="{{ $appearanceSettings->secondary_color }}" required>
-            <span class="color-box" id="secondary_color_box" style="background-color: {{ $appearanceSettings->secondary_color }}"></span>
+            <input type="color" name="secondary_color" id="secondary_color" class="appearance-form-control" value="{{ $appearanceSettings->secondary_color ?? '#FAFAFA' }}" required>
+            <span class="color-box" id="secondary_color_box" style="background-color: {{ $appearanceSettings->secondary_color ?? '#FAFAFA' }}"></span>
         </div>
         <div class="appearance-form-group">
             <label for="text_color">Text Color</label>
-            <input type="color" name="text_color" id="text_color" class="appearance-form-control" value="{{ $appearanceSettings->text_color }}" required>
-            <span class="color-box" id="text_color_box" style="background-color: {{ $appearanceSettings->text_color }}"></span>
+            <input type="color" name="text_color" id="text_color" class="appearance-form-control" value="{{ $appearanceSettings->text_color ?? '#000000' }}" required>
+            <span class="color-box" id="text_color_box" style="background-color: {{ $appearanceSettings->text_color ?? '#000000' }}"></span>
         </div>
         <div class="appearance-form-group">
             <label for="logo">Logo</label>
@@ -109,6 +108,11 @@
             updateColorBox(textColorInput, textColorBox);
         }
 
+        // Apply the theme when the page loads if any is selected
+        if (themeSelect.value !== '') {
+            applyTheme(themeSelect.value);
+        }
+
         themeSelect.addEventListener('change', function() {
             const selectedTheme = themeSelect.value;
             if (themes[selectedTheme]) {
@@ -134,5 +138,3 @@
     });
 </script>
 @endsection
-
-

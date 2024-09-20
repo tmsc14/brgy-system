@@ -51,9 +51,9 @@
         </form>
     </div>
 
-    <!-- Appearance Settings Section -->
-    <div class="customize-section">
-        <h2>Appearance Settings</h2>
+<!-- Appearance Settings Section -->
+<div class="customize-section">
+    <h2>Appearance Settings</h2>
         <div class="appearance-container">
             <form action="{{ route('barangay_captain.appearance_settings.post') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -62,10 +62,10 @@
                     <label for="theme">Select Theme</label>
                     <select name="theme" id="theme" class="appearance-form-control">
                         <option value="">Custom</option>
-                        <option value="default">Default</option>
-                        <option value="dark">Dark</option>
-                        <option value="blue">Blue</option>
-                        <option value="green">Green</option>
+                        <option value="default" {{ ($appearanceSettings->theme_color == '#FAEED8' && $appearanceSettings->primary_color == '#503C2F' && $appearanceSettings->secondary_color == '#FAFAFA' && $appearanceSettings->text_color == '#000000') ? 'selected' : '' }}>Default</option>
+                        <option value="dark" {{ ($appearanceSettings->theme_color == '#2E2E2E' && $appearanceSettings->primary_color == '#1A1A1A' && $appearanceSettings->secondary_color == '#FAFAFA' && $appearanceSettings->text_color == '#FFFFFF') ? 'selected' : '' }}>Dark</option>
+                        <option value="blue" {{ ($appearanceSettings->theme_color == '#E3F2FD' && $appearanceSettings->primary_color == '#2196F3' && $appearanceSettings->secondary_color == '#BBDEFB' && $appearanceSettings->text_color == '#0D47A1') ? 'selected' : '' }}>Blue</option>
+                        <option value="green" {{ ($appearanceSettings->theme_color == '#E8F5E9' && $appearanceSettings->primary_color == '#4CAF50' && $appearanceSettings->secondary_color == '#C8E6C9' && $appearanceSettings->text_color == '#1B5E20') ? 'selected' : '' }}>Green</option>
                     </select>
                 </div>
                 <div class="appearance-form-group">

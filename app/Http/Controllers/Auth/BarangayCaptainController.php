@@ -846,13 +846,14 @@ class BarangayCaptainController extends Controller
                 DB::raw('COALESCE(barangay_officials.first_name, barangay_staff.first_name) as first_name'),
                 DB::raw('COALESCE(barangay_officials.last_name, barangay_staff.last_name) as last_name'),
                 DB::raw('COALESCE(barangay_officials.position, barangay_staff.position) as position'),
+                'roles.role_type',  // Include role_type to indicate whether they are an official or staff
                 'roles.active',
                 'roles.id'
             )
             ->get();
     
         return view('barangay_captain.admins.bc-admins', compact('admins', 'appearanceSettings'));
-    }                 
+    }                     
     
     public function toggleRoleStatus($roleId)
     {

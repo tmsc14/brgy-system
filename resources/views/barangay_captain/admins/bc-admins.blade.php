@@ -14,6 +14,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Position</th>
+                    <th>Role</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,6 +26,9 @@
                         </td>
                         <td>
                             {{ ucfirst($admin->position) }}
+                        </td>
+                        <td>
+                            {{ $admin->role_type === 'barangay_official' ? 'Barangay Official' : 'Barangay Staff' }}
                         </td>
                         <td>
                             <form action="{{ route('barangay_captain.toggle_role_status', ['roleId' => $admin->id]) }}" method="POST">

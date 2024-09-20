@@ -419,3 +419,15 @@ Commit 1.7.3
  - applied roles table to officials and staff
  - created admins page from barangay captain
  - activate and deactivate admins account from barangay captain admins page.
+
+ Commit 1.8.1
+ progress:
+ - fixed some minor issues regarding appearance settings
+ 
+ WIP
+ - In prev commit, we added staff and officials in the roles table. However,
+   data is incorrect.
+ - Since the roles table is first introduced to barangay captain, the other roles
+   are not properly configured to the schema which creates a mismatch.
+ - In the system itself, no issues showing which makes it a good sign.
+ - To fix, introduce polymorphic relationships.

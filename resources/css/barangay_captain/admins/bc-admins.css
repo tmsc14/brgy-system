@@ -21,14 +21,16 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    table-layout: auto;
 }
 
 .table th, .table td {
-    padding: 15px;
+    padding: 10px;
     text-align: left;
     font-size: 1rem;
     color: var(--text-color);
     border-bottom: 1px solid #ddd;
+    white-space: nowrap;
 }
 
 .table th {
@@ -36,8 +38,11 @@
     color: var(--secondary-color);
 }
 
-.table tbody tr:nth-child(even) {
-    background-color: var(--secondary-color);
+.table th:nth-child(2),
+.table td:nth-child(2),
+.table th:nth-child(3),
+.table td:nth-child(3) {
+    width: 30%;
 }
 
 /* Button Styles */

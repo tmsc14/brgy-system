@@ -13,7 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(AccessCodeSeeder::class);
+        $this->call([
+            AccessCodeSeeder::class,
+            FeatureSeeder::class,
+        ]);
     }
 }
 
