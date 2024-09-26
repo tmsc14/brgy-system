@@ -441,3 +441,9 @@ Commit 1.7.3
  WIP (done)
  - Roles table - When initiating turnover, instead of updating the new account data in the table it creates another entry resulting in duplicate data.
  - bc-admins page. No names are showing.
+
+ Commit 1.8.3
+ progress:
+ - Added favicon middleware
+ - Fixed incorrect timeline
+ - Added pre-config of email using gmail

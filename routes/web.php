@@ -8,6 +8,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\BarangayResidentController;
 use App\Http\Controllers\BarangayStaffController;
 use App\Http\Controllers\BarangayOfficialController;
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,6 +153,8 @@ Route::middleware(['auth:barangay_staff,barangay_official'])->group(function () 
         ->name('barangay_roles.appearance_settings.post');
 });
 
-
-
-
+//Mails
+Route::get('/send-test-email', function() {
+    \Mail::to('ctereemari@gmail.com')->send(new \App\Mail\TestEmail());
+    return 'Test email sent!';
+});

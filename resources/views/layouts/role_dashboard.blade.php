@@ -73,7 +73,7 @@
                 <h1 class="hello">Hello, {{ Auth::user()->first_name }}!</h1>
                 <div class="date">
                     <img src="{{ asset('resources/img/header-date.png') }}" class="icon" alt="Date Icon">
-                    {{ now()->format('F d, Y') }}
+                    {{ now()->timezone('Asia/Manila')->format('F d, Y') }}
                 </div>
                 <div class="search">
                     <input type="text" placeholder="Search here">
@@ -85,17 +85,6 @@
             </div>
         </div>
     </div>
-
-    @vite(['resources/js/app.js'])
-    <script>
-            document.querySelectorAll('.settings-toggle').forEach(function(toggle) {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();  // Prevent navigation to '#'
-                    let submenu = this.nextElementSibling;
-                    submenu.classList.toggle('open');  // Toggle open/closed state
-                });
-            });
-        </script>
     @yield('scripts')
 </body>
 </html>

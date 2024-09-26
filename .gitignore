@@ -18,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 zzzz.text
+storage/logs/laravel.log

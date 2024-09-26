@@ -6,18 +6,6 @@
         </a>
     </li>
     <li>
-        <a href="#" class="{{ request()->routeIs('employees') ? 'active' : '' }}">
-            <img src="{{ request()->routeIs('employees') ? asset('resources/img/sidebar-icons/admins-sblogo.png') : asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}" class="icon" alt="Employees Icon">
-            Employees
-        </a>
-    </li>
-    <li>
-        <a href="#" class="{{ request()->routeIs('documents') ? 'active' : '' }}">
-            <img src="{{ request()->routeIs('documents') ? asset('resources/img/sidebar-icons/documents-sblogo.png') : asset('resources/img/sidebar-icons/documents-sblogo-inactive.png') }}" class="icon" alt="Documents Icon">
-            Documents
-        </a>
-    </li>
-    <li>
         <a href="#" class="{{ request()->routeIs('residents') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('residents') ? asset('resources/img/sidebar-icons/admins-sblogo.png') : asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}" class="icon" alt="Residents Icon">
             Residents
@@ -51,7 +39,7 @@
         <a href="#" class="{{ request()->routeIs('announcement') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('announcement') ? asset('resources/img/sidebar-icons/announcement-sblogo.png') : asset('resources/img/sidebar-icons/announcement-sblogo-inactive.png') }}" class="icon" alt="Announcement Icon">
             Announcement
-        </a>
+        </a>       
     </li>
     <li>
         <a href="#" class="{{ request()->routeIs('settings') ? 'active' : '' }}">
