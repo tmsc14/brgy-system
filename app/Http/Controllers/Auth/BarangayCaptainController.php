@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use App\Models\Feature;
+use App\Models\FeaturePermission;
 use App\Models\BarangayFeatureSetting;
 use Illuminate\Support\Facades\DB;
 use App\Traits\AppearanceSettingsTrait;
@@ -466,12 +467,30 @@ class BarangayCaptainController extends Controller
             return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
         }
     
-        $selectedFeatures = $barangay->features()->pluck('features.id')->toArray();
+        // Fetch enabled features for the barangay
+        $enabledFeatures = $barangay->features()->pluck('features.id')->toArray();
     
+        // Fetch all features
         $features = Feature::all();
     
-        return view('auth.barangay_captain.features-settings', compact('features', 'selectedFeatures'));
-    }    
+        // Fetch permissions for staff and officials
+        $permissions = FeaturePermission::whereIn('role', ['staff', 'official'])
+            ->where('permissible_type', $barangayCaptain->getMorphClass())
+            ->where('permissible_id', $barangayCaptain->id)
+            ->get();
+    
+        // Get the ID for the 'statistics' feature category
+        $statisticsFeature = Feature::where('name', 'statistics')->first();
+        $statisticsFeatureId = $statisticsFeature ? $statisticsFeature->id : null;
+    
+        return view('auth.barangay_captain.features-settings', compact(
+            'features', 
+            'enabledFeatures', 
+            'permissions', 
+            'statisticsFeatureId' // Pass this variable to the view
+        ));
+    }
+          
 
     public function saveFeaturesSettings(Request $request)
     {
@@ -482,29 +501,70 @@ class BarangayCaptainController extends Controller
             return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
         }
     
-        $request->validate([
-            'features' => 'array',
-            'features.*' => 'boolean',
-        ]);
+        // Handle feature enabling/disabling
+        $featuresToUpdate = array_keys($request->input('features.statistics', []));
+        $allStatisticsFeatures = Feature::where('category', 'statistics')->pluck('id')->toArray();
     
-        $featureData = [];
-        if ($request->has('features')) {
-            foreach ($request->features as $featureId => $isEnabled) {
-                $featureData[$featureId] = [
-                    'is_enabled' => (bool) $isEnabled,
-                ];
+        // Disable all statistics features by default
+        BarangayFeatureSetting::where('barangay_id', $barangay->id)
+            ->whereIn('feature_id', $allStatisticsFeatures)
+            ->update(['is_enabled' => false]);
+    
+        // Enable selected features
+        if (!empty($featuresToUpdate)) {
+            foreach ($featuresToUpdate as $featureId) {
+                BarangayFeatureSetting::updateOrCreate(
+                    ['barangay_id' => $barangay->id, 'feature_id' => $featureId],
+                    ['is_enabled' => true]
+                );
             }
         }
     
-        $barangay->features()->sync($featureData);
-
+        // Handle staff permissions
+        $canViewStaff = $request->input('permissions.staff.statistics.view') ? true : false;
+        $canEditStaff = $request->input('permissions.staff.statistics.edit') ? true : false;
+    
+        foreach ($allStatisticsFeatures as $featureId) {
+            FeaturePermission::updateOrCreate(
+                [
+                    'permissible_type' => $barangayCaptain->getMorphClass(),
+                    'permissible_id' => $barangayCaptain->id,
+                    'feature_id' => $featureId,
+                    'role' => 'staff',
+                ],
+                [
+                    'can_view' => $canViewStaff,
+                    'can_edit' => $canEditStaff,
+                ]
+            );
+        }
+    
+        // Handle officials permissions
+        $canViewOfficials = $request->input('permissions.officials.statistics.view') ? true : false;
+        $canEditOfficials = $request->input('permissions.officials.statistics.edit') ? true : false;
+    
+        foreach ($allStatisticsFeatures as $featureId) {
+            FeaturePermission::updateOrCreate(
+                [
+                    'permissible_type' => $barangayCaptain->getMorphClass(),
+                    'permissible_id' => $barangayCaptain->id,
+                    'feature_id' => $featureId,
+                    'role' => 'official',
+                ],
+                [
+                    'can_view' => $canViewOfficials,
+                    'can_edit' => $canEditOfficials,
+                ]
+            );
+        }
+    
         // Redirect based on the source of the request
         if ($request->input('from_customization') === 'true') {
             return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Features updated successfully!');
         }
     
         return redirect()->route('bc-dashboard')->with('success', 'Features updated successfully!');
-    }           
+    }                                                                                                                              
     
     public function showBcDashboard()
     {
@@ -709,41 +769,68 @@ class BarangayCaptainController extends Controller
         return view('barangay_captain.bc-request-history', compact('requests', 'appearanceSettings'));
     }
 
-    public function showSettings()
-    {
-        $user = Auth::guard('barangay_captain')->user();
-        $appearanceSettings = $user->appearanceSettings;
-
-        return view('barangay_captain.settings.bc-settings', compact('appearanceSettings'));
-    }
-
     public function showCustomizeBarangay()
     {
         $user = Auth::guard('barangay_captain')->user();
     
-        if ($user === null) {
+        if (!$user) {
             return redirect()->route('login')->with('error', 'Please login to access the dashboard.');
         }
     
-        // Fetch the current barangay info (fetch through the relationship)
         $barangay = $user->barangayDetails;
     
         if (!$barangay) {
-            return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
+            return redirect()->back()->with('error', 'No barangay found for this Barangay Captain.');
         }
     
         // Fetch appearance settings
         $appearanceSettings = $user->appearanceSettings ?? new AppearanceSetting();
     
-        // Fetch selected features for the barangay
-        $selectedFeatures = $barangay->features()->pluck('features.id')->toArray();
+        // Fetch all available statistics features
+        $features = Feature::where('category', 'statistics')->get();
     
-        // Fetch all available features
-        $features = Feature::all();
+        // Fetch enabled features for the barangay
+        $enabledFeatures = BarangayFeatureSetting::where('barangay_id', $barangay->id)
+            ->where('is_enabled', true)
+            ->pluck('feature_id')
+            ->toArray();
     
-        // Pass all the necessary data to the customize view
-        return view('barangay_captain.customize.bc-customize', compact('user', 'barangay', 'appearanceSettings', 'features', 'selectedFeatures'));
-    }
+        // Prepare feature data
+        $enabledFeaturesByCategory = ['statistics' => []];
+        foreach ($features as $feature) {
+            if (in_array($feature->id, $enabledFeatures)) {
+                $enabledFeaturesByCategory['statistics'][] = $feature->id;
+            }
+        }
+    
+        // Get the feature ID for statistics page
+        $statisticsFeatureId = Feature::where('name', 'statistics')->first()->id ?? 1;
+    
+        // Fetch permissions for staff and officials
+        $staffPermissions = FeaturePermission::where('role', 'staff')
+            ->where('permissible_type', $user->getMorphClass())
+            ->where('permissible_id', $user->id)
+            ->get()
+            ->keyBy('feature_id');
+    
+        $officialsPermissions = FeaturePermission::where('role', 'official')
+            ->where('permissible_type', $user->getMorphClass())
+            ->where('permissible_id', $user->id)
+            ->get()
+            ->keyBy('feature_id');
+    
+        return view('barangay_captain.customize.bc-customize', compact(
+            'user',
+            'barangay',
+            'appearanceSettings',
+            'features',
+            'enabledFeaturesByCategory',
+            'enabledFeatures',  // Make sure this variable is passed
+            'staffPermissions',
+            'officialsPermissions',
+            'statisticsFeatureId'
+        ));
+    }                                                                     
 
     //statistics
     public function showCaptainStatistics()

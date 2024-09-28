@@ -39,6 +39,11 @@ class BarangayCaptain extends Authenticatable
         return $this->hasOne(AppearanceSetting::class);
     }
 
+    public function featurePermissions()
+    {
+        return $this->morphMany(FeaturePermission::class, 'permissible');
+    }    
+
     public function roles()
     {
         return $this->hasMany(Role::class, 'user_id');

@@ -39,7 +39,7 @@
             <label for="password">Password</label>
             <div class="password-wrapper">
                 <input type="password" id="password" name="password" required>
-                <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password')">
+                <img src="{{ url('resources/img/login-icons/hidepass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password')">
             </div>
             @error('password')
                 <span class="error">{{ $message }}</span>
@@ -77,10 +77,10 @@
         const togglePassword = passwordField.nextElementSibling;
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
+            togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
         } else {
             passwordField.type = 'password';
-            togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
+            togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
         }
     }
 

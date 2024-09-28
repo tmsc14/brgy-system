@@ -25,7 +25,7 @@
             <label for="password">Password</label>
             <div class="password-wrapper">
                 <input type="password" name="password" id="password" placeholder="Please Enter Your Password" required>
-                <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword()">
+                <img src="{{ url('resources/img/login-icons/hidepass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword()">
             </div>
             @if ($errors->has('password'))
                 <span class="error">{{ $errors->first('password') }}</span>
@@ -57,10 +57,10 @@
             const togglePassword = document.querySelector('.toggle-password');
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
+                togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
             } else {
                 passwordField.type = 'password';
-                togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
+                togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
             }
         }
 

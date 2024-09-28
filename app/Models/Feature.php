@@ -27,4 +27,9 @@ class Feature extends Model
                     ->withPivot('is_enabled')
                     ->withTimestamps();
     }
+
+    public function permissions()
+    {
+        return $this->hasMany(FeaturePermission::class);
+    }
 }
