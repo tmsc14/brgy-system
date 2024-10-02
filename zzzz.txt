@@ -447,3 +447,18 @@ Commit 1.7.3
  - Added favicon middleware
  - Fixed incorrect timeline
  - Added pre-config of email using gmail
+
+ Commit 1.8.4
+ progress:
+ - Fixed the showpassword for every login and signup
+ - added a middleware for role
+ - Added a feature permissions (access control for the barangay captain to manage users)
+ - added a database seeder, feature permission
+ - updated the models to communicate with feature permission
+
+ goal:
+ - Apply the feature permissions to other roles
+ - Create a new controller for statistics page to work with all roles
+ - add the new statistics
+ - after adding new statistics, apply it to the features settings from barangay captain
+ - optionl - transfer the controller for features settings to minimize line of codes in the barangay captain controller

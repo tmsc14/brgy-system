@@ -147,14 +147,6 @@ Route::middleware(['auth:barangay_official'])->group(function(){
     Route::get('/barangay-official/statistics', [BarangayOfficialController::class, 'showOfficialStatistics'])->name('barangay_official.statistics');
 });
 
-// Route for customizing appearance settings for barangay roles (staff, officials)
-Route::middleware(['auth:barangay_staff,barangay_official'])->group(function () {
-    Route::get('/barangay-roles/customize/appearance-settings', [BarangayRoleController::class, 'showAppearanceSettings'])
-        ->name('barangay_roles.customize');
-    Route::post('/barangay-roles/customize/appearance-settings', [BarangayRoleController::class, 'saveAppearanceSettings'])
-        ->name('barangay_roles.appearance_settings.post');
-});
-
 //Mails
 Route::get('/send-test-email', function() {
     \Mail::to('ctereemari@gmail.com')->send(new \App\Mail\TestEmail());

@@ -32,7 +32,7 @@
             <label for="password_confirmation">Re-type your Password</label>
             <div class="password-wrapper">
                 <input type="password" name="password_confirmation" id="password_confirmation" required>
-                <img src="{{ url('resources/img/login-icons/showpass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password_confirmation')">
+                <img src="{{ url('resources/img/login-icons/hidepass.png') }}" alt="Show Password" class="toggle-password" onclick="togglePassword('password_confirmation')">
             </div>
             @if ($errors->has('password_confirmation'))
                 <div class="error-message">{{ $errors->first('password_confirmation') }}</div>
@@ -64,10 +64,10 @@
         const togglePassword = passwordField.nextElementSibling;
         if (passwordField.type === 'password') {
             passwordField.type = 'text';
-            togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
+            togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
         } else {
             passwordField.type = 'password';
-            togglePassword.src = '{{ url("resources/img/login-icons/showpass.png") }}';
+            togglePassword.src = '{{ url("resources/img/login-icons/hidepass.png") }}';
         }
     }
 

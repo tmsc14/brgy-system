@@ -46,4 +46,9 @@ class Staff extends Authenticatable
     {
         return $this->hasOne(Role::class, 'user_id')->where('active', true);
     }    
+
+    public function featurePermissions()
+    {
+        return $this->morphMany(FeaturePermission::class, 'permissible');
+    }    
 }
