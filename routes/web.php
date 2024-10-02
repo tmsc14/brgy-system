@@ -9,6 +9,7 @@ use App\Http\Controllers\BarangayResidentController;
 use App\Http\Controllers\BarangayStaffController;
 use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\API\DocumentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,7 @@ Route::post('/auth/login', [BarangayRoleController::class, 'unifiedLogin'])->nam
 
 Route::middleware(['auth:barangay_official'])->group(function () {
     Route::get('dashboard/barangay_official', [BarangayRoleController::class, 'showBarangayOfficialDashboard'])->name('barangay_official.dashboard');
+    Route::get('documents/barangay_official', [DocumentsController::class, 'showBarangayOfficialDocuments'])->name('barangay_official.documents');
 });
 
 Route::middleware(['auth:barangay_staff'])->group(function () {
