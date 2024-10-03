@@ -1,0 +1,41 @@
+@import "resources/css/common/common.css";
+
+/* Should not be here. Basically, you want your common wrapper to not have too much styles applied to it, and have its child components be responsible for styling. */
+.content-wrapper {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.document-request-success-banner {
+    background-color: var(--light-brown);
+    text-align: center;
+    padding: var(--section-padding);
+    border-radius: 12px;
+}
+
+.document-request-success-banner h1 {
+    color: white;
+    font-weight: 700;
+}
+
+.document-request-success-banner h3 {
+    color: var(--brown);
+}
+
+.document-request-success-reminder-header {
+    background-color: var(--brown);
+    text-align: center;
+    padding: var(--section-padding);
+    color: white;
+    margin: 0;
+    border-radius: 12px;
+    font-weight: 100;
+}
+
+.document-request-success-reminders ul {
+    margin: 0;
+}

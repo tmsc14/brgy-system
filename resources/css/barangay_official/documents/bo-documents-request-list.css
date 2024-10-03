@@ -1,0 +1,127 @@
+@import "resources/css/common/common.css";
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #503C2F;
+    border-radius: 12px;
+    padding: var(--section-padding);
+    gap: var(--section-padding);
+}
+
+.list-header {
+    display: flex;
+    align-items: stretch;
+}
+
+.list-header .icon {
+    width: 40px;
+    height: 40px;
+    margin-right: var(--section-padding-sm);
+}
+
+.list-header .list-header-title {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.list-header .list-search-bar {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    width: 25%;
+}
+
+.list-header .list-search-bar input {
+    height: 90%;
+    padding: 0;
+    width: 100%;
+}
+
+.content-container .content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+.content-container .content table th {
+    background-color: var(--light-brown);
+    padding: var(--section-padding-sm) var(--section-padding-sm);
+}
+
+.content-container .content table th:first-child {
+    border-top-left-radius: 12px; 
+    border-bottom-left-radius: 12px;
+}
+
+.content-container .content table th:last-child {
+    border-top-right-radius: 12px; 
+    border-bottom-right-radius: 12px;
+}
+
+.content-container .content table td:not(:last-child) {
+    padding: var(--section-padding) var(--section-padding-sm);
+}
+
+.content-container .content th:nth-child(1) {
+    min-width: 5%;
+}
+
+.content-container .content th:nth-child(2) {
+    min-width: 30%;
+}
+
+.content-container .content th:nth-child(3) {
+    min-width: 20%;
+}
+
+.content-container .content th:nth-child(4) {
+    min-width: 15%;
+}
+
+.content-container .content th:nth-child(5) {
+    min-width: 30%;
+}
+
+.content-container .content tbody td {
+    text-align: center;
+    background-color: var(--light-brown);
+}
+
+.content-container .content table tbody tr td:first-child {
+    border-top-left-radius: 12px; 
+    border-bottom-left-radius: 12px;
+}
+
+.content-container .content table tbody tr td:last-child {
+    border-top-right-radius: 12px; 
+    border-bottom-right-radius: 12px;
+}
+
+.list-btn-cell {
+    height: 100%;
+}
+
+.list-btn-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--section-padding)
+}
+
+.list-entry-btn {
+    padding: var(--section-padding-xs) var(--section-padding);
+    border: none;
+    cursor: pointer;
+}
+
+.view-btn {
+    background-color: var(--yellow);
+}
+
+.deny-btn {
+    background-color: var(--red);
+}
+
+.print-btn {
+    background-color: var(--green);
+}

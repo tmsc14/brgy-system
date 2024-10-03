@@ -4,8 +4,8 @@ namespace App\Helpers;
 
 class NameHelper
 {
-    public static function getReadableName($firstName, $lastName)
+    public static function getReadableName($firstName, $lastName, $middleName = '')
     {
-        return $firstName . " " . $lastName;
+        return $firstName . " " . $middleName . " " . $lastName;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Enums\Documents;
 
-enum DocumentRequestStatus
+enum DocumentRequestStatus: string
 {
-    case PENDING;
-    case APPROVED;
-    case DENIED;
+    case PENDING = "PENDING";
+    case APPROVED = "APPROVED";
+    case DENIED = "DENIED";
 }

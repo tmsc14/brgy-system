@@ -1,0 +1,54 @@
+@import "resources/css/common/common.css";
+
+/* Should not be here. Basically, you want your common wrapper to not have too much styles applied to it, and have its child components be responsible for styling. */
+.content-wrapper {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.document-preview {
+    padding: var(--section-padding);
+    background-color: var(--light-brown);
+    border-radius: 12px;
+}
+
+.preview-header {
+    text-align: center;
+    color: white;
+    padding: var(--section-padding);
+    background-color: var(--brown);
+    border-radius: 12px;
+    margin: 0;
+}
+
+.document-preview-content {
+    display: flex;
+    justify-content: center;
+}
+
+.document-preview-button-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.document-preview-button-footer button {
+    min-width: 100px;
+    border: none;
+    border-radius: 12px;
+    padding: 5px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.document-preview-back-btn {
+    background-color: var(--brown);
+    color: white;
+}
+
+.document-preview-request-btn {
+    background-color: var(--green);
+}

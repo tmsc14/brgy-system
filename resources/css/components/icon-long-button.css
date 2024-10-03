@@ -1,0 +1,43 @@
+@import "resources/css/common/common.css";
+
+button.btn-primary {
+    display: flex;
+    border-radius: 12px;
+    padding: var(--section-padding);
+    align-items: center;
+    background-color: #503C2F;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+}
+
+button.btn-primary:hover {
+    background-color: #3E2F25;
+}
+
+.btn-content {
+    display: flex;
+    border-radius: 12px;
+    align-items: center;
+}
+
+.left-content {
+    display: flex;
+    align-items: center;
+}
+
+.left-content img {
+    width: 40px;
+    height: 40px;
+    margin-right: var(--section-padding-sm);
+}
+
+.left-content h1 {
+    margin: 0
+}
+
+.chevron {
+    margin: 0 0 0 auto;
+}

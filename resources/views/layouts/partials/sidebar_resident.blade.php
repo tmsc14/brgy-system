@@ -12,8 +12,8 @@
         </a>
     </li>    
     <li>
-        <a href="#" class="{{ request()->routeIs('documents') ? 'active' : '' }}">
-            <img src="{{ request()->routeIs('documents') ? asset('resources/img/sidebar-icons/documents-sblogo.png') : asset('resources/img/sidebar-icons/documents-sblogo-inactive.png') }}" class="icon" alt="Documents Icon">
+        <a href="{{ route('barangay_resident.documentrequests.types') }}" class="{{ request()->routeIs('barangay_resident.documentrequests.types') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('barangay_resident.documentrequests.types') ? asset('resources/img/sidebar-icons/documents-sblogo.png') : asset('resources/img/sidebar-icons/documents-sblogo-inactive.png') }}" class="icon" alt="Documents Icon">
             Documents
         </a>
     </li>
