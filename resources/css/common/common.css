@@ -1,0 +1,13 @@
+:root {
+    --section-padding-xxl: 75px;
+    --section-padding-xl: 50px;
+    --section-padding-l: 30px;
+    --section-padding: 20px;
+    --section-padding-sm: 10px;
+    --section-padding-xs: 5px;
+    --green: #04AA6D;
+    --red: #f44336;
+    --yellow: #ffc107;
+    --light-brown: #b6977d;
+    --brown: #503c2f;
+}

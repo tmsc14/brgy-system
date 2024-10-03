@@ -1,3 +1,7 @@
+:root {
+    --sidebar-width-and-padding: 290px;
+}
+
 body {
     font-family: 'Arial', sans-serif;
     background-color: var(--theme-color, #FAEED8);
@@ -122,8 +126,8 @@ body {
 .main-content {
     flex: 1;
     padding: 20px;
-    margin-left: 270px;
-    width: calc(100% - 270px);
+    margin-left: var(--sidebar-width-and-padding);
+    width: calc(100% - var(--sidebar-width-and-padding));
 }
 
 .header {

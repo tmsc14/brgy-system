@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\View\Components\ContentContainer;
+use App\View\Components\IconLongButton;
+use App\View\Components\IconHeader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Blade::component('icon-long-button', IconLongButton::class);
+        Blade::component('icon-header', IconHeader::class);
+        Blade::component('content-container', ContentContainer::class);
+
         Validator::extend('alpha_spaces', function ($attribute, $value, $parameters, $validator) {
             return preg_match('/^[\pL\s]+$/u', $value);
         });

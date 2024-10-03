@@ -9,6 +9,7 @@ use App\Http\Controllers\BarangayResidentController;
 use App\Http\Controllers\BarangayStaffController;
 use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\API\DocumentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,6 +96,10 @@ Route::post('/auth/login', [BarangayRoleController::class, 'unifiedLogin'])->nam
 
 Route::middleware(['auth:barangay_official'])->group(function () {
     Route::get('dashboard/barangay_official', [BarangayRoleController::class, 'showBarangayOfficialDashboard'])->name('barangay_official.dashboard');
+    Route::get('documents/barangay_official', [DocumentsController::class, 'showBarangayOfficialDocuments'])->name('barangay_official.documents');
+    Route::get('documents/barangay_official/requests', [DocumentsController::class, 'listDocumentRequests'])->name('barangay_official.documents.list');
+    Route::get('documents/barangay_official/certificate_of_residency/preview/{id}', [DocumentsController::class, 'previewCertificateOfResidencyForBarangayOfficial'])->name('barangay_official.documents.preview');
+    Route::get('documents/barangay_official/certificate_of_residency/print/{id}', [DocumentsController::class, 'generatePdfCertificateOfResidencyForBarangayOfficial'])->name('barangay_official.documents.print');
 });
 
 Route::middleware(['auth:barangay_staff'])->group(function () {
@@ -103,7 +108,19 @@ Route::middleware(['auth:barangay_staff'])->group(function () {
 
 Route::middleware(['auth:barangay_resident'])->group(function () {
     Route::get('dashboard/barangay_resident', [BarangayRoleController::class, 'showResidentDashboard'])->name('barangay_resident.dashboard');
+    Route::get('documents/request', [DocumentsController::class, 'listDocumentRequestTypes'])->name('barangay_resident.documentrequests.types');
+    Route::get('documents/request/certificate_of_residency', [DocumentsController::class, 'previewCertificateOfResidency'])->name('barangay_resident.documentrequests.certificate_of_residency');
+    Route::get('documents/request/certificate_of_residency/success', [DocumentsController::class, 'showCertificateOfResidencyRequestSuccess'])->name('barangay_resident.documentrequests.certificate_of_residency.success');
+    Route::get('documents/request/certificate_of_indigency', [DocumentsController::class, 'listDocumentRequestTypes'])->name('barangay_resident.documentrequests.certificate_of_indigency');
+    Route::get('documents/request/barangay_clearance', [DocumentsController::class, 'listDocumentRequestTypes'])->name('barangay_resident.documentrequests.barangay_clearance');
+    Route::get('documents/request/business_permit', [DocumentsController::class, 'listDocumentRequestTypes'])->name('barangay_resident.documentrequests.business_permit');
+    Route::get('documents/request/barangay_id', [DocumentsController::class, 'listDocumentRequestTypes'])->name('barangay_resident.documentrequests.barangay_id');
+    Route::get('documents/request/death_certificate', [DocumentsController::class, 'listDocumentRequestTypes'])->name('barangay_resident.documentrequests.death_certificate');
+
+    // API for documents
+    Route::post('/api/document', [DocumentsController::class, 'createDocumentRequest']);
 });
+
 
 // API (find barangay)
 Route::get('/api/provinces', [BarangayRoleController::class, 'getProvinces']);

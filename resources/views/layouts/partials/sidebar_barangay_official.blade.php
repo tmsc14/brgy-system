@@ -30,6 +30,12 @@
         @endif
     </li>
     <li>
+        <a href="{{ route('barangay_official.documents')}}" class="{{ request()->routeIs('barangay_official.documents') ? 'active' : '' }}">
+            <img src="{{ request()->routeIs('barangay_official.documents') ? asset('resources/img/sidebar-icons/documents-sblogo.png') : asset('resources/img/sidebar-icons/documents-sblogo-inactive.png') }}" class="icon" alt="Documents Icon">
+            Documents
+        </a>
+    </li>
+    <li>
         <a href="#" class="{{ request()->routeIs('requests') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('requests') ? asset('resources/img/sidebar-icons/request-sblogo.png') : asset('resources/img/sidebar-icons/request-sblogo-inactive.png') }}" class="icon" alt="Requests Icon">
             Requests
