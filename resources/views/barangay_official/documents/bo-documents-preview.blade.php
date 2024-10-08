@@ -27,7 +27,8 @@ $dataToSend = json_encode(['data' => json_decode($jsonData)]); // Decode and re-
         @include('document_templates.certificate-of-residency')
     </div>
     <div class="document-preview-button-footer">
-        <button class="document-preview-back-btn">
+        <button class="document-preview-back-btn"
+            onclick="window.location='{{ route('barangay_official.documents.list') }}'">
             Back
         </button>
         <button
