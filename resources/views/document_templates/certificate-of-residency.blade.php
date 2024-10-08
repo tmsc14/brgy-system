@@ -37,7 +37,7 @@
         .barangay-captain-info {
             margin-top: 300px;
             margin-right: auto;
-            width:30%;
+            width: 30%;
         }
 
         .barangay-captain-info span {
@@ -60,12 +60,14 @@
 </head>
 <div class="document-body">
     <div class="document-preview-header">
-        <img class="document-preview-barangay-logo" src="{{ $barangayLogo }}" />
+        @if (is_null($barangayLogo))
+            <img class="document-preview-barangay-logo" src="{{ $barangayLogo }}" />
+        @endif
         <div class="barangay-info">
             <p>Republic of the Philippines</p>
-            <p>Province of {{$province}}</p>
-            <p>Municipality of {{$city}}</p>
-            <h3>BARANGAY {{$barangayName}}</h3>
+            <p>Province of {{ $province }}</p>
+            <p>Municipality of {{ $city }}</p>
+            <h3>BARANGAY {{ $barangayName }}</h3>
         </div>
         <h4>OFFICE OF THE BARANGAY CAPTAIN</h4>
         <h2>CERTIFICATE OF RESIDENCY</h2>
@@ -75,7 +77,9 @@
         <p>
             <b>TO WHOM IT MAY CONCERN:</b>
         </p>
-        <p>&emsp;&emsp;This is to certify that {{ $salutation }} {{ $fullName }}, whose personal data appears below, is a <b>RESIDENT</b> of this Barangay and personally known with good moral character, law-abiding citizen, and has a respectable reputation in this community.</p>
+        <p>&emsp;&emsp;This is to certify that {{ $salutation }} {{ $fullName }}, whose personal data appears
+            below, is a <b>RESIDENT</b> of this Barangay and personally known with good moral character, law-abiding
+            citizen, and has a respectable reputation in this community.</p>
 
         <div class="resident-information">
             <div>
@@ -95,9 +99,11 @@
             </div>
         </div>
 
-        <p>&emsp;&emsp;This certification issued upon the request of the aforementioned individual for whatever legal purpose it may serve best.</p>
+        <p>&emsp;&emsp;This certification issued upon the request of the aforementioned individual for whatever legal
+            purpose it may serve best.</p>
 
-        <p>&emsp;&emsp;Signed this {{ $dayOfCreation }} day of {{ $monthOfCreation }}, {{ $yearOfCreation }}, Barangay {{ $barangayName }}, {{ $city }}, {{ $province }}, Philippines</p>
+        <p>&emsp;&emsp;Signed this {{ $dayOfCreation }} day of {{ $monthOfCreation }}, {{ $yearOfCreation }},
+            Barangay {{ $barangayName }}, {{ $city }}, {{ $province }}, Philippines</p>
 
         <div class="barangay-captain-info">
             <div class="barangay-captain-info-inner">
