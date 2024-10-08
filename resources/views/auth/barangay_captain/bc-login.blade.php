@@ -14,13 +14,13 @@
     @endif
     <form action="{{ route('barangay_captain.login.post') }}" method="POST">
         @csrf
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" placeholder="Enter your Email here" required>
-            @if ($errors->has('email'))
-                <span class="error">{{ $errors->first('email') }}</span>
-            @endif
-        </div>
+        <x-form-text-input 
+            id="loginEmail"
+            name="email"
+            label="Email"
+            type="email"
+            placeholder="Enter your email here."
+            :errors="$errors" />
         <div class="form-group">
             <label for="password">Password</label>
             <div class="password-wrapper">
