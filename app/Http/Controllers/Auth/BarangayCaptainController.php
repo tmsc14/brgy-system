@@ -26,6 +26,7 @@ use App\Models\FeaturePermission;
 use App\Models\BarangayFeatureSetting;
 use Illuminate\Support\Facades\DB;
 use App\Traits\AppearanceSettingsTrait;
+use Illuminate\Support\Facades\File;
 
 class BarangayCaptainController extends Controller
 {
@@ -33,13 +34,18 @@ class BarangayCaptainController extends Controller
 
     public function showStep1()
     {
-        return view('auth.barangay_captain.bc-signup-step1');
+        $jsonPath = base_path('public/json/refregion.json');
+        $jsonData = File::get($jsonPath);
+
+        $regions = json_decode($jsonData, true)['RECORDS'];
+
+        return view('auth.barangay_captain.bc-signup-step1', compact('regions'));
     }
 
     public function postStep1(Request $request)
     {
         $request->validate([
-            'region' => 'required',
+            'region' => 'required|not_in:0',
             'province' => 'required',
             'city_municipality' => 'required',
             'barangay' => 'required',
@@ -120,9 +126,14 @@ class BarangayCaptainController extends Controller
             ],
             'access_code' => 'required|exists:access_codes,code',
         ]);
+
+        // Create barangay with partial data
+        $barangay = Barangay::create([
+            'name' => ''
+        ]);
     
         // Create the Barangay Captain
-        $user = BarangayCaptain::create([
+        $user = User::create([
             'region' => session('region'),
             'province' => session('province'),
             'city_municipality' => session('city_municipality'),
