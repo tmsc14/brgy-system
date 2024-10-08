@@ -18,6 +18,7 @@
 
         .document-preview-header {
             text-align: center;
+            position: relative;
         }
 
         .barangay-info {
@@ -46,10 +47,20 @@
         .barangay-captain-info-inner {
             text-align: center;
         }
+
+        .document-preview-barangay-logo {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 3%;
+            transform: translateY(-50%);
+        }
     </style>
 </head>
 <div class="document-body">
     <div class="document-preview-header">
+        <img class="document-preview-barangay-logo" src="{{ $barangayLogo }}" />
         <div class="barangay-info">
             <p>Republic of the Philippines</p>
             <p>Province of {{$province}}</p>

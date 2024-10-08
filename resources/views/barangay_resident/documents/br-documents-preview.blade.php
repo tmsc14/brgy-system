@@ -40,7 +40,7 @@ $dataToSend = json_encode(['data' => json_decode($jsonData)]); // Decode and re-
 <script>
     function sendRequest(url, data) {
         fetch(url, {
-            method: 'POST', // Use POST method
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-Token': '{{ csrf_token() }}', // Include CSRF token for Laravel
@@ -49,15 +49,12 @@ $dataToSend = json_encode(['data' => json_decode($jsonData)]); // Decode and re-
         })
         .then(response => {
             if (response.ok) {
-                // If the response is successful, redirect to the success page
-                return response.json(); // Assuming you return a JSON response
+                return response.json();
             } else {
                 throw new Error(response.json);
             }
         })
         .then(data => {
-            // Assuming you want to redirect to a success page
-            // You may need to build the success URL based on the response or data
             window.location.href = '{{ route('barangay_resident.documentrequests.' . strtolower($documentType->name) . '.success') }}';
         })
         .catch(error => {
