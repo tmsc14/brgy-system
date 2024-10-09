@@ -85,7 +85,7 @@ class DocumentsController extends Controller
         $yearOfCreation = $data->yearOfCreation;
         $barangayCaptainName = $data->barangayCaptainName;
         $requestId = request('id');
-        $barangayLogo = $data->barangayLogo;
+        $barangayLogo = asset('storage/' . $appearanceSettings->logo_path);
 
         $supplementalData =
             [
