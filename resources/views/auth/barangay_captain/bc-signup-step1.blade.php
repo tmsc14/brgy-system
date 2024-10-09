@@ -70,7 +70,7 @@
             const oldProvince = '{{ old('province') }}';
             const oldCityMunicipality = '{{ old('city_municipality') }}';
             const oldBarangay = '{{ old('barangay') }}';
-            
+
             if (oldRegion) {
                 $('#region').val(oldRegion);
                 loadProvinces(oldRegion, oldProvince);

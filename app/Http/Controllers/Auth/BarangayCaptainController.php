@@ -27,17 +27,22 @@ use App\Models\BarangayFeatureSetting;
 use Illuminate\Support\Facades\DB;
 use App\Traits\AppearanceSettingsTrait;
 use Illuminate\Support\Facades\File;
+use App\Services\LocationService;
 
 class BarangayCaptainController extends Controller
 {
+    protected $locationService;
+
+    public function __construct(LocationService $locationService)
+    {
+        $this->locationService = $locationService;
+    }
+
     use AppearanceSettingsTrait;
 
     public function showStep1()
     {
-        $jsonPath = base_path('public/json/refregion.json');
-        $jsonData = File::get($jsonPath);
-
-        $regions = json_decode($jsonData, true)['RECORDS'];
+        $regions = $this->locationService->getAllRegions();
 
         return view('auth.barangay_captain.bc-signup-step1', compact('regions'));
     }
@@ -101,7 +106,7 @@ class BarangayCaptainController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'gender' => $request->gender,
             'email' => $request->email,
-            'contact_no' => $request->contact_no,
+            'contact_number' => $request->contact_number,
         ]);
     
         return redirect()->route('barangay_captain.register.step3');
@@ -129,33 +134,49 @@ class BarangayCaptainController extends Controller
 
         // Create barangay with partial data
         $barangay = Barangay::create([
-            'name' => ''
+            'id' => session('barangay'),
+            'name' => $this->locationService->findBarangayById(session('barangay'))->brgyDesc,
+            'display_name' => $this->locationService->findBarangayById(session('barangay'))->brgyDesc,
+            'description' => '',
+            'email' => '',
+            'contact_number' => '',
+            'region_code' => session('region'),
+            'province_code' => session('province'),
+            'city_code' => session('city')
         ]);
     
         // Create the Barangay Captain
-        $user = User::create([
-            'region' => session('region'),
-            'province' => session('province'),
-            'city_municipality' => session('city_municipality'),
-            'barangay' => session('barangay'),
+        $barangayCaptainUser = User::create([
+            'barangay_id' => $barangay->id,
+            'email' => session('email'),
+            'email_verified_at' => now('UTC'),
+            'password' => Hash::make($request->password)
+        ]);
+
+        // Create the staff record of the barangay captain
+        $barangayCaptainStaff = Staff::create([
+            'barangay_id' => $barangay->id,
+            'user_id' => $barangayCaptainUser->id,
             'first_name' => session('first_name'),
             'middle_name' => session('middle_name'),
             'last_name' => session('last_name'),
-            'date_of_birth' => session('date_of_birth'),
             'gender' => session('gender'),
             'email' => session('email'),
-            'contact_no' => session('contact_no'),
-            'password' => Hash::make($request->password),
+            'contact_number' => session('contact_number'),
+            'date_of_birth' => session('date_of_birth'),
+            'bric_number' => session('bric_number'),
+            'is_master' => true,
+            'is_active' => true
         ]);
     
-        // Create the role without barangay_id initially
-        Role::create([
-            'user_id' => $user->id,
-            'user_type' => \App\Models\BarangayCaptain::class, // Add user_type here (polymorphic)
-            'barangay_id' => null, // This will be updated once the barangay is created
-            'role_type' => 'barangay_captain',
-            'active' => true,
-        ]);
+        // // Create the role without barangay_id initially
+        // Role::create([
+        //     'user_id' => $user->id,
+        //     'user_type' => \App\Models\BarangayCaptain::class, // Add user_type here (polymorphic)
+        //     'barangay_id' => null, // This will be updated once the barangay is created
+        //     'role_type' => 'barangay_captain',
+        //     'active' => true,
+        // ]);
     
         // Clear session data
         session()->flush();

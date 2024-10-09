@@ -4,48 +4,37 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\User;
 
 class Staff extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'barangay_staff';
+    protected $table = 'staff';
 
     protected $fillable = [
+        'user_id',
         'first_name',
         'middle_name',
         'last_name',
-        'dob',
         'gender',
         'email',
-        'contact_no',
-        'barangay_id',
-        'password',
-        'valid_id',
-        'position',
-        'status'
+        'contact_number',
+        'date_of_birth',
+        'bric_number',
+        'is_master',
+        'is_active'
     ];
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    protected $guard = 'barangay_staff';
-
-    public function barangay()
+    public function user()
     {
-        return $this->belongsTo(Barangay::class, 'barangay_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function roles()
     {
         return $this->hasMany(Role::class, 'user_id');
     }
-    
-    public function activeRole()
-    {
-        return $this->hasOne(Role::class, 'user_id')->where('active', true);
-    }    
 
     public function featurePermissions()
     {

@@ -1,73 +1,112 @@
-function loadProvinces(regCode, selectedProvince = '', oldCity = '', oldBarangay = '') {
+function loadProvinces(regCode, selectedProvince = '', oldCity = '', oldBarangay = '')
+{
     $('#province').prop('disabled', !regCode);
     $('#province').empty().append('<option value="">Select Province</option>');
 
-    if (regCode) {
-        $.getJSON('/json/refprovince.json', function (data) {
-            $.each(data.RECORDS, function (key, entry) {
-                if (entry.regCode === regCode) {
-                    $('#province').append($('<option></option>').attr('value', entry
-                        .provCode).text(entry.provDesc));
+    if (regCode)
+    {
+        fetch(`/api/location/provinces/${regCode}`)
+            .then(response =>
+            {
+                if (!response.ok)
+                {
+                    throw new Error('An unexpected error occured.');
                 }
-            });
+                return response.json();
+            })
+            .then(data =>
+            {
+                data.forEach(x =>
+                {
+                    $('#province').append($('<option></option>').attr('value', x.provCode).text(x.provDesc));
+                })
 
-            if (selectedProvince) {
-                $('#province').val(selectedProvince);
-                loadCities(selectedProvince, oldCity, oldBarangay);
-            }
-        }).fail(function () {
-            console.error("Failed to load provinces JSON.");
-        });
+                if (selectedProvince)
+                {
+                    $('#province').val(selectedProvince);
+                    loadCities(selectedProvince, oldCity, oldBarangay);
+                }
+            })
+            .catch(error =>
+            {
+                console.error('Error fetching user:', error);
+            });
     }
 
     $('#city_municipality, #barangay').prop('disabled', true).empty().append(
         '<option value="">Select</option>');
 }
 
-function loadCities(provCode, selectedCity = '', oldBarangay = '') {
+function loadCities(provCode, selectedCity = '', oldBarangay = '')
+{
     $('#city_municipality').prop('disabled', !provCode);
     $('#city_municipality').empty().append('<option value="">Select City / Municipality</option>');
 
-    if (provCode) {
-        $.getJSON('/json/refcitymun.json', function (data) {
-            $.each(data.RECORDS, function (key, entry) {
-                if (entry.provCode === provCode) {
-                    $('#city_municipality').append($('<option></option>').attr('value',
-                        entry.citymunCode).text(entry.citymunDesc));
+    if (provCode)
+    {
+        fetch(`/api/location/cities/${provCode}`)
+            .then(response =>
+            {
+                if (!response.ok)
+                {
+                    throw new Error('An unexpected error occured.');
                 }
-            });
+                return response.json();
+            })
+            .then(data =>
+            {
+                data.forEach(x =>
+                {
+                    $('#city_municipality').append($('<option></option>').attr('value', x.citymunCode).text(x.citymunDesc));
+                })
 
-            if (selectedCity) {
-                $('#city_municipality').val(selectedCity);
-                loadBarangays(selectedCity, oldBarangay);
-            }
-        }).fail(function () {
-            console.error("Failed to load cities/municipalities JSON.");
-        });
+                if (selectedCity)
+                {
+                    $('#city_municipality').val(selectedCity);
+                    loadBarangays(selectedCity, oldBarangay);
+                }
+            })
+            .catch(error =>
+            {
+                console.error(error);
+            });
     }
 
     $('#barangay').prop('disabled', true).empty().append(
         '<option value="">Select Barangay</option>');
 }
 
-function loadBarangays(citymunCode, selectedBarangay = '') {
+function loadBarangays(citymunCode, selectedBarangay = '')
+{
     $('#barangay').prop('disabled', !citymunCode);
     $('#barangay').empty().append('<option value="">Select Barangay</option>');
 
-    if (citymunCode) {
-        $.getJSON('/json/refbrgy.json', function (data) {
-            $.each(data.RECORDS, function (key, entry) {
-                if (entry.citymunCode === citymunCode) {
-                    $('#barangay').append($('<option></option>').attr('value', entry
-                        .brgyCode).text(entry.brgyDesc));
+    if (citymunCode)
+    {
+        fetch(`/api/location/barangays/${citymunCode}`)
+            .then(response =>
+            {
+                if (!response.ok)
+                {
+                    throw new Error('An unexpected error occured.');
                 }
-            });
+                return response.json();
+            })
+            .then(data =>
+            {
+                data.forEach(x =>
+                {
+                    $('#barangay').append($('<option></option>').attr('value', x.brgyCode).text(x.brgyDesc));
+                })
 
-            if (selectedBarangay) {
-                $('#barangay').val(selectedBarangay);
-            }
-        }).fail(function () {
-            console.error("Failed to load barangays JSON.");
-        });
+                if (selectedBarangay)
+                {
+                    $('#barangay').val(selectedBarangay);
+                }
+            })
+            .catch(error =>
+            {
+                console.error(error);
+            });
     }
 }

@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Services\LocationService;
 use App\View\Components\ContentContainer;
 use App\View\Components\IconLongButton;
 use App\View\Components\IconHeader;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Blade;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,7 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(LocationService::class, function ($app) {
+            return new LocationService();
+        });
     }
 
     /**

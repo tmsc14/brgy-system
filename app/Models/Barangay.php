@@ -9,49 +9,23 @@ class Barangay extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'barangay_captain_id',
-        'barangay_name',
-        'barangay_email',
-        'barangay_office_address',
-        'barangay_complete_address_1',
-        'barangay_complete_address_2',
-        'barangay_description',
-        'barangay_contact_number',
-        'region',
-        'province',
-        'city',
-        'barangay',
-    ];
+    protected $table = 'barangay';
 
-    public function barangayCaptain()
-    {
-        return $this->belongsTo(BarangayCaptain::class);
-    }
+    protected $fillable = [
+        'id',
+        'name',
+        'display_name',
+        'description',
+        'email',
+        'contact_number',
+        'region_code',
+        'province_code',
+        'city_code'
+    ];
 
     public function appearanceSettings()
     {
-        return $this->hasOne(AppearanceSetting::class, 'barangay_captain_id', 'barangay_captain_id');
-    }
-
-    public function officials()
-    {
-        return $this->hasMany(BarangayOfficial::class);
-    }
-
-    public function staffs()
-    {
-        return $this->hasMany(Staff::class);
-    }
-
-    public function residents()
-    {
-        return $this->hasMany(Resident::class);
-    }
-
-    public function roles()
-    {
-        return $this->hasMany(Role::class);
+        return $this->hasOne(AppearanceSetting::class, 'barangay_id');
     }
 
     public function features()
