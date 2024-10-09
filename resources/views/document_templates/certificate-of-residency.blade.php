@@ -11,7 +11,7 @@
             font-family: Arial, sans-serif;
             margin: 10px;
             padding: 1in;
-            background-color: #f9f9f9;
+            background-color: #ffffff;
             max-width: 595.28px;
             max-height: 841.89px;
         }
