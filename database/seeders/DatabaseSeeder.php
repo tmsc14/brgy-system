@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AccessCodeSeeder::class,
             FeatureSeeder::class,
-            FeaturePermission::class,
+            FeaturePermissionSeeder::class,
         ]);
     }
 }
