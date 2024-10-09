@@ -55,9 +55,9 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="contact_no">Contact Number</label>
-                <input type="text" name="contact_no" id="contact_no" value="{{ old('contact_no', session('contact_no')) }}" required>
-                @error('contact_no')
+                <label for="contact_number">Contact Number</label>
+                <input type="text" name="contact_number" id="contact_number" value="{{ old('contact_number', session('contact_number')) }}" required>
+                @error('contact_number')
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>

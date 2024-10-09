@@ -9,22 +9,21 @@ class Role extends Model
 {
     use HasFactory;
 
+    protected $table = 'role';
+
+    public const CAPTAIN = 'Captain';
+    public const OFFICIAL = 'Official';
+    public const STAFF = 'Staff';
+    public const RESIDENT = 'Resident';
+
     protected $fillable = [
-        'user_id',  // Removed as it will be handled by the polymorphic relation
-        'user_type', // The model type
         'barangay_id',
-        'role_type',
-        'active',
+        'name',
     ];
 
-    // Define the polymorphic relationship
-    public function user()
+    public function users()
     {
-        return $this->morphTo();
-    }
-
-    public function barangay()
-    {
-        return $this->belongsTo(Barangay::class);
+        return $this->belongsToMany(User::class, 'user_role', 'role_id', 'user_id')
+            ->withPivot('barangay_id');
     }
 }

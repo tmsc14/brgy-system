@@ -12,7 +12,6 @@ class Barangay extends Model
     protected $table = 'barangay';
 
     protected $fillable = [
-        'id',
         'name',
         'display_name',
         'description',
@@ -20,7 +19,12 @@ class Barangay extends Model
         'contact_number',
         'region_code',
         'province_code',
-        'city_code'
+        'city_code',
+        'barangay_code',
+        'is_setup_complete',
+        'barangay_office_address',
+        'address_line_one',
+        'address_line_two'
     ];
 
     public function appearanceSettings()

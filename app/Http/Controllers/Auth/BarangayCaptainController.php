@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Feature;
 use App\Models\FeaturePermission;
 use App\Models\BarangayFeatureSetting;
+use App\Models\UserRole;
 use Illuminate\Support\Facades\DB;
 use App\Traits\AppearanceSettingsTrait;
 use Illuminate\Support\Facades\File;
@@ -88,7 +89,7 @@ class BarangayCaptainController extends Controller
                 Rule::unique('barangay_residents', 'email'),
                 Rule::unique('barangays', 'barangay_email'),
             ],
-            'contact_no' => [
+            'contact_number' => [
                 'required',
                 'digits_between:10,15',
                 Rule::unique('barangay_captains', 'contact_no'),
@@ -132,51 +133,80 @@ class BarangayCaptainController extends Controller
             'access_code' => 'required|exists:access_codes,code',
         ]);
 
-        // Create barangay with partial data
-        $barangay = Barangay::create([
-            'id' => session('barangay'),
-            'name' => $this->locationService->findBarangayById(session('barangay'))->brgyDesc,
-            'display_name' => $this->locationService->findBarangayById(session('barangay'))->brgyDesc,
-            'description' => '',
-            'email' => '',
-            'contact_number' => '',
-            'region_code' => session('region'),
-            'province_code' => session('province'),
-            'city_code' => session('city')
-        ]);
-    
-        // Create the Barangay Captain
-        $barangayCaptainUser = User::create([
-            'barangay_id' => $barangay->id,
-            'email' => session('email'),
-            'email_verified_at' => now('UTC'),
-            'password' => Hash::make($request->password)
-        ]);
+        $barangayInfo = $this->locationService->getBarangayByBrgyCode(session('barangay'));
+        $barangayName = $barangayInfo['brgyDesc'];
+        $password = $request->password;
 
-        // Create the staff record of the barangay captain
-        $barangayCaptainStaff = Staff::create([
-            'barangay_id' => $barangay->id,
-            'user_id' => $barangayCaptainUser->id,
-            'first_name' => session('first_name'),
-            'middle_name' => session('middle_name'),
-            'last_name' => session('last_name'),
-            'gender' => session('gender'),
-            'email' => session('email'),
-            'contact_number' => session('contact_number'),
-            'date_of_birth' => session('date_of_birth'),
-            'bric_number' => session('bric_number'),
-            'is_master' => true,
-            'is_active' => true
-        ]);
-    
-        // // Create the role without barangay_id initially
-        // Role::create([
-        //     'user_id' => $user->id,
-        //     'user_type' => \App\Models\BarangayCaptain::class, // Add user_type here (polymorphic)
-        //     'barangay_id' => null, // This will be updated once the barangay is created
-        //     'role_type' => 'barangay_captain',
-        //     'active' => true,
-        // ]);
+        DB::transaction(function () use ($barangayName, $password)
+        {
+            
+            // Create barangay with partial data
+            $barangay = Barangay::create([
+                    'name' => $barangayName,
+                    'display_name' => $barangayName,
+                    'description' => '',
+                    'email' => '',
+                    'contact_number' => '',
+                    'region_code' => session('region'),
+                    'province_code' => session('province'),
+                    'city_code' => session('city_municipality'),
+                    'barangay_code' => session('barangay'),
+                ]);
+
+            // Create the default roles (barangay captain, official, staff, and resident)
+            $barangayCaptainRole = Role::create([
+                'barangay_id' => $barangay->id,
+                'name' => Role::CAPTAIN
+            ]);
+
+            Role::create([
+                'barangay_id' => $barangay->id,
+                'name' => Role::OFFICIAL
+            ]);
+
+            Role::create([
+                'barangay_id' => $barangay->id,
+                'name' => Role::STAFF
+            ]);
+
+            Role::create([
+                'barangay_id' => $barangay->id,
+                'name' => Role::RESIDENT
+            ]);
+
+            error_log(json_encode($barangay));
+
+            // Create the Barangay Captain
+            $barangayCaptainUser = User::create([
+                'barangay_id' => $barangay->id,
+                'email' => session('email'),
+                'email_verified_at' => now('UTC'),
+                'password' => Hash::make($password)
+            ]);
+
+            // Create the staff record of the barangay captain
+            $barangayCaptainStaff = Staff::create([
+                'barangay_id' => $barangay->id,
+                'user_id' => $barangayCaptainUser->id,
+                'first_name' => session('first_name'),
+                'middle_name' => session('middle_name'),
+                'last_name' => session('last_name'),
+                'gender' => session('gender'),
+                'email' => session('email'),
+                'contact_number' => session('contact_number'),
+                'date_of_birth' => session('date_of_birth'),
+                'bric_number' => '',
+                'is_master' => true,
+                'is_active' => true
+            ]);
+
+            // Assign the captain role to the captain user
+            UserRole::create([
+                'barangay_id' => $barangay->id,
+                'user_id' => $barangayCaptainUser->id,
+                'role_id' => $barangayCaptainRole->id
+            ]);
+        });
     
         // Clear session data
         session()->flush();
@@ -272,53 +302,40 @@ class BarangayCaptainController extends Controller
     public function login(Request $request)
     {
         // Validate the input fields
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
     
-        $credentials = $request->only('email', 'password');
-    
-        // Check if the user exists based on email
-        $user = BarangayCaptain::where('email', $credentials['email'])->first();
-    
-        if ($user && Hash::check($credentials['password'], $user->password)) {
-            // Invalidate any previous session
-            Auth::guard('barangay_captain')->logout(); // Log out previous user if any
-            session()->invalidate();  // Invalidate the session
-            session()->regenerateToken(); // Regenerate CSRF token for security
-    
-            // Check for active role in the roles table
-            $activeRole = $user->roles()->where('active', true)->where('role_type', 'barangay_captain')->first();
-    
-            if ($activeRole) {
-                // Check if the user's barangay exists
-                $existingBarangay = Barangay::where('region', $user->region)
-                    ->where('province', $user->province)
-                    ->where('city', $user->city_municipality)
-                    ->where('barangay', $user->barangay)
-                    ->first();
-    
-                if ($existingBarangay && $existingBarangay->barangay_captain_id != $user->id) {
-                    // Redirect to the placeholder view if the barangay already exists with another captain
-                    return redirect()->route('barangay_captain.pending_turnover');
-                }
-    
-                if ($existingBarangay && $existingBarangay->barangay_captain_id == $user->id) {
-                    // Redirect to the dashboard if the barangay already exists with this captain
-                    Auth::guard('barangay_captain')->login($user);
-                    session()->regenerate(); // Generate a new session ID for the new user
-                    return redirect()->intended(route('bc-dashboard'));
-                }
-    
-                // No barangay found, redirect to create barangay info
-                Auth::guard('barangay_captain')->login($user);
-                session()->regenerate(); // Generate a new session ID for the new user
-                return redirect()->route('barangay_captain.create_barangay_info_form');
-            } else {
-                return back()->withErrors(['email' => 'Your account is inactive or you do not have access.']);
-            }
-        } else {
+        if (Auth::attempt($credentials)) 
+        {
+            // $user = Auth::user();
+
+            // $existingBarangay = Barangay::where('id', $user->barangay_id)
+            //     ->first();
+
+            // if ($existingBarangay && $existingBarangay->barangay_captain_id != $user->id)
+            // {
+            //     // Redirect to the placeholder view if the barangay already exists with another captain
+            //     return redirect()->route('barangay_captain.pending_turnover');
+            // }
+
+            // if ($existingBarangay && $existingBarangay->barangay_captain_id == $user->id)
+            // {
+            //     // Redirect to the dashboard if the barangay already exists with this captain
+            //     Auth::guard('barangay_captain')->login($user);
+            //     session()->regenerate(); // Generate a new session ID for the new user
+            //     return redirect()->intended(route('bc-dashboard'));
+            // }
+
+            // // No barangay found, redirect to create barangay info
+            // Auth::guard('barangay_captain')->login($user);
+            // session()->regenerate(); // Generate a new session ID for the new user
+            // return redirect()->route('barangay_captain.create_barangay_info_form');
+            return redirect()->route('appHome');
+        }
+        else
+        {
             return back()->withErrors([
                 'email' => 'The provided credentials do not match our records.',
             ]);
@@ -349,31 +366,18 @@ class BarangayCaptainController extends Controller
 
     public function showCreateBarangayInfo()
     {
-        $user = Auth::guard('barangay_captain')->user();
-        
-        // Get the existing barangay if it exists
-        $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
+        $user = Auth::user();
+        $barangay = $user->barangay;
     
         $geographicData = [
-            'region' => $user->region,
-            'province' => $user->province,
-            'city' => $user->city_municipality,
-            'barangay' => $user->barangay,
-            'barangayDesc' => $this->getBarangayDesc($user->barangay)
+            'region' => $barangay->region_code,
+            'province' => $barangay->province_code,
+            'city' => $barangay->city_code,
+            'barangay' => $barangay->barangay_code,
+            'barangayDesc' => $barangay->name
         ];
     
         return view('auth.barangay_captain.create-barangay-info', compact('geographicData', 'barangay'));
-    }
-
-    private function getBarangayDesc($barangayCode)
-    {
-        $barangayJson = json_decode(file_get_contents(public_path('json/refbrgy.json')), true);
-        foreach ($barangayJson['RECORDS'] as $barangay) {
-            if ($barangay['brgyCode'] === $barangayCode) {
-                return $barangay['brgyDesc'];
-            }
-        }
-        return null;
     }
 
     public function createBarangayInfo(Request $request)
@@ -387,45 +391,26 @@ class BarangayCaptainController extends Controller
             'barangay_description' => 'required|string',
             'barangay_contact_number' => 'required|string|max:20'
         ]);
-    
-        $user = Auth::guard('barangay_captain')->user();
-        $barangay = Barangay::where('barangay_captain_id', $user->id)->first();
-    
-        if ($barangay) {
-            // Update existing barangay
-            $barangay->update([
-                'barangay_name' => $request->barangay_name,
-                'barangay_email' => $request->barangay_email,
-                'barangay_office_address' => $request->barangay_office_address,
-                'barangay_complete_address_1' => $request->barangay_complete_address_1,
-                'barangay_complete_address_2' => $request->barangay_complete_address_2,
-                'barangay_description' => $request->barangay_description,
-                'barangay_contact_number' => $request->barangay_contact_number,
-            ]);
-        } else {
-            // Create new barangay if it doesn't exist
-            $barangay = Barangay::create([
-                'barangay_captain_id' => $user->id,
-                'barangay_name' => $request->barangay_name,
-                'barangay_email' => $request->barangay_email,
-                'barangay_office_address' => $request->barangay_office_address,
-                'barangay_complete_address_1' => $request->barangay_complete_address_1,
-                'barangay_complete_address_2' => $request->barangay_complete_address_2,
-                'barangay_description' => $request->barangay_description,
-                'barangay_contact_number' => $request->barangay_contact_number,
-                'region' => $user->region,
-                'province' => $user->province,
-                'city' => $user->city_municipality,
-                'barangay' => $user->barangay,
-            ]);
-            $user->activeRole()->update(['barangay_id' => $barangay->id]);
-        }
-    
+
+        $user = Auth::user();
+        $barangay = $user->barangay;
+
+        $barangay->update([
+            'display_name' => $request->barangay_name,
+            'email' => $request->barangay_email,
+            'barangay_office_address' => $request->barangay_office_address,
+            'address_line_one' => $request->barangay_complete_address_1,
+            'address_line_two' => $request->barangay_complete_address_2,
+            'description' => $request->barangay_description,
+            'contact_number' => $request->barangay_contact_number
+        ]);
+
         // Check if the request is coming from the bc-customize page
-        if ($request->input('from_customization') === 'true') {
+        if ($request->input('from_customization') === 'true')
+        {
             return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Barangay information updated successfully!');
         }
-    
+
         return redirect()->route('barangay_captain.appearance_settings')->with('success', 'Barangay created successfully!');
     }         
     
@@ -462,9 +447,9 @@ class BarangayCaptainController extends Controller
             $textColor = $this->convertToHex($request->text_color);
         }
     
-        $user = Auth::guard('barangay_captain')->user();
-        $appearanceSettings = $user->appearanceSettings ?? new AppearanceSetting();
-        $appearanceSettings->barangay_captain_id = $user->id;
+        $barangay = Auth::user()->barangay;
+        $appearanceSettings = $barangay->appearanceSettings ?? new AppearanceSetting();
+        $appearanceSettings->barangay_id = $barangay->id;
         $appearanceSettings->theme_color = $themeColor;
         $appearanceSettings->primary_color = $primaryColor;
         $appearanceSettings->secondary_color = $secondaryColor;
@@ -481,46 +466,41 @@ class BarangayCaptainController extends Controller
         if ($request->input('from_customization') === 'true') {
             return redirect()->route('barangay_captain.customize_barangay')->with('success', 'Appearance settings updated successfully!');
         }
+
+        $barangay->is_setup_complete = true;
+        $barangay->save();
     
-        return redirect()->route('barangay_captain.features_settings')->with('success', 'Appearance settings saved successfully!');
+        return redirect()->route('appHome');
+        // return redirect()->route('barangay_captain.features_settings')->with('success', 'Appearance settings saved successfully!');
     }           
 
     public function showFeaturesSettings()
     {
-        $barangayCaptain = Auth::guard('barangay_captain')->user();
+        // $user = Auth::user();
+        // $barangay = $user->barangay;
     
-        if (!$barangayCaptain) {
-            return redirect()->route('login')->with('error', 'Please login first.');
-        }
+        // // Fetch enabled features for the barangay
+        // $enabledFeatures = $barangay->features()->pluck('features.id')->toArray();
     
-        $barangay = $barangayCaptain->barangayDetails;
+        // // Fetch all features
+        // $features = Feature::all();
     
-        if (!$barangay) {
-            return redirect()->back()->with('error', 'No Barangay found for this Barangay Captain.');
-        }
+        // // Fetch permissions for staff and officials
+        // $permissions = FeaturePermission::whereIn('role', ['staff', 'official'])
+        //     ->where('permissible_type', $barangayCaptain->getMorphClass())
+        //     ->where('permissible_id', $barangayCaptain->id)
+        //     ->get();
     
-        // Fetch enabled features for the barangay
-        $enabledFeatures = $barangay->features()->pluck('features.id')->toArray();
+        // // Get the ID for the 'statistics' feature category
+        // $statisticsFeature = Feature::where('name', 'statistics')->first();
+        // $statisticsFeatureId = $statisticsFeature ? $statisticsFeature->id : null;
     
-        // Fetch all features
-        $features = Feature::all();
-    
-        // Fetch permissions for staff and officials
-        $permissions = FeaturePermission::whereIn('role', ['staff', 'official'])
-            ->where('permissible_type', $barangayCaptain->getMorphClass())
-            ->where('permissible_id', $barangayCaptain->id)
-            ->get();
-    
-        // Get the ID for the 'statistics' feature category
-        $statisticsFeature = Feature::where('name', 'statistics')->first();
-        $statisticsFeatureId = $statisticsFeature ? $statisticsFeature->id : null;
-    
-        return view('auth.barangay_captain.features-settings', compact(
-            'features', 
-            'enabledFeatures', 
-            'permissions', 
-            'statisticsFeatureId' // Pass this variable to the view
-        ));
+        // return view('auth.barangay_captain.features-settings', compact(
+        //     'features', 
+        //     'enabledFeatures', 
+        //     'permissions', 
+        //     'statisticsFeatureId'
+        // ));
     }
           
 

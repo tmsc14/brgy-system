@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('barangay', function (Blueprint $table) {
-            $table->unsignedInteger('id');
-            $table->primary('id');
-
+            $table->id();
             $table->string('name');
             $table->string('display_name');
             $table->string('description');  
             $table->string('email');
             $table->string('contact_number');
-            $table->integer('region_code');
-            $table->integer('province_code');
-            $table->integer('city_code');
+            $table->string('region_code');
+            $table->string('province_code');
+            $table->string('city_code');
+            $table->string('barangay_code');
+            $table->boolean('is_setup_complete')->default(false);
             $table->timestamps();
         });
     }

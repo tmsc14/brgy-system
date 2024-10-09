@@ -9,8 +9,10 @@ class AppearanceSetting extends Model
 {
     use HasFactory;
 
+    protected $table = 'appearance_settings';
+
     protected $fillable = [
-        'barangay_captain_id',
+        'barangay_id',
         'theme_color',
         'primary_color',
         'secondary_color',
@@ -18,13 +20,8 @@ class AppearanceSetting extends Model
         'logo_path',
     ];
 
-    public function barangayCaptain()
-    {
-        return $this->belongsTo(BarangayCaptain::class);
-    }
-
     public function barangay()
     {
-        return $this->belongsTo(Barangay::class, 'barangay_captain_id', 'barangay_captain_id');
+        return $this->belongsTo(Barangay::class, 'barangay_id');
     }
 }

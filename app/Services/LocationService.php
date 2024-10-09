@@ -11,15 +11,15 @@ class LocationService
 
     protected $provinces;
     protected $provincesRegCodeLookup;
-    protected $provincesIdLookup;
+    protected $provincesProvCodeLookup;
     
     protected $cities;
     protected $citiesProvCodeLookup;
-    protected $citiesIdLookup;
+    protected $citiesCitymunCodeLookup;
 
     protected $barangays;
     protected $barangaysCityMunCodeLookup;
-    protected $barangaysIdLookup;
+    protected $barangaysBrgyCodeLookup;
 
     public function __construct()
     {
@@ -28,22 +28,22 @@ class LocationService
         
         $this->provinces = [];
         $this->provincesRegCodeLookup = [];
-        $this->provincesIdLookup = [];
+        $this->provincesProvCodeLookup = [];
 
         $this->cities = [];
         $this->citiesProvCodeLookup = [];
-        $this->citiesIdLookup = [];
+        $this->citiesCitymunCodeLookup = [];
 
         $this->barangays = [];
         $this->barangaysCityMunCodeLookup = [];
-        $this->barangaysIdLookup = [];
+        $this->barangaysBrgyCodeLookup = [];
 
         $this->loadLocationData();
     }
 
-    public function getRegionsIdLookup()
+    public function getBarangayByBrgyCode($brgyCode)
     {
-        return $this->regionsIdLookup;
+        return $this->barangaysBrgyCodeLookup[$brgyCode] ?? null;
     }
 
     public function getProvincesByRegCode($regCode)
@@ -118,15 +118,15 @@ class LocationService
                     $this->regionsIdLookup[$record['id']] = $record;
                     break;
                 case 'PROVINCE':
-                    $this->provincesIdLookup[$record['id']] = $record;
+                    $this->provincesProvCodeLookup[$record['provCode']] = $record;
                     $this->provincesRegCodeLookup[$record['regCode']][] = $record;
                     break;
                 case 'CITY':
-                    $this->citiesIdLookup[$record['id']] = $record;
+                    $this->citiesCitymunCodeLookup[$record['citymunCode']] = $record;
                     $this->citiesProvCodeLookup[$record['provCode']][] = $record;
                     break;
                 case 'BARANGAY':    
-                    $this->barangaysIdLookup[$record['id']] = $record;
+                    $this->barangaysBrgyCodeLookup[$record['brgyCode']] = $record;
                     $this->barangaysCityMunCodeLookup[$record['citymunCode']][] = $record;
                     break;
             }

@@ -11,7 +11,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'user';
+
     protected $fillable = [
+        'barangay_id',
         'name',
         'email',
         'password',
@@ -27,15 +30,20 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    // Adding the relationship with the roles table
-    public function roles()
+    public function barangay()
     {
-        return $this->hasMany(Role::class);
+        return $this->belongsTo(Barangay::class, 'barangay_id');
     }
 
-    // This will return the currently active role
-    public function activeRole()
+    public function staff()
     {
-        return $this->hasOne(Role::class)->where('active', true);
+        return $this->hasOne(Staff::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id')
+            ->withPivot('barangay_id')
+            ->wherePivot('barangay_id', $this->barangay_id);
     }
 }

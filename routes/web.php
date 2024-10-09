@@ -10,6 +10,7 @@ use App\Http\Controllers\BarangayStaffController;
 use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\API\DocumentsController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,22 +47,22 @@ Route::get('dashboard/barangay-captain/main', [BarangayCaptainController::class,
 
 //create barangay
 Route::middleware(['auth:barangay_captain'])->group(function () {
-    Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
-    Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
+    // Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
+    // Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
 
-    Route::get('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettings'])->name('barangay_captain.appearance_settings');
-    Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'saveAppearanceSettings'])->name('barangay_captain.appearance_settings.post');
+    // Route::get('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettings'])->name('barangay_captain.appearance_settings');
+    // Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'saveAppearanceSettings'])->name('barangay_captain.appearance_settings.post');
 
-    Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
-    Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
+    // Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
+    // Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
 
-    Route::get('/customize-barangay', [BarangayCaptainController::class, 'showCustomizeBarangay'])->name('barangay_captain.customize_barangay');
-    //bc-statistics
-    Route::get('/barangay-captain/statistics', [BarangayCaptainController::class, 'showCaptainStatistics'])->name('barangay_captain.statistics');
-    //bc-admins
-    Route::get('barangay-captain/admins', [BarangayCaptainController::class, 'showAdmins'])->name('barangay_captain.admins');
-    Route::post('barangay-captain/toggle-role-status/{roleId}', [BarangayCaptainController::class, 'toggleRoleStatus'])
-    ->name('barangay_captain.toggle_role_status');
+    // Route::get('/customize-barangay', [BarangayCaptainController::class, 'showCustomizeBarangay'])->name('barangay_captain.customize_barangay');
+    // //bc-statistics
+    // Route::get('/barangay-captain/statistics', [BarangayCaptainController::class, 'showCaptainStatistics'])->name('barangay_captain.statistics');
+    // //bc-admins
+    // Route::get('barangay-captain/admins', [BarangayCaptainController::class, 'showAdmins'])->name('barangay_captain.admins');
+    // Route::post('barangay-captain/toggle-role-status/{roleId}', [BarangayCaptainController::class, 'toggleRoleStatus'])
+    // ->name('barangay_captain.toggle_role_status');
 
 });
 
@@ -166,4 +167,31 @@ Route::middleware(['auth:barangay_official'])->group(function(){
 Route::get('/send-test-email', function() {
     \Mail::to('ctereemari@gmail.com')->send(new \App\Mail\TestEmail());
     return 'Test email sent!';
+});
+
+// NEW ROUTES BY REFACTOR
+// Home
+Route::middleware(['auth'])->group(function(){
+    Route::get('/home', [HomeController::class, 'showStaffHome'])->name('appHome');
+});
+
+//Barangay Setup
+Route::middleware(['auth', 'role:captain'])->group(function ()
+{
+    Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
+    Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
+
+    Route::get('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'showAppearanceSettings'])->name('barangay_captain.appearance_settings');
+    Route::post('barangay-captain/appearance-settings', [BarangayCaptainController::class, 'saveAppearanceSettings'])->name('barangay_captain.appearance_settings.post');
+
+    Route::get('barangay-captain/features-settings', [BarangayCaptainController::class, 'showFeaturesSettings'])->name('barangay_captain.features_settings');
+    Route::post('barangay-captain/features-settings', [BarangayCaptainController::class, 'saveFeaturesSettings'])->name('barangay_captain.features_settings.post');
+
+    Route::get('/customize-barangay', [BarangayCaptainController::class, 'showCustomizeBarangay'])->name('barangay_captain.customize_barangay');
+    //bc-statistics
+    Route::get('/barangay-captain/statistics', [BarangayCaptainController::class, 'showCaptainStatistics'])->name('barangay_captain.statistics');
+    //bc-admins
+    Route::get('barangay-captain/admins', [BarangayCaptainController::class, 'showAdmins'])->name('barangay_captain.admins');
+    Route::post('barangay-captain/toggle-role-status/{roleId}', [BarangayCaptainController::class, 'toggleRoleStatus'])
+        ->name('barangay_captain.toggle_role_status');
 });
