@@ -60,7 +60,7 @@
 </head>
 <div class="document-body">
     <div class="document-preview-header">
-        @if (is_null($barangayLogo))
+        @if (!is_null($barangayLogo))
             <img class="document-preview-barangay-logo" src="{{ $barangayLogo }}" />
         @endif
         <div class="barangay-info">
