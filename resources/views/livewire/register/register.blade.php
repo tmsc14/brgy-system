@@ -4,5 +4,7 @@
         <div class="line"></div>
     </div>
     <h2>{{ $title }}</h2>
+    <form wire:submit="register">
     @livewire('register-wizard')
+    </form>
 </div>

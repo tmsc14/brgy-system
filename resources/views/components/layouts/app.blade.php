@@ -9,7 +9,7 @@
     @stack('styles')
 </head>
 
-<body>
+<body class="vh-100 d-flex flex-column">
     {{ $slot ?? null }}
 
     @stack('scripts')

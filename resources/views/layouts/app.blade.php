@@ -9,11 +9,10 @@
     @stack('styles')
 </head>
 
-<body>
+<body class="vh-100 d-flex flex-column">
     @yield('content')
     {{ $slot ?? null }}
 
     @stack('scripts')
 </body>
-
 </html>

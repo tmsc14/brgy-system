@@ -19,11 +19,24 @@ class BarangaySelectionStep extends StepComponent
     public $selectedCityCode = '';
     public $selectedBarangayCode = '';
 
-    public function boot(LocationService $locationService)
+    public function mount(LocationService $locationService)
     {
         $this->locationService = $locationService;
 
+        $this->selectedBarangayCode = session('selectedBarangayCode');
+        $this->selectedCityCode = session('selectedCityCode');
+        $this->selectedProvinceCode = session('selectedProvinceCode');
+        $this->selectedRegionCode = session('selectedRegionCode');
+
         $this->regions = $locationService->getAllRegions();
+        $this->provinces = session('provinces');
+        $this->cities = session('cities');
+        $this->barangays = session('barangays');
+    }
+
+    public function boot(LocationService $locationService)
+    {
+        $this->locationService = $locationService;
     }
 
     public function updatedSelectedRegionCode($value)
@@ -56,10 +69,27 @@ class BarangaySelectionStep extends StepComponent
             'selectedBarangayCode' => 'required',
         ]);
 
-        if ($validated)
-        {
+        if ($validated) {
+            session([
+                'selectedRegionCode' => $this->selectedRegionCode,
+                'selectedProvinceCode' => $this->selectedProvinceCode,
+                'selectedCityCode' => $this->selectedCityCode,
+                'selectedBarangayCode' => $this->selectedBarangayCode,
+                'provinces' => $this->provinces,
+                'cities' => $this->cities,
+                'barangays' => $this->barangays
+            ]);
+
             $this->nextStep();
         }
+    }
+
+    public function stepInfo(): array
+    {
+        return [
+            'label' => 'Select Barangay',
+            'order' => '1'
+        ];
     }
 
     public function render()

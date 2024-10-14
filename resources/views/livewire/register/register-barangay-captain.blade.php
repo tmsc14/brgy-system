@@ -1,5 +1,5 @@
 <x-login.card-with-logo>
-    <hr class="text-brown-secondary"/>
+    <hr class="line text-brown-secondary w-100"/>
     <div class="wizard-container w-100">
         <livewire:register-wizard />
     </div>

@@ -9,7 +9,8 @@ class RegisterWizard extends WizardComponent
     public function steps(): array
     {
         return [
-            BarangaySelectionStep::class
+            BarangaySelectionStep::class,
+            UserDetailsStep::class
         ];
     }
 }
