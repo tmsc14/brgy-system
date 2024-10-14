@@ -11,6 +11,8 @@ use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\API\DocumentsController;
 use App\Http\Controllers\HomeController;
+use App\Livewire\Register\Register;
+use App\Livewire\Register\RegisterBarangayCaptain;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,9 @@ use App\Http\Controllers\HomeController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('register', Register::class)->name('register');
+Route::get('register/barangay-captain', RegisterBarangayCaptain::class)->name('register.barangay-captain');
 
 // Barangay Captain Sign up
 Route::get('register/barangay-captain/step1', [BarangayCaptainController::class, 'showStep1'])->name('barangay_captain.register.step1');

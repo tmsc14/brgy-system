@@ -10,7 +10,7 @@
 
 <body>
     <x-login.card-with-logo>
-        <div class="button-group d-flex flex-column px-3 align-items-center gap-3 col-7">
+        <div class="button-group d-flex flex-column px-3 align-items-center gap-3 w-100">
             <x-welcome-button onClick="location.href='{{ route('barangay_captain.login') }}" text='Barangay Captain Login' />
             <x-welcome-button onClick="location.href='{{ route('barangay_roles.showSelectRole') }}" text='Sign Up' />
             <x-welcome-button onClick="location.href='{{ route('barangay_roles.showUnifiedLogin') }}" text='Login' />

@@ -159,7 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        App\Providers\LivewireComponentProvider::class,
         /*
          * Application Service Providers...
          */

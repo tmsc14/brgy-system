@@ -5,13 +5,17 @@
     height: 24px;
 }
 
+.line {
+    margin: .5rem 0;
+}
+
 .btn-primary-brown {
     --bs-btn-color: #{$primary-brown};
     --bs-btn-bg: #{$secondary-brown};
     --bs-btn-border-color: #{$secondary-brown};
     --bs-btn-hover-color: #{$primary-brown};
     --bs-btn-hover-bg: rgb(205, 185, 155);
-    --bs-btn-hover-border-color: rgb(205, 185, 155);;
+    --bs-btn-hover-border-color: rgb(205, 185, 155);
     --bs-btn-focus-shadow-rgb: 207, 179, 138;
     --bs-btn-active-color: #{$primary-brown};
     --bs-btn-active-bg: rgb(205, 185, 155);
@@ -24,4 +28,22 @@
 
 .full-view-height {
     height: 100vh;
+}
+
+.card.solo-card {
+    border-radius: 1rem;
+}
+
+.wizard-container > div {
+    width: 100%;
+}
+
+@media (max-width: 575.98px) {
+    .mobile-full-height {
+        height: 100%;
+    }
+
+    .card.solo-card {
+        border-radius: 0;
+    }
 }

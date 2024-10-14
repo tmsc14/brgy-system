@@ -2,13 +2,13 @@
 
 @section('content')
     <x-login.card-with-logo>
-        <div class="col-12 col-lg-8 align-items-center gap-3">
+        <div class="col-12 align-items-center justify-content-center d-flex">
             @if (session('success'))
                 <div class="alert alert-success" id="success-message">
                     {{ session('success') }}
                 </div>
             @endif
-            <form action="{{ route('barangay_captain.login.post') }}" method="POST">
+            <form class="w-100" action="{{ route('barangay_captain.login.post') }}" method="POST">
                 @csrf
                 <div class="d-flex flex-column gap-3">
                     <x-form-text-input id="loginEmail" name="email" label="Email" type="email"
@@ -54,7 +54,7 @@
                     <button type="submit" class="btn btn-primary-brown">Log In</button>
                     <div class="signup-text-container text-center">
                         <span class="signup-text text-light">Don't have an account?</span>&nbsp;
-                        <a href="{{ route('barangay_captain.register.step1') }}" class="signup-link">Sign Up Here</a>
+                        <a href="{{ route('register.barangay-captain') }}" class="signup-link">Sign Up Here</a>
                     </div>
                 </div>
             </form>

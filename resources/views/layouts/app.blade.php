@@ -11,6 +11,7 @@
 
 <body>
     @yield('content')
+    {{ $slot ?? null }}
 
     @stack('scripts')
 </body>
