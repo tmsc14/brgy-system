@@ -11,6 +11,8 @@ use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\API\DocumentsController;
 use App\Http\Controllers\HomeController;
+use App\Livewire\BarangaySetup\BarangaySetup;
+use App\Livewire\Login\LoginStaff;
 use App\Livewire\Register\Register;
 use App\Livewire\Register\RegisterBarangayCaptain;
 
@@ -31,6 +33,8 @@ Route::get('/', function () {
 
 Route::get('register', Register::class)->name('register');
 Route::get('register/barangay-captain', RegisterBarangayCaptain::class)->name('register.barangay-captain');
+
+Route::get('login/staff', LoginStaff::class)->name('login.staff');
 
 // Barangay Captain Sign up
 Route::get('register/barangay-captain/step1', [BarangayCaptainController::class, 'showStep1'])->name('barangay_captain.register.step1');
@@ -183,6 +187,8 @@ Route::middleware(['auth'])->group(function(){
 //Barangay Setup
 Route::middleware(['auth', 'role:captain'])->group(function ()
 {
+    Route::get('barangay/setup', BarangaySetup::class)->name('barangay.setup');
+
     Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');
     Route::post('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'createBarangayInfo'])->name('barangay_captain.create_barangay_info');
 

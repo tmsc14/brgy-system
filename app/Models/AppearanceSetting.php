@@ -9,6 +9,11 @@ class AppearanceSetting extends Model
 {
     use HasFactory;
 
+    const DEFAULT_THEME_COLOR = '#FAEED8';
+    const DEFAULT_PRIMARY_COLOR = '#503C2F';
+    const DEFAULT_SECONDARY_COLOR = '#FAFAFA';
+    const DEFAULT_TEXT_COLOR = '#000000';
+
     protected $table = 'appearance_settings';
 
     protected $fillable = [

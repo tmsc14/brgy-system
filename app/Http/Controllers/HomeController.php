@@ -15,7 +15,7 @@ class HomeController extends Controller
 
         if (!$barangay->is_setup_complete)
         {
-            return redirect()->route('barangay_captain.create_barangay_info_form');
+            return redirect()->route('barangay.setup');
         }
         else
         {

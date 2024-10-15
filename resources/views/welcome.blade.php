@@ -8,13 +8,12 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/welcome.scss'])
 </head>
 
-<body>
+<body class="vh-100 d-flex flex-column">
     <x-login.card-with-logo>
         <div class="button-group d-flex flex-column px-3 align-items-center gap-3 w-100">
-            <x-welcome-button onClick="location.href='{{ route('barangay_captain.login') }}" text='Barangay Captain Login' />
-            <x-welcome-button onClick="location.href='{{ route('barangay_roles.showSelectRole') }}" text='Sign Up' />
-            <x-welcome-button onClick="location.href='{{ route('barangay_roles.showUnifiedLogin') }}" text='Login' />
-            <x-welcome-button onClick="location.href='#'" text='Other' />
+            <x-welcome-button onClick="location.href='{{ route('barangay_captain.login') }}" text='Register New Barangay' />
+            <x-welcome-button onClick="location.href='{{ route('login.staff') }}" text='Barangay Staff Login' />
+            <x-welcome-button onClick="location.href='{{ route('barangay_roles.showUnifiedLogin') }}" text='Resident Login' />
         </div>
     </x-login.card-with-logo>
 </body>

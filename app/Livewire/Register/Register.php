@@ -10,9 +10,4 @@ class Register extends Component
     {
         return view('livewire.register.register');
     }
-
-    public function register()
-    {
-        error_log("RAAAA");
-    }
 }

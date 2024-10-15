@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Register;
 
+use App\Models\Barangay;
 use App\Services\LocationService;
 use Spatie\LivewireWizard\Components\StepComponent;
 
@@ -62,6 +63,13 @@ class BarangaySelectionStep extends StepComponent
 
     public function goToNextStep()
     {
+        $existingBarangay = Barangay::where('barangay_code', $this->selectedBarangayCode)->first();
+
+        if ($existingBarangay)
+        {
+            return redirect()->route('barangay_captain.pending_turnover');
+        }
+
         $validated = $this->validate([
             'selectedRegionCode' => 'required',
             'selectedProvinceCode' => 'required',
@@ -69,7 +77,8 @@ class BarangaySelectionStep extends StepComponent
             'selectedBarangayCode' => 'required',
         ]);
 
-        if ($validated) {
+        if ($validated)
+        {
             session([
                 'selectedRegionCode' => $this->selectedRegionCode,
                 'selectedProvinceCode' => $this->selectedProvinceCode,

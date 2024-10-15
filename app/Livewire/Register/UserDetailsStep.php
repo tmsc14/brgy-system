@@ -2,26 +2,15 @@
 
 namespace App\Livewire\Register;
 
+use App\Livewire\Forms\RegistrationForm;
+use App\Services\RegistrationService;
 use Spatie\LivewireWizard\Components\StepComponent;
 use Illuminate\Validation\Rule;
 use Livewire\WithFileUploads;
 
 class UserDetailsStep extends StepComponent
 {
-    public $firstName;
-    public $middleName;
-    public $lastName;
-
-    public $gender;
-    public $dateOfBirth;
-    public $contactNumber;
-    public $bricNumber;
-
-    public $validId;
-    public $email;
-    public $password;
-    public $confirmPassword;
-    public $accessCode;
+    public RegistrationForm $form;
 
     use WithFileUploads;
 
@@ -40,7 +29,7 @@ class UserDetailsStep extends StepComponent
 
     public function register()
     {
-        $validated = $this->validate([
+        $validated = $this->form->validate([
             'firstName' => 'required|alpha_spaces|min:2|max:50',
             'middleName' => 'nullable|alpha_spaces|min:2|max:50',
             'lastName' => 'required|alpha_spaces|min:2|max:50',
@@ -50,13 +39,23 @@ class UserDetailsStep extends StepComponent
             'bricNumber' => 'nullable',
             'validId' => 'required|image',
             'email' => ['required', 'email', Rule::unique('user', 'email')],
-            'password' => 'required',
-            'confirmPassword' => 'required',
+            'password' => [
+                'required',
+                'confirmed',
+                'min:8',
+                'regex:/[A-Z]/',
+                'regex:/[a-z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&#]/',
+            ],
             'accessCode' => 'required'
         ]);
 
-        $barangaySelectionState = $this->state()->forStep('barangay-selection-step');
-
-        
+        if ($validated)
+        {
+            $barangaySelectionState = $this->state()->forStep('register.barangay-selection-step');
+            $registrationService = app(RegistrationService::class);
+            $registrationService->initializeBarangayAndCaptain($barangaySelectionState['selectedBarangayCode'], $this->form);
+        }
     }
 }

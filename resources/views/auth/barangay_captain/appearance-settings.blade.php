@@ -6,8 +6,8 @@
 
 @section('content')
 <div class="appearance-container">
-    <h2>Appearance Settings</h2>
     <form action="{{ route('barangay_captain.appearance_settings.post') }}" method="POST" enctype="multipart/form-data">
+        <h2>Appearance Settings</h2>
         @csrf
         <div class="appearance-form-group">
             <label for="theme">Select Theme</label>
@@ -20,7 +20,7 @@
         </div>
         <div class="appearance-form-group">
             <label for="theme_color">Theme Color</label>
-            <input type="color" name="theme_color" id="theme_color" class="appearance-form-control" value="{{ $appearanceSettings->theme_color ?? '#FAEED8' }}" required>
+            <input type="color" name="theme_color" id="theme_color" class="appearance-form-control" wire:model="theme_color" required>
             <span class="color-box" id="theme_color_box" style="background-color: {{ $appearanceSettings->theme_color ?? '#FAEED8' }}"></span>
         </div>
         <div class="appearance-form-group">

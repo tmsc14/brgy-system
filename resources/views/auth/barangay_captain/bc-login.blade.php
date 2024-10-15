@@ -12,7 +12,7 @@
                 @csrf
                 <div class="d-flex flex-column gap-3">
                     <x-form-text-input id="loginEmail" name="email" label="Email" type="email"
-                        placeholder="Enter your email here." :errors="$errors" />
+                        placeholder="Enter your email here." :errors="$errors" propertyName="email" light/>
                     <div class="form-group">
                         <label class="text-light" for="password">Password</label>
                         <div class="position-relative">
@@ -51,7 +51,7 @@
                         </div>
                         <a href="#" class="ms-auto">Forgot Password?</a>
                     </div>
-                    <button type="submit" class="btn btn-primary-brown">Log In</button>
+                    <button type="submit" class="btn btn-secondary-brown">Log In</button>
                     <div class="signup-text-container text-center">
                         <span class="signup-text text-light">Don't have an account?</span>&nbsp;
                         <a href="{{ route('register.barangay-captain') }}" class="signup-link">Sign Up Here</a>

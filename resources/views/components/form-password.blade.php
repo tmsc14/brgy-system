@@ -9,9 +9,9 @@
             class="icon position-absolute top-50 end-0 translate-middle-y me-2 pe-auto"
             onclick="togglePassword('{{ $id }}')">
     </div>
-    @if ($errors->has('password'))
-        <span class="text-danger">{{ $errors->first('password') }}</span>
-    @endif
+    @error($propertyName)
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
 
     @push('scripts')
     <script>

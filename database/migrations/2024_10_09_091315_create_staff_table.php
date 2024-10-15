@@ -16,13 +16,13 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('gender');
             $table->string('email');
             $table->string('contact_number');
             $table->date('date_of_birth');
-            $table->string('bric_number');
+            $table->string('bric_number')->nullable();
             $table->boolean('is_active');
             $table->boolean('is_master');
             $table->timestamps();
