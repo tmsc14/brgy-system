@@ -47,8 +47,8 @@ Route::get('register/barangay-captain/step3', [BarangayCaptainController::class,
 Route::post('register/barangay-captain/step3', [BarangayCaptainController::class, 'postStep3'])->name('barangay_captain.register.step3.post');
 
 // Barangay Captain Login
-Route::get('login/barangay-captain', [BarangayCaptainController::class, 'showLogin'])->name('barangay_captain.login');
-Route::post('login/barangay-captain', [BarangayCaptainController::class, 'login'])->name('barangay_captain.login.post');
+// Route::get('login/barangay-captain', [BarangayCaptainController::class, 'showLogin'])->name('barangay_captain.login');
+// Route::post('login/barangay-captain', [BarangayCaptainController::class, 'login'])->name('barangay_captain.login.post');
 
 // Barangay Captain Dashboard
 Route::get('dashboard/barangay-captain', [BarangayCaptainController::class, 'showDashboard'])->name('barangay_captain.dashboard')->middleware('auth:barangay_captain');
@@ -181,7 +181,7 @@ Route::get('/send-test-email', function() {
 // NEW ROUTES BY REFACTOR
 // Home
 Route::middleware(['auth'])->group(function(){
-    Route::get('/home', [HomeController::class, 'showStaffHome'])->name('appHome');
+    Route::get('/home', [HomeController::class, 'showStaffHome'])->name('dashboard');
 });
 
 //Barangay Setup

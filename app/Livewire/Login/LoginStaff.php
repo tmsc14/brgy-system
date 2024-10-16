@@ -18,7 +18,7 @@ class LoginStaff extends Component
         {
             return redirect()->route('appHome');
         }
-        else
+        else if ($user && !$user->staff)
         {
             $this->addError('email', 'You do not have a staff record registered.');
         }

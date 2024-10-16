@@ -5,16 +5,16 @@
                 {{ session('success') }}
             </div>
         @endif
-        <form class="w-100" action="{{ route('barangay_captain.login.post') }}" method="POST">
+        <form class="w-100" wire:submit="login">
             @csrf
             <div class="d-flex flex-column gap-3">
-                <x-form-text-input id="loginEmail" name="email" label="Email" type="email"
+                <x-form-text-input id="loginEmail" name="email" label="Email" type="email" wire:model="email"
                     placeholder="Enter your email here." :errors="$errors" propertyName="email" light />
                 <div class="form-group">
                     <label class="text-light" for="password">Password</label>
                     <div class="position-relative">
                         <input class="form-control" type="password" name="password" id="password"
-                            placeholder="Enter your password here." required />
+                            placeholder="Enter your password here." wire:model="password"/>
                         <img id="toggle-password" src="{{ url('resources/img/login-icons/hidepass.png') }}"
                             alt="Show Password"
                             class="icon position-absolute top-50 end-0 translate-middle-y me-2 pe-auto"

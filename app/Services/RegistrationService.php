@@ -118,6 +118,6 @@ class RegistrationService
         // Clear session data
         session()->flush();
 
-        return redirect()->route('barangay_captain.login')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login.staff')->with('success', 'Registration successful! Please log in.');
     }
 }

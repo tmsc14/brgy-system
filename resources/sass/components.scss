@@ -1,5 +1,11 @@
 @import 'variables';
 
+.preview-image {
+    max-width: 150px;
+    margin-top: 10px;
+    display: block;
+}
+
 .icon {
     width: 24px;
     height: 24px;
@@ -7,6 +13,16 @@
 
 .line {
     margin: .5rem 0;
+}
+
+.nav-brown {
+    --bs-nav-link-color: #{$secondary-brown};
+    --bs-nav-link-hover-color: #{$secondary-brown-darker};
+}
+
+.nav-link-brown {
+    --bs-nav-pills-link-active-color: #{$primary-brown};
+    --bs-nav-pills-link-active-bg: #{$secondary-brown};
 }
 
 .btn-primary-brown {

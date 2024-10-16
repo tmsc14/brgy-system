@@ -11,12 +11,15 @@ class RoleServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        View::composer('layouts.app-main', function ($view)
+        View::composer('dashboard', function ($view)
         {
             $user = Auth::user();
+
+            if (!isset($user)) 
+                return;
+
             $roles = $user->roles;
             
-            error_log(json_encode($roles));
             $userRole = null;
 
             if ($roles)
