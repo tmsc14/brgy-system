@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <livewire:dashboard.barangay-captain-dashboard />
+    @if ($_user_role == 'Captain')
+        <livewire:dashboard.barangay-captain-dashboard />
+    @endif
 @endsection

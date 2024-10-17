@@ -37,7 +37,7 @@
                             <div class="d-flex flex-column justify-content-around ms-auto">
                                 <img class="icon ms-auto"
                                     src="{{ asset('resources/img/sidebar-icons/admins-sblogo-inactive.png') }}"></img>
-                                <span class="text-brown-secondary ms-auto fs-5 fw-bold ">Accept</span>
+                                <span wire:click='goToRequests' class="text-brown-secondary ms-auto fs-5 fw-bold ">Accept</span>
                             </div>
                         @else
                             <span class="text-brown-secondary">No pending requests.</span>
@@ -49,7 +49,6 @@
         <div class="d-flex flex-column">
             <h3 class="text-muted">Statistics</h3>
             <div class="d-flex flex-column justify-content-center align-items-center bg-white square p-4">
-                {{-- Residents Icon --}}
                 <img src="{{ asset('resources/img/sidebar-icons/admins-sblogo.png') }}" alt="Residents Icon"
                     class="bigger-icon">
                 <h3>Number of Residents</h3>

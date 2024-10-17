@@ -1,4 +1,4 @@
-<div class="bg-brown-primary p-2 m-4">
+<div class="bg-brown-primary p-2 m-4 rounded">
     <div class='d-flex justify-content-between'>
         <h2 class="text-brown-secondary">Household</h2>
         <button class='btn btn-success' wire:click='addResident'>Add Resident</button>
@@ -22,9 +22,9 @@
                     <td class="bg-brown-secondary list-btn-cell">
                         <div class="list-btn-container">
                             <button wire:click='delete({{ $resident->id }})'
-                                class="deny-btn list-entry-btn">Delete</button>
+                                class="btn btn-danger">Delete</button>
                             <button wire:click='edit({{ $resident->id }})'
-                                class="print-btn list-entry-btn">Edit</button>
+                                class="btn btn-warning">Edit</button>
                         </div>
                     </td>
                 </tr>
