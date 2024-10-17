@@ -13,7 +13,7 @@
         <div class="button-group d-flex flex-column px-3 align-items-center gap-3 w-100">
             <x-welcome-button onClick="location.href='{{ route('register.barangay-captain') }}" text='Register New Barangay' />
             <x-welcome-button onClick="location.href='{{ route('login.staff') }}" text='Barangay Staff Login' />
-            <x-welcome-button onClick="location.href='{{ route('barangay_roles.showUnifiedLogin') }}" text='Resident Login' />
+            <x-welcome-button onClick="location.href='{{ route('login.resident') }}" text='Resident Login' />
         </div>
     </x-login.card-with-logo>
 </body>

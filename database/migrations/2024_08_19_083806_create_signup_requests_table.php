@@ -29,8 +29,6 @@ class CreateSignupRequestsTable extends Migration
             $table->boolean('is_employed')->default(false)->nullable();
             $table->string('status')->default('pending');
             $table->timestamps();
-    
-            $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }
 

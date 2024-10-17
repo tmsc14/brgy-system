@@ -32,7 +32,7 @@
             @elseif($_user_role == 'Staff')
                 @include('layouts.partials.sidebar_staff', ['barangay' => $barangay])
             @elseif($_user_role == 'Resident')
-                @include('layouts.partials.sidebar_resident', ['barangay' => $barangay])
+                @include('layouts.partials.sidebar_resident')
             @endif
             <form class="w-100" action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -45,7 +45,7 @@
         </div>
         <div class="bg-brown-secondary col-10">
             <div class="d-flex align-items-center text-center gap-2 p-3 border-bottom border-secondary">
-                <span class="fs-1">Hello, {{ Auth::user()->staff->first_name }}!</span>
+                <span class="fs-1">Hello, {{ $_user_role == 'Resident' ? Auth::user()->resident->first_name : Auth::user()->staff->first_name }}!</span>
                 <div class="date">
                     <img src="{{ asset('resources/img/header-date.png') }}" class="icon" alt="Date Icon">
                     {{ now()->timezone('Asia/Manila')->format('F d, Y') }}
@@ -53,6 +53,7 @@
             </div>
             <div class="content-wrapper">
                 @yield('content')
+                {{ $slot ?? null }}
             </div>
         </div>
     </div>

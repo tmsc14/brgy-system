@@ -91,7 +91,7 @@ class AppearancesStep extends StepComponent
                         : ''
                 ]);
 
-                $this->redirectRoute('appHome');
+                $this->redirectRoute('dashboard');
             });
         }
     }

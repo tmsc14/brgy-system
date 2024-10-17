@@ -1,7 +1,7 @@
 <li class="nav-item">
-    <a href="{{ $moduleName }}" class="nav-link nav-link-brown {{ request()->routeIs($moduleName) ? 'active' : '' }}">
+    <a href="{{ route( $moduleName ) }}" class="nav-link nav-link-brown {{ request()->routeIs($moduleName) ? 'active' : '' }}">
         <img src="{{ request()->routeIs($moduleName) ? asset('resources/img/sidebar-icons/' . $moduleName . '-sblogo.png') : asset('resources/img/sidebar-icons/' . $moduleName . '-sblogo-inactive.png') }}"
             class="icon" alt="{{ $moduleName }} Icon">
-            <span class="align-middle">{{ ucwords($moduleName) }}</span>
+            <span class="align-middle">{{ $label ?? ucwords($moduleName) }}</span>
     </a>
 </li>

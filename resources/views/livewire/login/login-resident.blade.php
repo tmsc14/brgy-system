@@ -31,7 +31,7 @@
                 <button type="submit" class="btn btn-secondary-brown">Log In</button>
                 <div class="signup-text-container text-center">
                     <span class="signup-text text-light">Don't have an account?</span>&nbsp;
-                    <a href="{{ route('register.staff') }}" class="signup-link">Sign Up Here</a>
+                    <a href="{{ route('register.resident') }}" class="signup-link">Sign Up Here</a>
                 </div>
             </div>
         </form>

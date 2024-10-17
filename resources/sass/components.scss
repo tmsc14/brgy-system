@@ -1,14 +1,33 @@
 @import 'variables';
 
+.big-header {
+    font-size: 3rem !important;
+}
+
+.picture-header {
+    max-width: 300px;
+    max-height: 300px;
+}
+
 .preview-image {
     max-width: 150px;
     margin-top: 10px;
     display: block;
 }
 
+.square {
+    max-width: 300px;
+    max-height: 300px;
+}
+
 .icon {
     width: 24px;
     height: 24px;
+}
+
+.bigger-icon {
+    width: 50px;
+    height: 50px;
 }
 
 .line {

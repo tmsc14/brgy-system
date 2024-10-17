@@ -631,8 +631,8 @@ class BarangayCaptainController extends Controller
 
     public function showRequests()
     {
-        $user = Auth::guard('barangay_captain')->user();
-        $barangayId = $user->barangayDetails->id;
+        $user = Auth::user();
+        $barangayId = $user->barangay->id;
     
         // Fetch all pending requests for this barangay
         $requests = SignupRequest::where('barangay_id', $barangayId)
@@ -650,77 +650,92 @@ class BarangayCaptainController extends Controller
         // Log the request approval process
         Log::info('Approve request triggered for request ID: ' . $id);
         
+        error_log(json_encode($id));
         // Retrieve the signup request by ID
         $request = SignupRequest::findOrFail($id);
+
+        error_log(json_encode($request->user_id));
         
         // Get the user model based on the user type (barangay_official, barangay_staff)
-        $userModel = $this->getUserModel($request->user_type);
+        $user = User::where('id', $request->user_id)->first();
         
-        // Check if a user with the same email or contact number already exists
-        $existingUser = $userModel::where('email', $request->email)
-            ->orWhere('contact_no', $request->contact_no)
-            ->first();
-        
-        if ($existingUser) {
-            // If user exists, check if the request status is still pending
-            if ($request->status === 'pending') {
-                Log::info('User exists, but request is pending. Proceeding to update role and request status.');
-                
-                // Update the role and set the status to accepted
-                $this->assignRole($existingUser, $request->barangay_id, $request->user_type); // Pass the model, not just the ID
-                
-                $request->update([
-                    'status' => 'accepted',
-                ]);
-                
-                return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
-            } else {
-                Log::warning('User already exists and the request is already processed.');
-                return redirect()->route('bc-requests')->with('error', 'This request has already been processed.');
-            }
+        error_log(json_encode($user));
+        if ($request->user_type == 'Resident')
+        {
+            $residentRecord = Resident::where('user_id', $user->id)->first();
+
+            $residentRecord->update(['is_active' => 1]);
+
+            $request->update([
+                'status' => 'accepted',
+            ]);
         }
+        
+        // // Check if a user with the same email or contact number already exists
+        // $existingUser = $userModel::where('email', $request->email)
+        //     ->orWhere('contact_no', $request->contact_no)
+        //     ->first();
+        
+        // if ($existingUser) {
+        //     // If user exists, check if the request status is still pending
+        //     if ($request->status === 'pending') {
+        //         Log::info('User exists, but request is pending. Proceeding to update role and request status.');
+                
+        //         // Update the role and set the status to accepted
+        //         $this->assignRole($existingUser, $request->barangay_id, $request->user_type); // Pass the model, not just the ID
+                
+        //         $request->update([
+        //             'status' => 'accepted',
+        //         ]);
+                
+        //         return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
+        //     } else {
+        //         Log::warning('User already exists and the request is already processed.');
+        //         return redirect()->route('bc-requests')->with('error', 'This request has already been processed.');
+        //     }
+        // }
     
-        // Hash the password
-        $hashedPassword = $request->password; // Ensure password is hashed if necessary
+        // // Hash the password
+        // $hashedPassword = $request->password; // Ensure password is hashed if necessary
         
-        // Prepare the data to be inserted into the user table (BarangayOfficial, Staff, etc.)
-        $data = [
-            'first_name' => $request->first_name,
-            'middle_name' => $request->middle_name,
-            'last_name' => $request->last_name,
-            'dob' => $request->dob,
-            'gender' => $request->gender,
-            'email' => $request->email,
-            'contact_no' => $request->contact_no,
-            'barangay_id' => $request->barangay_id,
-            'password' => $hashedPassword,
-            'valid_id' => $request->valid_id,
-            'position' => $request->position,
-        ];
+        // // Prepare the data to be inserted into the user table (BarangayOfficial, Staff, etc.)
+        // $data = [
+        //     'first_name' => $request->first_name,
+        //     'middle_name' => $request->middle_name,
+        //     'last_name' => $request->last_name,
+        //     'dob' => $request->dob,
+        //     'gender' => $request->gender,
+        //     'email' => $request->email,
+        //     'contact_no' => $request->contact_no,
+        //     'barangay_id' => $request->barangay_id,
+        //     'password' => $hashedPassword,
+        //     'valid_id' => $request->valid_id,
+        //     'position' => $request->position,
+        // ];
     
-        // Log the data being inserted
-        Log::info('Data to be inserted: ', $data);
+        // // Log the data being inserted
+        // Log::info('Data to be inserted: ', $data);
         
-        // Create the user in the respective table
-        $user = $userModel::create($data);
+        // // Create the user in the respective table
+        // $user = $userModel::create($data);
         
-        // Log user creation
-        Log::info('User created with ID: ' . $user->id);
+        // // Log user creation
+        // Log::info('User created with ID: ' . $user->id);
         
-        // Assign a role to the user
-        $this->assignRole($user, $request->barangay_id, $request->user_type); // Pass the model, not just the ID
+        // // Assign a role to the user
+        // $this->assignRole($user, $request->barangay_id, $request->user_type); // Pass the model, not just the ID
         
-        // Update the signup request with the newly created user ID and change the status to accepted
-        $request->update([
-            'user_id' => $user->id,
-            'status' => 'accepted',
-        ]);
+        // // Update the signup request with the newly created user ID and change the status to accepted
+        // $request->update([
+        //     'user_id' => $user->id,
+        //     'status' => 'accepted',
+        // ]);
     
-        // Log role creation
-        Log::info('Request approved for user ID: ' . $user->id);
+        // // Log role creation
+        // Log::info('Request approved for user ID: ' . $user->id);
     
-        // Redirect back to the requests page with a success message
-        return redirect()->route('bc-requests')->with('success', 'Request accepted successfully.');
+        // // Redirect back to the requests page with a success message
+        return redirect()->route('requests')->with('success', 'Request accepted successfully.');
     }    
         
     private function assignRole($user, $barangayId, $userType)

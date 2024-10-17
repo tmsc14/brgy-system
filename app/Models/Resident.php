@@ -9,45 +9,45 @@ class Resident extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'barangay_residents';
+    protected $table = 'resident';
 
     protected $fillable = [
+        'barangay_id',
+        'user_id',
+        'household_id',
         'first_name',
         'middle_name',
         'last_name',
-        'dob',
         'gender',
         'email',
-        'contact_no',
-        'barangay_id',
-        'street_purok_sitio',
-        'house_number_building_name',
-        'is_renter',
-        'is_employed',
-        'password',
+        'contact_number',
+        'date_of_birth',
+        'bric_number',
+        'is_head_of_household',
+        'relationship_to_head',
+        'ethnicity',
+        'religion',
+        'civil_status',
         'valid_id',
-        'role',
-        'status'
+        'is_temporary_resident',
+        'is_pwd',
+        'is_voter',
+        'is_employed',
+        'is_active'
     ];
-
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    protected $guard = 'barangay_resident';
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function barangay()
     {
         return $this->belongsTo(Barangay::class, 'barangay_id');
     }
 
-    public function roles()
+    public function household()
     {
-        return $this->hasMany(Role::class, 'user_id');
+        return $this->belongsTo(Household::class, 'household_id');
     }
-    
-    public function activeRole()
-    {
-        return $this->hasOne(Role::class, 'user_id')->where('active', true);
-    }    
 }

@@ -12,9 +12,15 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\API\DocumentsController;
 use App\Http\Controllers\HomeController;
 use App\Livewire\BarangaySetup\BarangaySetup;
+use App\Livewire\Household\AddResident;
+use App\Livewire\Household\EditResident;
+use App\Livewire\Household\Household;
+use App\Livewire\Login\LoginResident;
 use App\Livewire\Login\LoginStaff;
 use App\Livewire\Register\Register;
 use App\Livewire\Register\RegisterBarangayCaptain;
+use App\Livewire\Register\RegisterResident;
+use App\Livewire\Register\RegisterStaff;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +36,6 @@ use App\Livewire\Register\RegisterBarangayCaptain;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
-
-Route::get('register', Register::class)->name('register');
-Route::get('register/barangay-captain', RegisterBarangayCaptain::class)->name('register.barangay-captain');
-
-Route::get('login/staff', LoginStaff::class)->name('login.staff');
 
 // Barangay Captain Sign up
 Route::get('register/barangay-captain/step1', [BarangayCaptainController::class, 'showStep1'])->name('barangay_captain.register.step1');
@@ -181,12 +182,43 @@ Route::get('/send-test-email', function() {
 // NEW ROUTES BY REFACTOR
 // Home
 Route::middleware(['auth'])->group(function(){
-    Route::get('/home', [HomeController::class, 'showStaffHome'])->name('dashboard');
+    Route::get('/home', [HomeController::class, 'showHome'])->name('dashboard');
+
+    Route::get('documents', [HomeController::class, 'showHome'])->name('documents');
+
+    Route::get('barangay-information', [HomeController::class, 'showHome'])->name('barangay-information');
+
+    Route::get('announcement', [HomeController::class, 'showHome'])->name('announcement');
+    
+    Route::get('settings', [HomeController::class, 'showHome'])->name('settings');
+
+    Route::get('admins', [HomeController::class, 'showHome'])->name('admins');
+
+    Route::get('statistics', [HomeController::class, 'showHome'])->name('statistics');
+
+    Route::get('customize', [HomeController::class, 'showHome'])->name('customize');
+
+    Route::get('household', Household::class)->name('household');
+    Route::get('household/resident', AddResident::class)->name('household.add-resident');
+    Route::get('household/resident/{id}', EditResident::class)->name('household.edit-resident');
 });
+
+Route::get('register/staff', RegisterStaff::class)->name('register.staff');
+Route::get('register/resident', RegisterResident::class)->name('register.resident');
+Route::get('register/barangay-captain', RegisterBarangayCaptain::class)->name('register.barangay-captain');
+
+Route::get('login/staff', LoginStaff::class)->name('login.staff');
+Route::get('login/resident', LoginResident::class)->name('login.resident');
+
 
 //Barangay Setup
 Route::middleware(['auth', 'role:captain'])->group(function ()
 {
+    Route::get('requests', [BarangayCaptainController::class, 'showRequests'])->name('requests');
+    Route::post('requests/approve/{id}', [BarangayCaptainController::class, 'approveRequest'])->name('bc-requests.approve');
+    Route::post('requests/deny/{id}', [BarangayCaptainController::class, 'denyRequest'])->name('bc-requests.deny');
+    Route::get('requests/history', [BarangayCaptainController::class, 'showRequestHistory'])->name('bc-request-history');
+
     Route::get('barangay/setup', BarangaySetup::class)->name('barangay.setup');
 
     Route::get('barangay-captain/create-barangay-info', [BarangayCaptainController::class, 'showCreateBarangayInfo'])->name('barangay_captain.create_barangay_info_form');

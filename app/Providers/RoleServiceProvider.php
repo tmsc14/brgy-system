@@ -11,7 +11,7 @@ class RoleServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        View::composer('dashboard', function ($view)
+        View::composer('*', function ($view)
         {
             $user = Auth::user();
 

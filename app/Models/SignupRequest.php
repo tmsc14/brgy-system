@@ -13,6 +13,7 @@ class SignupRequest extends Model
         'first_name',
         'middle_name',
         'last_name',
+        'user_id',
         'dob',
         'gender',
         'email',

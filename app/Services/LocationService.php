@@ -41,6 +41,16 @@ class LocationService
         $this->loadLocationData();
     }
 
+    public function getProvinceByProvCode($provCode)
+    {
+        return $this->provincesProvCodeLookup[$provCode] ?? null;
+    }
+
+    public function getCityByCitymunCode($citymunCode)
+    {
+        return $this->citiesCitymunCodeLookup[$citymunCode] ?? null;
+    }
+
     public function getBarangayByBrgyCode($brgyCode)
     {
         return $this->barangaysBrgyCodeLookup[$brgyCode] ?? null;

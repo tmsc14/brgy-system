@@ -17,13 +17,13 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('user')->onDelete('cascade');
             $table->unsignedInteger('household_id')->nullable();
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->string('gender');
             $table->string('email');
             $table->string('contact_number');
             $table->date('date_of_birth');
-            $table->string('bric_number');
+            $table->string('bric_number')->nullable();
             $table->boolean('is_head_of_household');
             $table->boolean('relationship_to_head')->nullable();
             $table->timestamps();

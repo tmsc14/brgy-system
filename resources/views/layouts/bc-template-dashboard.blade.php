@@ -69,23 +69,12 @@
                     Admins
                 </a>
             </li>            
-                @php
-                    // Check if any statistics-related features are enabled for the barangay captain
-                    $statisticsEnabled = Auth::guard('barangay_captain')->user()->barangayDetails
-                        ->features()
-                        ->where('category', 'statistics')  // Check only for features in the 'statistics' category
-                        ->wherePivot('is_enabled', true)   // Ensure the feature is enabled
-                        ->exists();                        // Check if such features exist
-                @endphp
-
-                @if($statisticsEnabled)
                     <li>
                         <a href="{{ route('barangay_captain.statistics') }}" class="{{ request()->routeIs('barangay_captain.statistics') ? 'active' : '' }}">
                             <img src="{{ request()->routeIs('barangay_captain.statistics') ? asset('resources/img/sidebar-icons/statistics-sblogo.png') : asset('resources/img/sidebar-icons/statistics-sblogo-inactive.png') }}" class="icon" alt="Statistics Icon">
                             Statistics
                         </a>
                     </li>
-                @endif
             </li>
                 <a href="{{ route('barangay_captain.customize_barangay')}}" class="{{ request()->routeIs('barangay_captain.customize_barangay') ? 'active' : '' }}">
                     <img src="{{ request()->routeIs('barangay_captain.customize_barangay') ? asset('resources/img/sidebar-icons/customize-sblogo.png') : asset('resources/img/sidebar-icons/customize-sblogo-inactive.png') }}" class="icon" alt="Customize Icon">

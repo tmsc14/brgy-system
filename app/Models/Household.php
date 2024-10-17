@@ -10,17 +10,22 @@ class Household extends Model
     use HasFactory;
 
     protected $fillable = [
-        'resident_id',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'dob',
-        'bric_no',
-        'gender',
+        'barangay_id',
+        'household_head_user_id',
+        'street_address',
+        'purok',
+        'sitio'
     ];
 
-    public function resident()
+    protected $table = "household";
+
+    public function user()
     {
-        return $this->belongsTo(Resident::class, 'resident_id');
+        return $this->belongsTo(User::class, 'household_head_user_id');
+    }
+
+    public function residents()
+    {
+        return $this->hasMany(Resident::class, 'household_id');
     }
 }

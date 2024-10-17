@@ -1,5 +1,11 @@
-<ul class="nav">
-    <li>
+<x-sidebar>
+    <x-sidebar-item moduleName='dashboard' label="Home"  />
+    <x-sidebar-item moduleName='documents' label="Documents Request" />
+    <x-sidebar-item moduleName='barangay-information' label="Barangay Information" iconName='information'/>
+    <x-sidebar-item moduleName='announcement' />
+    <x-sidebar-item moduleName='household' label='Household' iconName='admins' />
+    <x-sidebar-item moduleName='settings' />
+    {{-- <li>
         <a href="{{ route('barangay_resident.dashboard')}}" class="{{ request()->routeIs('barangay_resident.dashboard') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('barangay_resident.dashboard') ? asset('resources/img/sidebar-icons/dashboard-sblogo.png') : asset('resources/img/sidebar-icons/dashboard-sblogo-inactive.png') }}" class="icon" alt="Dashboard Icon">
             Dashboard
@@ -34,5 +40,5 @@
             <img src="{{ request()->routeIs('settings') ? asset('resources/img/sidebar-icons/settings-sblogo.png') : asset('resources/img/sidebar-icons/settings-sblogo-inactive.png') }}" class="icon" alt="Settings Icon">
             Settings
         </a>
-    </li>
-</ul>
+    </li> --}}
+</x-sidebar>

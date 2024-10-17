@@ -5,7 +5,7 @@ namespace App\Livewire\Login;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
-class LoginStaff extends Component
+class LoginResident extends Component
 {
     public $email;
     public $password;
@@ -14,13 +14,13 @@ class LoginStaff extends Component
     {
         $user = Auth::user();
 
-        if ($user && $user->staff)
+        if ($user && $user->resident)
         {
             return redirect()->route('dashboard');
         }
-        else if ($user && !$user->staff)
+        else if ($user && !$user->resident)
         {
-            $this->addError('email', 'You do not have a staff record registered.');
+            $this->addError('email', 'You do not have a resident record registered.');
         }
     }
 
@@ -35,13 +35,19 @@ class LoginStaff extends Component
         {
             $user = Auth::user();
 
-            if ($user->staff)
+            if ($user->resident && $user->resident->is_active)
             {
                 return redirect()->route('dashboard');
             }
+            else if ($user->resident && !$user->resident->is_active)
+            {
+                $this->addError('email', 'Your registration request is still being reviewed.');
+                Auth::logout();
+            }
             else
             {
-                $this->addError('email', 'You do not have a staff record registered.');
+                $this->addError('email', 'You do not have a resident record registered.');
+                Auth::logout();
             }
         }
         else
@@ -52,6 +58,6 @@ class LoginStaff extends Component
 
     public function render()
     {
-        return view('livewire.login.login-staff');
+        return view('livewire.login.login-resident');
     }
 }

@@ -8,12 +8,18 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function showStaffHome(Request $request)
+    public function showHome(Request $request)
     {
         $user = Auth::user();
         $barangay = $user->barangay;
 
-        if (!$barangay->is_setup_complete)
+        if (!Auth::user()->roles()->where('name', 'Captain')->exists()
+            && !$barangay->is_setup_complete)
+        {
+            return redirect()->route('home')->with('error', 'Your barangay has not finished setting up.');
+        }
+        if (Auth::user()->roles()->where('name', 'Captain')->exists()
+            && !$barangay->is_setup_complete)
         {
             return redirect()->route('barangay.setup');
         }
