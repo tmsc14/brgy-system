@@ -8,10 +8,11 @@
             <a class="nav-link" href="#">History</a>
         </li>
     </ul>
-    @if ($requests->isEmpty())
-        <p>No pending signup requests.</p>
-    @else
-        <div class="table d-flex p-3 rounded bg-light-brown flex-column">
+
+    <div class="table d-flex p-3 rounded bg-light-brown flex-column">
+        @if ($requests->isEmpty())
+            <span>No pending signup requests.</span>
+        @else
             <table class='flex-grow-1'>
                 <thead>
                     <tr class="text-light bg-brown-primary border-0">
@@ -35,17 +36,19 @@
                             </td>
                             <td class="p-2">
                                 <button type="submit" class="btn btn-success"
-                                    wire:click="approve({{ $request->id }})">Approve</button>
+                                    wire:click="updateStatus({{ $request->id }}, 'Approved')">Approve</button>
                                 <button type="submit" class="btn btn-danger"
-                                    wire:click="deny({{ $request->id }})">Deny</button>
+                                    wire:click="updateStatus({{ $request->id }}, 'Denied')">Deny</button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <hr class="bg-brown-primary" />
+            @if ($requests->lastPage() > 1)
+                <hr class="bg-brown-primary" />
+            @endif
             {{ $requests->links() }}
-        </div>
-    @endif
+        @endif
+    </div>
     {{-- <a href="{{ route('bc-request-history') }}" class="view-history">View History</a> --}}
 </div>

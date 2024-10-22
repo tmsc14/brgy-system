@@ -35,13 +35,14 @@ class LoginStaff extends Component
         {
             $user = Auth::user();
 
-            if ($user->staff)
+            if ($user->staff && $user->staff->is_active)
             {
                 return redirect()->route('dashboard');
             }
             else
             {
                 $this->addError('email', 'You do not have a staff record registered.');
+                Auth::logout();
             }
         }
         else

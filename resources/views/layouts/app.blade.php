@@ -28,9 +28,9 @@
             @if ($_user_role == 'Captain')
                 @include('layouts.partials.sidebar_barangay_captain')
             @elseif ($_user_role == 'Official')
-                @include('layouts.partials.sidebar_barangay_official', ['barangay' => $barangay])
+                @include('layouts.partials.sidebar_barangay_official')
             @elseif($_user_role == 'Staff')
-                @include('layouts.partials.sidebar_staff', ['barangay' => $barangay])
+                @include('layouts.partials.sidebar_staff')
             @elseif($_user_role == 'Resident')
                 @include('layouts.partials.sidebar_resident')
             @endif

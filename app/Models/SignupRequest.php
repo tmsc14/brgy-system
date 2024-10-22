@@ -32,5 +32,7 @@ class SignupRequest extends Model
     }
 
     public const PENDING_STATUS = 'Pending';
+    public const APPROVED_STATUS = 'Approved';
+    public const DENIED_STATUS = 'Denied';
 }
 
