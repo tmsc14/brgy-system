@@ -10,6 +10,7 @@ use App\Http\Controllers\BarangayStaffController;
 use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\API\DocumentsController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Household\AddResident;
@@ -215,6 +216,8 @@ Route::get('login/resident', LoginResident::class)->name('login.resident');
 //Barangay Setup
 Route::middleware(['auth', 'role:captain'])->group(function ()
 {
+    Route::get('photos/{barangayId}/validIds/{role}/{userId}/{fileName}', [FileController::class, 'getValidIdPhoto']);
+
     Route::get('requests', SignupRequests::class)->name('requests');
     Route::post('requests/approve/{id}', [BarangayCaptainController::class, 'approveRequest'])->name('bc-requests.approve');
     Route::post('requests/deny/{id}', [BarangayCaptainController::class, 'denyRequest'])->name('bc-requests.deny');

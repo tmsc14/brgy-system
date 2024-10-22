@@ -174,8 +174,6 @@ class BarangayCaptainController extends Controller
                 'name' => Role::RESIDENT
             ]);
 
-            error_log(json_encode($barangay));
-
             // Create the Barangay Captain
             $barangayCaptainUser = User::create([
                 'barangay_id' => $barangay->id,
@@ -650,16 +648,12 @@ class BarangayCaptainController extends Controller
         // Log the request approval process
         Log::info('Approve request triggered for request ID: ' . $id);
         
-        error_log(json_encode($id));
         // Retrieve the signup request by ID
         $request = SignupRequest::findOrFail($id);
 
-        error_log(json_encode($request->user_id));
-        
         // Get the user model based on the user type (barangay_official, barangay_staff)
         $user = User::where('id', $request->user_id)->first();
         
-        error_log(json_encode($user));
         if ($request->user_type == 'Resident')
         {
             $residentRecord = Resident::where('user_id', $user->id)->first();

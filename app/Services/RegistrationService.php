@@ -147,13 +147,15 @@ class RegistrationService
                 'position' => $staffForm->officialPosition ?? $staffForm->staffRole
             ]);
 
+            $validIdPath = $form->validId->store('photos/' . $barangayId . '/validIds/' .  strtolower($roleName) . '/'. $user->id);
+
             SignupRequest::create([
                 'barangay_id' => $barangayId,
                 'user_id' => $user->id,
                 'first_name' => $form->firstName,
                 'middle_name' => $form->middleName,
                 'last_name' => $form->lastName,
-                'valid_id' => $form->validId,
+                'valid_id' => $validIdPath,
                 'user_type' => $roleName,
                 'position' => $staffForm->officialPosition ?? $staffForm->staffRole,
                 'status' => SignupRequest::PENDING_STATUS
@@ -192,7 +194,7 @@ class RegistrationService
                 'sitio' => '',
             ]);
 
-            error_log($user->id);
+            $validIdPath = $form->validId->store('photos/' . $barangayId . '/validIds/resident/' . $user->id);
 
             Resident::create([
                 'barangay_id' => $barangayId,
@@ -210,7 +212,7 @@ class RegistrationService
                 'ethnicity' => $residentForm->ethnicity,
                 'religion' => $residentForm->religion,
                 'civil_status' => $residentForm->civil_status,
-                'valid_id' => $form->validId,
+                'valid_id' => $validIdPath,
                 'is_temporary_resident' => $residentForm->is_temporary_resident,
                 'is_pwd' => $residentForm->is_pwd,
                 'is_voter' => $residentForm->is_voter,
@@ -219,25 +221,14 @@ class RegistrationService
             ]);
 
             SignupRequest::create([
+                'barangay_id' => $barangayId,
                 'user_id' => $user->id,
                 'first_name' => $form->firstName,
                 'middle_name' => $form->middleName,
                 'last_name' => $form->lastName,
-                'dob' => $form->dateOfBirth,
-                'gender' => $form->gender,
-                'email' => $form->email,
-                'contact_no' => $form->contactNumber,
-                'barangay_id' => $barangayId,
-                'password' => $form->password,
-                'valid_id' => $form->validId,
+                'valid_id' => $validIdPath,
                 'user_type' => 'Resident',
                 'position' => '',
-        
-                // Resident-specific details
-                'house_number_building_name' => '',
-                'street_purok_sitio' => '',
-                'is_renter' => null,
-                'is_employed' => null,
                 'status' => 'pending',  // Default status for signup request
             ]);
 

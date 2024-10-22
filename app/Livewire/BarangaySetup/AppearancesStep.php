@@ -17,7 +17,7 @@ class AppearancesStep extends StepComponent
     public $primary_color;
     public $secondary_color;
     public $text_color;
-    public $logo_path;
+    public $logo;
 
     use WithFileUploads, AppearanceSettingsTrait;
 
@@ -58,9 +58,9 @@ class AppearancesStep extends StepComponent
 
     public function save()
     {
-        if ($this->logo_path == '')
+        if ($this->logo == '')
         {
-            $this->logo_path = null;
+            $this->logo = null;
         }
 
         $validated = $this->validate([
@@ -68,7 +68,7 @@ class AppearancesStep extends StepComponent
             'primary_color' => 'required|string',
             'secondary_color' => 'required|string',
             'text_color' => 'required|string',
-            'logo_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validated)
@@ -86,8 +86,8 @@ class AppearancesStep extends StepComponent
                     'primary_color' => $this->primary_color,
                     'secondary_color' => $this->secondary_color,
                     'text_color' => $this->text_color,
-                    'logo_path' => isset($this->logo_path)
-                        ? $this->logo_path->store('logos', 'public')
+                    'logo_path' => isset($this->logo)
+                        ? $this->logo->storePubliclyAs('logos/' . $barangay->id, 'logo.png')
                         : ''
                 ]);
 

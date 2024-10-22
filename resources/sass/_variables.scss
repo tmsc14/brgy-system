@@ -13,7 +13,13 @@ $light-green: #74b7a0;
 $light-brown: #b6977d;
 
 // Body
-$body-bg: $secondary-brown;
+$body-bg: #fff;
+
+// Border
+$border-color: #543b2b;
+
+// Nav tabs
+$nav-tabs-link-active-bg: $secondary-brown;
 
 // Pagination
 $pagination-bg: $secondary-brown;
@@ -25,6 +31,3 @@ $pagination-hover-color: $primary-brown;
 $pagination-active-bg: $primary-brown;
 $pagination-active-color: white;
 $pagination-active-border-color: $secondary-brown;
-
-// Misc.
-$border-color: #543b2b;
