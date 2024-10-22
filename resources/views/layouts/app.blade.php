@@ -51,7 +51,7 @@
                     {{ now()->timezone('Asia/Manila')->format('F d, Y') }}
                 </div>
             </div>
-            <div class="content-wrapper">
+            <div class="p-4">
                 @yield('content')
                 {{ $slot ?? null }}
             </div>

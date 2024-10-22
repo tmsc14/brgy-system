@@ -9,24 +9,15 @@ class CreateSignupRequestsTable extends Migration
     public function up()
     {
         Schema::create('signup_requests', function (Blueprint $table) {
+            $table->unsignedBigInteger('barangay_id');
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('user_type');
-            $table->unsignedBigInteger('barangay_id');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
-            $table->date('dob');
-            $table->string('gender');
-            $table->string('email')->unique();
-            $table->string('contact_no');
-            $table->string('valid_id');
-            $table->string('password');
+            $table->string('user_type');
             $table->string('position')->nullable();
-            $table->string('house_number_building_name')->nullable();
-            $table->string('street_purok_sitio')->nullable();
-            $table->boolean('is_renter')->default(false)->nullable();
-            $table->boolean('is_employed')->default(false)->nullable();
+            $table->string('valid_id');
             $table->string('status')->default('pending');
             $table->timestamps();
         });

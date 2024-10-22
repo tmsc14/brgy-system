@@ -21,6 +21,7 @@ use App\Livewire\Register\Register;
 use App\Livewire\Register\RegisterBarangayCaptain;
 use App\Livewire\Register\RegisterResident;
 use App\Livewire\Register\RegisterStaff;
+use App\Livewire\SignupRequests\SignupRequests;
 
 /*
 |--------------------------------------------------------------------------
@@ -214,7 +215,7 @@ Route::get('login/resident', LoginResident::class)->name('login.resident');
 //Barangay Setup
 Route::middleware(['auth', 'role:captain'])->group(function ()
 {
-    Route::get('requests', [BarangayCaptainController::class, 'showRequests'])->name('requests');
+    Route::get('requests', SignupRequests::class)->name('requests');
     Route::post('requests/approve/{id}', [BarangayCaptainController::class, 'approveRequest'])->name('bc-requests.approve');
     Route::post('requests/deny/{id}', [BarangayCaptainController::class, 'denyRequest'])->name('bc-requests.deny');
     Route::get('requests/history', [BarangayCaptainController::class, 'showRequestHistory'])->name('bc-request-history');

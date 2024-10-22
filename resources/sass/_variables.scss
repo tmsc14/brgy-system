@@ -1,16 +1,30 @@
-// Body
-$body-bg: #f8fafc;
-
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+$font-family-sans-serif: 'Arial', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Color codes
 $primary-brown: #543b2b;
 $secondary-brown: #f5e9d2;
-
 $secondary-brown-darker: #d9caad;
+
 $light-blue: #a7d2eb;
 $light-green: #74b7a0;
 $light-brown: #b6977d;
+
+// Body
+$body-bg: $secondary-brown;
+
+// Pagination
+$pagination-bg: $secondary-brown;
+$pagination-color: $primary-brown;
+
+$pagination-hover-bg: $secondary-brown-darker;
+$pagination-hover-color: $primary-brown;
+
+$pagination-active-bg: $primary-brown;
+$pagination-active-color: white;
+$pagination-active-border-color: $secondary-brown;
+
+// Misc.
+$border-color: #543b2b;

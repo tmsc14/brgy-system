@@ -30,9 +30,8 @@ class RegistrationService
     public function initializeBarangayAndCaptain($barangayCode, RegistrationForm $form)
     {
         $barangayInfo = $this->locationService->getBarangayByBrgyCode($barangayCode);
-        $password = $form->password;
 
-        DB::transaction(function () use ($barangayInfo, $password, $form)
+        DB::transaction(function () use ($barangayInfo, $form)
         {
             // Create barangay with partial data
             $barangay = Barangay::create([
@@ -91,7 +90,8 @@ class RegistrationService
                 'date_of_birth' => $form->dateOfBirth,
                 'bric_number' => $form->bricNumber,
                 'is_master' => true,
-                'is_active' => true
+                'is_active' => true,
+                'title' => Role::CAPTAIN
             ]);
 
             // Assign the captain role to the captain user
@@ -99,15 +99,6 @@ class RegistrationService
                 'barangay_id' => $barangay->id,
                 'user_id' => $barangayCaptainUser->id,
                 'role_id' => $barangayCaptainRole->id
-            ]);
-
-            // Default appearance settings
-            AppearanceSetting::create([
-                'barangay_id' => $barangay->id,
-                'theme_color' => AppearanceSetting::DEFAULT_THEME_COLOR,
-                'primary_color' => AppearanceSetting::DEFAULT_PRIMARY_COLOR,
-                'secondary_color' => AppearanceSetting::DEFAULT_SECONDARY_COLOR,
-                'text_color' => AppearanceSetting::DEFAULT_TEXT_COLOR
             ]);
 
             // Default appearance settings
@@ -151,29 +142,21 @@ class RegistrationService
                 'date_of_birth' => $form->dateOfBirth,
                 'bric_number' => $form->bricNumber,
                 'is_master' => false,
-                'is_active' => false
+                'is_active' => false,
+                'title' => $roleName,
+                'position' => $staffForm->officialPosition ?? $staffForm->staffRole
             ]);
 
             SignupRequest::create([
+                'barangay_id' => $barangayId,
+                'user_id' => $user->id,
                 'first_name' => $form->firstName,
                 'middle_name' => $form->middleName,
                 'last_name' => $form->lastName,
-                'dob' => $form->dateOfBirth,
-                'gender' => $form->gender,
-                'email' => $form->email,
-                'contact_no' => $form->contactNumber,
-                'barangay_id' => $barangayId,
-                'password' => $form->password,
                 'valid_id' => $form->validId,
                 'user_type' => $roleName,
                 'position' => $staffForm->officialPosition ?? $staffForm->staffRole,
-        
-                // Resident-specific details
-                'house_number_building_name' => '',
-                'street_purok_sitio' => '',
-                'is_renter' => null,
-                'is_employed' => null,
-                'status' => 'pending',  // Default status for signup request
+                'status' => SignupRequest::PENDING_STATUS
             ]);
 
             $role = Role::where('name', $roleName)->first();

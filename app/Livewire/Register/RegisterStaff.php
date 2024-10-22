@@ -70,8 +70,6 @@ class RegisterStaff extends Component
             ]
         ]);
 
-        
-
         if ($validatedRole && $validatedRegistrationForm && $validatedStaffFields)
         {
             $registrationService = app(RegistrationService::class);

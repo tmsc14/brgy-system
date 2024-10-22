@@ -24,7 +24,9 @@ class Staff extends Authenticatable
         'date_of_birth',
         'bric_number',
         'is_master',
-        'is_active'
+        'is_active',
+        'title',
+        'position'
     ];
 
     public function user()
