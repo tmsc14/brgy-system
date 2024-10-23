@@ -16,6 +16,7 @@ use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Household\AddResident;
 use App\Livewire\Household\EditResident;
 use App\Livewire\Household\Household;
+use App\Livewire\Login\Login;
 use App\Livewire\Login\LoginResident;
 use App\Livewire\Login\LoginStaff;
 use App\Livewire\Register\Register;
@@ -209,9 +210,7 @@ Route::get('register/staff', RegisterStaff::class)->name('register.staff');
 Route::get('register/resident', RegisterResident::class)->name('register.resident');
 Route::get('register/barangay-captain', RegisterBarangayCaptain::class)->name('register.barangay-captain');
 
-Route::get('login/staff', LoginStaff::class)->name('login.staff');
-Route::get('login/resident', LoginResident::class)->name('login.resident');
-
+Route::get('login/{role}', Login::class)->name('login');
 
 //Barangay Setup
 Route::middleware(['auth', 'role:captain'])->group(function ()
