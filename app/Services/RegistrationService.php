@@ -37,14 +37,12 @@ class RegistrationService
             $barangay = Barangay::create([
                 'name' => $barangayInfo['brgyDesc'],
                 'display_name' => $barangayInfo['brgyDesc'],
-                'description' => '',
                 'email' => '',
                 'contact_number' => '',
                 'region_code' => $barangayInfo['regCode'],
                 'province_code' => $barangayInfo['provCode'],
                 'city_code' => $barangayInfo['citymunCode'],
                 'barangay_code' => $barangayInfo['brgyCode'],
-                'barangay_office_address' => '',
                 'address_line_one' => ''
             ]);
 

@@ -19,10 +19,6 @@ class BarangayInformationStep extends StepComponent
     #[Session]
     public $address_line_two;
     #[Session]
-    public $barangay_office_address;
-    #[Session]
-    public $description;
-    #[Session]
     public $contact_number;
 
     public function mount()
@@ -33,8 +29,6 @@ class BarangayInformationStep extends StepComponent
 
         $this->address_line_one = $barangay->address_line_one;
         $this->address_line_two = $barangay->address_line_two;
-        $this->barangay_office_address = $barangay->barangay_office_address;
-        $this->description = $barangay->description;
         $this->contact_number = $barangay->contact_number;
     }
 
@@ -45,8 +39,6 @@ class BarangayInformationStep extends StepComponent
             'email' => 'required|email|max:255',
             'address_line_one' => 'required|string|max:255',
             'address_line_two' => 'nullable|string|max:255',
-            'barangay_office_address' => 'required|string|max:255',
-            'description' => 'required|string',
             'contact_number' => 'required|string|max:255',
         ]);
         

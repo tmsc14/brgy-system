@@ -37,10 +37,6 @@
                 propertyName="address_line_one" type="text" />
             <x-form-text-input id="barangayInformationLineTwo" label="Line 2" wire:model="address_line_two"
                 propertyName="address_line_two" type="text" />
-            <x-form-text-input id="barangayInformationOfficeAddress" label="Barangay Office Address"
-                wire:model="barangay_office_address" propertyName="barangay_office_address" type="text" />
-            <x-form-text-input id="barangayInformationDescription" label="Barangay Description" wire:model="description"
-                propertyName="description" type="text" />
             <x-form-text-input id="barangayInformationContactNumber" label="Barangay Contact Number"
                 wire:model="contact_number" propertyName="contact_number" type="text" />
         </div>

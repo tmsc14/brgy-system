@@ -14,7 +14,6 @@ class Barangay extends Model
     protected $fillable = [
         'name',
         'display_name',
-        'description',
         'email',
         'contact_number',
         'region_code',
@@ -22,7 +21,6 @@ class Barangay extends Model
         'city_code',
         'barangay_code',
         'is_setup_complete',
-        'barangay_office_address',
         'address_line_one',
         'address_line_two'
     ];
