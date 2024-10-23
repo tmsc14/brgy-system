@@ -87,7 +87,7 @@ class AppearancesStep extends StepComponent
                     'secondary_color' => $this->secondary_color,
                     'text_color' => $this->text_color,
                     'logo_path' => isset($this->logo)
-                        ? $this->logo->storePubliclyAs('logos/' . $barangay->id, 'logo.png')
+                        ? $this->logo->storePubliclyAs('logos/' . $barangay->id, 'logo.png', 'public')
                         : ''
                 ]);
 

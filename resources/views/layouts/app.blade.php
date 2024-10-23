@@ -16,15 +16,7 @@
             <div class="text-center mb-2">
                 <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo" class="w-50 h-auto">
             </div>
-            <div class="d-flex justify-content-center mb-2">
-                @if ($appearanceSettings && $appearanceSettings->logo_path)
-                    <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" class="img-fluid" alt="Barangay Logo"
-                        class="w-25 h-auto">
-                @else
-                    <img src="{{ asset('resources/img/default-logo.png') }}" class="w-50 img-fluid"
-                        alt="Default Barangay Logo" class="w-25 h-auto">
-                @endif
-            </div>
+            <x-sidebar-logo />
             @if ($_user_role == 'Captain')
                 @include('layouts.partials.sidebar_barangay_captain')
             @elseif ($_user_role == 'Official')
@@ -51,7 +43,7 @@
                     {{ now()->timezone('Asia/Manila')->format('F d, Y') }}
                 </div>
             </div>
-            <div class="p-4">
+            <div class="p-3">
                 @yield('content')
                 {{ $slot ?? null }}
             </div>

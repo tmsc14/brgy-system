@@ -5,20 +5,8 @@
             <div class="d-flex flex-column gap-3">
                 <x-form-text-input id="loginEmail" name="email" label="Email" type="email" wire:model="email"
                     placeholder="Enter your email here." :errors="$errors" propertyName="email" light />
-                <div class="form-group">
-                    <label class="text-light" for="password">Password</label>
-                    <div class="position-relative">
-                        <input class="form-control" type="password" name="password" id="password"
-                            placeholder="Enter your password here." wire:model="password"/>
-                        <img id="toggle-password" src="{{ url('resources/img/login-icons/hidepass.png') }}"
-                            alt="Show Password"
-                            class="icon position-absolute top-50 end-0 translate-middle-y me-2 pe-auto"
-                            onclick="togglePassword()">
-                    </div>
-                    @if ($errors->has('password'))
-                        <span class="error">{{ $errors->first('password') }}</span>
-                    @endif
-                </div>
+                <x-form-password id="loginPassword" label="Password" propertyName="password"
+                    wire:model="password" light />
                 <div class="d-flex">
                     <div class="form-check justify-content-around text-light">
                         <input type="checkbox" name="remember" id="remember" class="form-check-input" />

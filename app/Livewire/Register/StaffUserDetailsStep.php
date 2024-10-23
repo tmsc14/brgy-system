@@ -72,6 +72,15 @@ class StaffUserDetailsStep extends StepComponent
                     }
                 case ('Official'):
                     {
+                        $officialValidated = $this->staffForm->validate([
+                            'officialPosition' => 'required'
+                        ]);
+
+                        if ($officialValidated)
+                        {
+                            $barangaySelectionState = $this->state()->forStep('register.barangay-selection-step');
+                            $registrationService = app(RegistrationService::class);
+                        }
                         break;
                     }
             }

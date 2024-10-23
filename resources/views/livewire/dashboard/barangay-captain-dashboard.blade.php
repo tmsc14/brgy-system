@@ -1,20 +1,14 @@
 <div>
-    <div class="d-flex flex-column gap-4 p-4">
-        <div class="d-flex bg-light-blue rounded w-100 p-2">
-            @if ($appearanceSettings && $appearanceSettings->logo_path)
-                <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" class="w-25 img-fluid p-4"
-                    alt="Barangay Logo">
-            @else
-                <img src="{{ asset('resources/img/default-logo.png') }}" class="picture-header w-25 img-fluid p-5"
-                    alt="Default Barangay Logo">
-            @endif
+    <div class="d-flex flex-column gap-4">
+        <div class="d-flex bg-light-blue rounded w-100 p-4 gap-4">
+            <x-logo-big />
             <div class="d-flex flex-column align-self-center">
                 <span
                     class="big-header text-brown-primary fw-bold">{{ 'Barangay' . ' ' . Auth::user()->barangay->display_name }}</span>
                 <span class="fs-3 text-brown-primary">{{ $cityName . ', ' . $provinceName }}</span>
             </div>
             <div class="d-flex flex-column-reverse ms-auto">
-                <span class="fs-3">{{ $householdCount . ' Households' }}</span>
+                <span class="fs-3 text-brown-primary">{{ $householdCount . ' Households' }}</span>
             </div>
         </div>
         <div class="d-flex flex-column">

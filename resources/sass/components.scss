@@ -5,8 +5,18 @@
 }
 
 .picture-header {
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 250px;
+    max-height: 250px;
+    aspect-ratio: 1 / 1;
+}
+
+.sidebar-logo {
+    max-width: 150px;
+    max-height: 150px;
+
+    img {
+        aspect-ratio: 1 / 1;
+    }
 }
 
 .preview-image {

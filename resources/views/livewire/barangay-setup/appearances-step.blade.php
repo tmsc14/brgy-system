@@ -58,7 +58,7 @@
         </div>
         <div class="form-group">
             <label for="logo">Logo</label>
-            <input type="file" name="logo" id="logo" class="form-control" wire:model="logo_path">
+            <input type="file" name="logo" id="logo" class="form-control" wire:model="logo">
             @if ($appearanceSettings->logo_path)
                 <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" alt="Logo" class="img-fluid preview-image">
             @endif
