@@ -50,7 +50,6 @@ class RegisterResident extends Component
             'gender' => 'required|in:Male,Female,Other',
             'dateOfBirth' => 'required|date|before:today',
             'contactNumber' => ['required', 'digits_between:10,15'],
-            'bricNumber' => 'nullable',
             'validId' => 'required|image',
             'email' => ['required', 'email', Rule::unique('user', 'email')],
             'password' => [

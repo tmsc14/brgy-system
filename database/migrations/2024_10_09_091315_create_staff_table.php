@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('email');
             $table->string('contact_number');
             $table->date('date_of_birth');
-            $table->string('bric_number')->nullable();
             $table->boolean('is_active');
             $table->boolean('is_master');
             $table->timestamps();

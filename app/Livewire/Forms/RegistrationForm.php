@@ -21,8 +21,6 @@ class RegistrationForm extends Form
     public $dateOfBirth;
     #[Session]
     public $contactNumber;
-    #[Session]
-    public $bricNumber;
 
     public $validId;
     public $email;

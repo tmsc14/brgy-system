@@ -88,7 +88,6 @@ class RegistrationService
                 'email' => $form->email,
                 'contact_number' => $form->contactNumber,
                 'date_of_birth' => $form->dateOfBirth,
-                'bric_number' => $form->bricNumber,
                 'is_master' => true,
                 'is_active' => true,
                 'title' => Role::CAPTAIN
@@ -140,7 +139,6 @@ class RegistrationService
                 'email' => $form->email,
                 'contact_number' => $form->contactNumber,
                 'date_of_birth' => $form->dateOfBirth,
-                'bric_number' => $form->bricNumber,
                 'is_master' => false,
                 'is_active' => false,
                 'title' => $roleName,
@@ -207,7 +205,6 @@ class RegistrationService
                 'email' => $form->email,
                 'contact_number' => $form->contactNumber,
                 'date_of_birth' => $form->dateOfBirth,
-                'bric_number' => $form->bricNumber,
                 'is_head_of_household' => true,
                 'ethnicity' => $residentForm->ethnicity,
                 'religion' => $residentForm->religion,
