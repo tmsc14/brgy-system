@@ -47,9 +47,6 @@
                         <x-form-text-input id="registrationContactNumber" label="Contact Number"
                             wire:model="form.contactNumber" propertyName="form.contactNumber" type="text"
                             placeholder="Contact Number" class="flex-grow-1" />
-                        <x-form-text-input id="registrationBricNumber" wire:model="form.bricNumber"
-                            propertyName="form.bricNumber" label="BRIC Number" type="text" placeholder="BRIC Number"
-                            class="flex-grow-1" />
                     </div>
                     <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
                         <x-form-text-input id="registrationEthnicity" label="Ethnicity"

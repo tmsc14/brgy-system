@@ -1,5 +1,5 @@
 <div class="{{ $attributes->get('class') }} form-group">
-    <label class="{{ $light ?? false ? 'text-brown-secondary' : 'text-brown-primary' }}" for="{{ $id }}">{{ $label }}</label>
+    <x-form-group-label :useDefaultStyle='$useDefaultStyle ?? false' :light='$light ?? false' id="{{ $id }}">{{ $label }}</x-form-group-label>
     <div class="position-relative">
         <input class="form-control {{ $errors->has($propertyName) ? 'is-invalid' : '' }}" type="password" name="password" id="{{ $id }}"
             placeholder="Enter your password here."

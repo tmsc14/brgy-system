@@ -1,5 +1,5 @@
 <div class="{{ $attributes->get('class') }} form-group">
-    <label class="text-brown-primary fw -bold" for="{{ $id }}">{{ $label }}</label>
+    <x-form-group-label :useDefaultStyle='$useDefaultStyle ?? false' :light='$light ?? false' id="{{ $id }}">{{ $label }}</x-form-group-label>
     <select class="form-select {{ $errors->has($propertyName) ? 'is-invalid' : '' }}" name="{{ $propertyName }}" id="{{ $id }}" @disabled($isDisabled ?? false)
         {{ $attributes->whereStartsWith('wire') }}>
         <option value="" selected>Select {{ strtolower($label) }}</option>

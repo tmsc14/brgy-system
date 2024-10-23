@@ -17,7 +17,6 @@ class AddResident extends Component
     public $gender;
     public $dateOfBirth;
     public $contactNumber;
-    public $bricNumber;
 
     public $relationship_to_head;
     public $ethnicity;
@@ -37,7 +36,6 @@ class AddResident extends Component
             'gender' => 'required|in:Male,Female,Other',
             'dateOfBirth' => 'required|date|before:today',
             'contactNumber' => ['required', 'digits_between:10,15'],
-            'bricNumber' => 'nullable',
             'ethnicity' => 'required',
             'religion' => 'required',
             'civil_status' => 'required',
@@ -62,7 +60,6 @@ class AddResident extends Component
                 'email' => '',
                 'valid_id' => '',
                 'date_of_birth' => $this->dateOfBirth,
-                'bric_number' => $this->bricNumber,
                 'is_head_of_household' => false,
                 'ethnicity' => $this->ethnicity,
                 'religion' => $this->religion,

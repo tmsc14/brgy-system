@@ -13,6 +13,7 @@ use App\Http\Controllers\API\DocumentsController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Livewire\BarangaySetup\BarangaySetup;
+use App\Livewire\Customize\Customize;
 use App\Livewire\Household\AddResident;
 use App\Livewire\Household\EditResident;
 use App\Livewire\Household\Household;
@@ -199,7 +200,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('statistics', [HomeController::class, 'showHome'])->name('statistics');
 
-    Route::get('customize', [HomeController::class, 'showHome'])->name('customize');
+    Route::get('customize', Customize::class)->name('customize');
 
     Route::get('household', Household::class)->name('household');
     Route::get('household/resident', AddResident::class)->name('household.add-resident');

@@ -19,7 +19,6 @@ class EditResident extends Component
     public $gender;
     public $dateOfBirth;
     public $contactNumber;
-    public $bricNumber;
 
     public $relationship_to_head;
     public $ethnicity;
@@ -43,7 +42,6 @@ class EditResident extends Component
         $this->gender = $residentRecord->gender;
         $this->dateOfBirth = $residentRecord->date_of_birth;
         $this->contactNumber = $residentRecord->contact_number;
-        $this->bricNumber = $residentRecord->bric_number;
 
         $this->relationship_to_head = $residentRecord->relationship_to_head;
         $this->ethnicity = $residentRecord->ethnicity;
@@ -64,7 +62,6 @@ class EditResident extends Component
             'gender' => 'required|in:Male,Female,Other',
             'dateOfBirth' => 'required|date|before:today',
             'contactNumber' => ['required', 'digits_between:10,15'],
-            'bricNumber' => 'nullable',
             'ethnicity' => 'required',
             'religion' => 'required',
             'civil_status' => 'required',
@@ -88,7 +85,6 @@ class EditResident extends Component
                 'email' => '',
                 'valid_id' => '',
                 'date_of_birth' => $this->dateOfBirth,
-                'bric_number' => $this->bricNumber,
                 'ethnicity' => $this->ethnicity,
                 'religion' => $this->religion,
                 'civil_status' => $this->civil_status,

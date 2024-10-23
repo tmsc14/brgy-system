@@ -25,7 +25,7 @@ class Barangay extends Model
         'address_line_two'
     ];
 
-    public function appearanceSettings()
+    public function appearance_settings()
     {
         return $this->hasOne(AppearanceSetting::class, 'barangay_id');
     }

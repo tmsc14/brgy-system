@@ -111,7 +111,7 @@ class RegistrationService
         // Clear session data
         session()->flush();
 
-        return redirect()->route('login.staff')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login', ['role' => 'staff'])->with('success', 'Registration successful! Please log in.');
     }
 
     public function registerStaff($roleName, RegistrationForm $form, StaffRegistrationFieldsForm $staffForm)
@@ -168,7 +168,7 @@ class RegistrationService
 
         session()->flush();
 
-        return redirect()->route('login.staff')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login', ['role' => 'staff'])->with('success', 'Registration successful! Please log in.');
     }
 
     public function registerResident($barangayId, RegistrationForm $form, ResidentFieldsForm $residentForm)
@@ -238,6 +238,6 @@ class RegistrationService
 
         session()->flush();
 
-        return redirect()->route('login.resident')->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login', ['role' => 'resident'])->with('success', 'Registration successful! Please log in.');
     }
 }

@@ -4,9 +4,10 @@
             @csrf
             <div class="d-flex flex-column gap-3">
                 <x-form-text-input id="loginEmail" name="email" label="Email" type="email" wire:model="email"
-                    placeholder="Enter your email here." :errors="$errors" propertyName="email" light />
-                <x-form-password id="loginPassword" label="Password" propertyName="password" wire:model="password"
+                    placeholder="Enter your email here." :errors="$errors" propertyName="email" :useDefaultStyle='true'
                     light />
+                <x-form-password id="loginPassword" label="Password" propertyName="password" wire:model="password"
+                    :useDefaultStyle='true' light />
                 <div class="d-flex">
                     <div class="form-check justify-content-around text-light">
                         <input type="checkbox" name="remember" id="remember" class="form-check-input" />

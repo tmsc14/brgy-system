@@ -74,7 +74,7 @@ class Login extends Component
     {
         if ($user->staff && $user->staff->is_active)
         {
-            return redirect()->route('dashboard');
+            return $this->onLoginSuccess($user);
         }
         else
         {
@@ -91,7 +91,7 @@ class Login extends Component
     {
         if ($user->resident && $user->resident->is_active)
         {
-            return redirect()->route('dashboard');
+            return $this->onLoginSuccess($user);
         }
         else if ($user->resident && !$user->resident->is_active)
         {
@@ -111,6 +111,20 @@ class Login extends Component
                 Auth::logout();
             }
         }
+    }
+
+    private function onLoginSuccess($user)
+    {
+        $appearanceSettings = $user->barangay->appearance_settings;
+
+        session([
+            'background_color' => $appearanceSettings->theme_color,
+            'primary_color' => $appearanceSettings->primary_color,
+            'secondary_color' => $appearanceSettings->secondary_color,
+            'text_color' => $appearanceSettings->text_color,
+        ]);
+
+        return redirect()->route('dashboard');
     }
 
     public function render()
