@@ -1,5 +1,5 @@
 <form wire:submit="save">
-    <x-h3>Appearance Settings</x-h3>
+    <x-title spaced>Appearance Settings</x-title>
     @csrf
     <div class="d-flex flex-column gap-3">
         <x-form-select id="appearanceSettingTheme" label="Theme" wire:model.live="theme" propertyName="theme">

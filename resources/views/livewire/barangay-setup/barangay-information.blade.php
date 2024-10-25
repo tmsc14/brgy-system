@@ -1,7 +1,7 @@
 <form wire:submit="save">
     @csrf
     <div class="mb-4">
-        <x-h3 :useDefaultStyle='$is_wizard_step'>Barangay Information</x-h3>
+        <x-title spaced>Barangay Information</x-title>
         <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
             <x-form-text-input id="barangayInformationName" label="Barangay Name/Title" wire:model="display_name"
                 propertyName="display_name" type="text" class="flex-grow-1" :useDefaultStyle='$is_wizard_step' />
@@ -9,7 +9,7 @@
                 propertyName="email" type="text" class="flex-grow-1" :useDefaultStyle='$is_wizard_step' />
         </div>
     </div>
-    <x-h3 :useDefaultStyle='$is_wizard_step'>Barangay Complete Address</x-h3>
+    <x-title spaced>Barangay Complete Address</x-title>
     <div class="d-flex flex-column justify-content-center gap-3">
         <x-form-text-input id="barangayInformationLineOne" label="Line 1" wire:model="address_line_one"
             propertyName="address_line_one" type="text" :useDefaultStyle='$is_wizard_step' />
