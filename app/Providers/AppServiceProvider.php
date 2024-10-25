@@ -32,6 +32,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Typography
+        Blade::component('components.typography.headline', 'headline');
+        Blade::component('components.typography.title', 'title');
+        Blade::component('components.typography.subtitle', 'subtitle');
+        Blade::component('components.typography.body', 'body');
+        Blade::component('components.typography.caption', 'caption');
+        Blade::component('components.typography.timestamp', 'timestamp');
+
         Blade::component('icon-long-button', IconLongButton::class);
         Blade::component('icon-header', IconHeader::class);
         Blade::component('content-container', ContentContainer::class);
