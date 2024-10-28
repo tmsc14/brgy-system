@@ -1,5 +1,8 @@
 <x-login.card-with-logo>
-    <div class="col-12 align-items-center justify-content-center d-flex">
+    <div class="col-12 align-items-center justify-content-center d-flex flex-column">
+        <x-h3 class="text-brown-secondary">
+            {{ ucwords($role) . ' Login' }}
+        </x-h3>
         <form class="w-100" wire:submit="login">
             @csrf
             <div class="d-flex flex-column gap-3">

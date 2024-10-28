@@ -3,11 +3,11 @@
         @foreach ($steps as $step)
             <div>
                 @if ($step->isCurrent())
-                    <span class="fs-4 text text-primary fw-bold">
+                    <span class="fs-3 text text-primary fw-bold">
                         {{ $step->order }}. {{ $step->label }}
                     </span>
                 @else
-                    <a wire:click="showStep('{{ $step->step_name }}')" class="fs-4 text text-brown-primary"
+                    <a wire:click="showStep('{{ $step->step_name }}')" class="fs-3 text text-brown-primary"
                         href="#">
                         {{ $step->order }}. {{ $step->label }}
                     </a>

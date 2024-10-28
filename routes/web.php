@@ -24,6 +24,7 @@ use App\Livewire\Register\Register;
 use App\Livewire\Register\RegisterBarangayCaptain;
 use App\Livewire\Register\RegisterResident;
 use App\Livewire\Register\RegisterStaff;
+use App\Livewire\SignupRequests\History;
 use App\Livewire\SignupRequests\SignupRequests;
 
 /*
@@ -219,9 +220,9 @@ Route::middleware(['auth', 'role:captain'])->group(function ()
     Route::get('photos/{barangayId}/validIds/{role}/{userId}/{fileName}', [FileController::class, 'getValidIdPhoto']);
 
     Route::get('requests', SignupRequests::class)->name('requests');
+    Route::get('requests/history', History::class)->name('requests.history');
     Route::post('requests/approve/{id}', [BarangayCaptainController::class, 'approveRequest'])->name('bc-requests.approve');
     Route::post('requests/deny/{id}', [BarangayCaptainController::class, 'denyRequest'])->name('bc-requests.deny');
-    Route::get('requests/history', [BarangayCaptainController::class, 'showRequestHistory'])->name('bc-request-history');
 
     Route::get('barangay/setup', BarangaySetup::class)->name('barangay.setup');
 

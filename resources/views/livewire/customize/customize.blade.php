@@ -5,7 +5,10 @@
             <livewire:barangay-setup.barangay-information />
         </x-container>
         <x-container>
-            <livewire:barangay-setup.appearance-settings is_wizard_step='true' />
+            <livewire:barangay-setup.appearance-settings />
+        </x-container>
+        <x-container>
+            <livewire:barangay-setup.features-settings />
         </x-container>
     </div>
 </div>

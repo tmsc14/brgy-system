@@ -6,12 +6,12 @@
             @foreach($steps as $step)
             <div>
                 @if ($step->isCurrent())
-                    <span class="fs-4 text text-primary fw-bold">
+                    <span class="fs-3 text text-primary fw-bold">
                         {{ $step->order }}. {{ $step->label }}
                     </span>
                 @else
                     <span 
-                        class="fs-4 text text-brown-primary">
+                        class="fs-3 text text-brown-primary">
                         {{ $step->order }}. {{ $step->label }}
                     </span>
                 @endif

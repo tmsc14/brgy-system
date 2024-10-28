@@ -7,6 +7,7 @@ use App\Livewire\Forms\ResidentFieldsForm;
 use App\Livewire\Forms\StaffRegistrationFieldsForm;
 use App\Models\AppearanceSetting;
 use App\Models\Barangay;
+use App\Models\BarangayFeature;
 use App\Models\Household;
 use App\Models\Resident;
 use App\Models\Role;
@@ -14,6 +15,7 @@ use App\Models\SignupRequest;
 use App\Models\Staff;
 use App\Models\User;
 use App\Models\UserRole;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
@@ -106,6 +108,36 @@ class RegistrationService
                 'secondary_color' => AppearanceSetting::DEFAULT_SECONDARY_COLOR,
                 'text_color' => AppearanceSetting::DEFAULT_TEXT_COLOR
             ]);
+
+            // Default features
+            $configData = Config::get('features');
+
+            $featuresToInsert = [];
+
+            foreach ($configData as $category => $features)
+            {
+                foreach ($features as $featureName)
+                {
+                    $featuresToInsert[] = [
+                        'barangay_id' => $barangay->id,
+                        'category' => $category,
+                        'name' => $featureName,
+                        'description' => $featureName, // Not being used for now, just added because could be useful. Remove this comment when we fix this
+                        'is_enabled' => false
+                    ];
+                }
+            }
+
+            BarangayFeature::insert($featuresToInsert);
+
+            // Default appearance settings
+            AppearanceSetting::create([
+                'barangay_id' => $barangay->id,
+                'theme_color' => AppearanceSetting::DEFAULT_THEME_COLOR,
+                'primary_color' => AppearanceSetting::DEFAULT_PRIMARY_COLOR,
+                'secondary_color' => AppearanceSetting::DEFAULT_SECONDARY_COLOR,
+                'text_color' => AppearanceSetting::DEFAULT_TEXT_COLOR
+            ]);
         });
 
         // Clear session data
@@ -143,7 +175,7 @@ class RegistrationService
                 'position' => $staffForm->officialPosition ?? $staffForm->staffRole
             ]);
 
-            $validIdPath = $form->validId->store('photos/' . $barangayId . '/validIds/' .  strtolower($roleName) . '/'. $user->id);
+            $validIdPath = $form->validId->store('photos/' . $barangayId . '/validIds/' .  strtolower($roleName) . '/' . $user->id);
 
             SignupRequest::create([
                 'barangay_id' => $barangayId,

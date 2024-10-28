@@ -5,7 +5,7 @@
             <a class="nav-link active" href="#">Requests</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">History</a>
+            <a class="nav-link" href="/requests/history">History</a>
         </li>
     </ul>
 
@@ -50,5 +50,4 @@
             {{ $requests->links() }}
         @endif
     </div>
-    {{-- <a href="{{ route('bc-request-history') }}" class="view-history">View History</a> --}}
 </div>

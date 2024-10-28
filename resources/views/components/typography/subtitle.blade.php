@@ -1,3 +1,3 @@
-<span class="{{ $spaced ?? false ? 'mb-2' : '' }} fs-3 fw-bold" {{ $attributes }}>
+<div class="{{ $spaced ?? false ? 'mb-2' : '' }} fs-3 fw-bold" {{ $attributes }}>
     {{ $slot }}
-</span>
+</div>

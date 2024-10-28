@@ -43,7 +43,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('feature_id')->references('id')->on('features')->onDelete('cascade');
-        });       
+        });
     }
 
     /**
