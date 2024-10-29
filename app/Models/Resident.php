@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use App\Models\Scopes\BarangayScope;
 
+#[ScopedBy([BarangayScope::class])]
 class Resident extends Authenticatable
 {
     use HasFactory;

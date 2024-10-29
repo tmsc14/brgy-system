@@ -2,11 +2,12 @@
 
 namespace App\Helpers;
 
+use DateTime;
+
 class DateTimeHelper
 {
     public static function getDayWithSuffix($day)
     {
-        // Determine the suffix
         $suffix = match ($day)
         {
             1, 21, 31 => 'st',
@@ -16,5 +17,12 @@ class DateTimeHelper
         };
 
         return $day . $suffix;
+    }
+
+    public static function getAgeByDate($date)
+    {
+        $dateCreated = new DateTime($date);
+        $now = new DateTime();
+        return $now->diff($dateCreated)->y;
     }
 }

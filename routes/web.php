@@ -26,6 +26,7 @@ use App\Livewire\Register\RegisterResident;
 use App\Livewire\Register\RegisterStaff;
 use App\Livewire\SignupRequests\History;
 use App\Livewire\SignupRequests\SignupRequests;
+use App\Livewire\Statistics\Statistics;
 
 /*
 |--------------------------------------------------------------------------
@@ -199,7 +200,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('admins', [HomeController::class, 'showHome'])->name('admins');
 
-    Route::get('statistics', [HomeController::class, 'showHome'])->name('statistics');
+    Route::get('statistics', Statistics::class)->name('statistics');
 
     Route::get('customize', Customize::class)->name('customize');
 

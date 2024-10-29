@@ -3,8 +3,10 @@
 namespace App\Livewire\Login;
 
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts/welcome')]
 class Login extends Component
 {
     public $role;
