@@ -2,6 +2,8 @@
 
 namespace App\Livewire\BarangaySetup;
 
+use App\Classes\RGBColor;
+use App\Helpers\ThemeHelper as ThemeHelper;
 use Livewire\Component;
 use App\Traits\AppearanceSettingsTrait;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +17,6 @@ class AppearanceSettings extends Component
     public $theme_color;
     public $primary_color;
     public $secondary_color;
-    public $text_color;
     public $logo;
 
     public $is_wizard_step;
@@ -26,10 +27,9 @@ class AppearanceSettings extends Component
     {
         $appearanceSettings = Auth::user()->barangay->appearance_settings;
 
-        $this->theme_color = $appearanceSettings->theme_color;
-        $this->primary_color = $appearanceSettings->primary_color;
-        $this->secondary_color = $appearanceSettings->secondary_color;
-        $this->text_color = $appearanceSettings->text_color;
+        $this->theme_color = RGBColor::fromString($appearanceSettings->theme_color)->toHex();
+        $this->primary_color = RGBColor::fromString($appearanceSettings->primary_color)->toHex();
+        $this->secondary_color = RGBColor::fromString($appearanceSettings->secondary_color)->toHex();
 
         $this->is_wizard_step = $is_wizard_step;
     }
@@ -46,7 +46,6 @@ class AppearanceSettings extends Component
                 $this->theme_color = $selectedTheme['theme_color'];
                 $this->primary_color = $selectedTheme['primary_color'];
                 $this->secondary_color = $selectedTheme['secondary_color'];
-                $this->text_color = $selectedTheme['text_color'];
             }
         }
     }
@@ -70,7 +69,6 @@ class AppearanceSettings extends Component
             'theme_color' => 'required|string',
             'primary_color' => 'required|string',
             'secondary_color' => 'required|string',
-            'text_color' => 'required|string',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -85,10 +83,9 @@ class AppearanceSettings extends Component
                 ]);
 
                 $barangay->appearance_settings->update([
-                    'theme_color' => $this->theme_color,
-                    'primary_color' => $this->primary_color,
-                    'secondary_color' => $this->secondary_color,
-                    'text_color' => $this->text_color,
+                    'theme_color' => $this->convertHexToRGB($this->theme_color),
+                    'primary_color' => $this->convertHexToRGB($this->primary_color),
+                    'secondary_color' => $this->convertHexToRGB($this->secondary_color),
                     'logo_path' => isset($this->logo)
                         ? $this->logo->storePubliclyAs('logos/' . $barangay->id, 'logo.png', 'public')
                         : ''
@@ -97,12 +94,7 @@ class AppearanceSettings extends Component
 
             $appearanceSettings = $barangay->appearance_settings;
 
-            session([
-                'background_color' => $appearanceSettings->theme_color,
-                'primary_color' => $appearanceSettings->primary_color,
-                'secondary_color' => $appearanceSettings->secondary_color,
-                'text_color' => $appearanceSettings->text_color,
-            ]);
+            ThemeHelper::setSessionAppearanceSettings($appearanceSettings);
 
             $this->redirectRoute('dashboard');
         }

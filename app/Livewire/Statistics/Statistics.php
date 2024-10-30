@@ -23,13 +23,13 @@ class Statistics extends Component
 
         if ($enabledStatistics->contains('NumberOfResidents'))
         {
-            $statisticsData['1'][] = ['title' => 'NumberOfResidents', 'count' => Resident::count()];
+            $statisticsData['NumberOfResidents'] = ['title' => 'No. of Residents', 'count' => Resident::count()];
         }
 
-        // if ($enabledStatistics->contains('NumberOfHousehold'))
-        // {
-        //     $statisticsData['NumberOfHousehold'] = Household::count();
-        // }
+        if ($enabledStatistics->contains('NumberOfHousehold'))
+        {
+            $statisticsData['NumberOfHousehold'] = ['title' => 'No. of Households', 'count' => Household::count()];
+        }
 
         return view('livewire.statistics.statistics', ['statisticsData' => $statisticsData]);
     }

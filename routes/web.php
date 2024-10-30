@@ -14,6 +14,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
 use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Customize\Customize;
+use App\Livewire\Home\Home;
 use App\Livewire\Household\AddResident;
 use App\Livewire\Household\EditResident;
 use App\Livewire\Household\Household;
@@ -188,17 +189,17 @@ Route::get('/send-test-email', function() {
 // NEW ROUTES BY REFACTOR
 // Home
 Route::middleware(['auth'])->group(function(){
-    Route::get('/home', [HomeController::class, 'showHome'])->name('dashboard');
+    Route::get('/home', Home::class)->name('dashboard');
 
-    Route::get('documents', [HomeController::class, 'showHome'])->name('documents');
+    Route::get('documents', Home::class)->name('documents');
 
-    Route::get('barangay-information', [HomeController::class, 'showHome'])->name('barangay-information');
+    Route::get('barangay-information', Home::class)->name('barangay-information');
 
-    Route::get('announcement', [HomeController::class, 'showHome'])->name('announcement');
+    Route::get('announcement', Home::class)->name('announcement');
     
-    Route::get('settings', [HomeController::class, 'showHome'])->name('settings');
+    Route::get('settings', Home::class)->name('settings');
 
-    Route::get('admins', [HomeController::class, 'showHome'])->name('admins');
+    Route::get('admins', Home::class)->name('admins');
 
     Route::get('statistics', Statistics::class)->name('statistics');
 

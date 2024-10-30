@@ -1,5 +1,5 @@
 <div>
-    <x-icon-header text="Customize" iconResourcePath='resources/img/sidebar-icons/documents-sblogo.png' />
+    <x-icon-header text="Customize" iconName='edit-square' />
     <div class="d-flex flex-column gap-3">
         <x-container>
             <livewire:barangay-setup.barangay-information />

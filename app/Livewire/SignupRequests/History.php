@@ -9,7 +9,7 @@ use Livewire\Component;
 use Livewire\Features\SupportPagination\WithoutUrlPagination;
 use Livewire\WithPagination;
 
-#[Layout('layouts.app')]
+
 class History extends Component
 {
     #[Locked]

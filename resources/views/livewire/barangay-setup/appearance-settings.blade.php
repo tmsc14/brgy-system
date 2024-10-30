@@ -26,11 +26,11 @@
             <input type="color" name="secondary_color" id="secondary_color" class="form-control"
                 wire:model.live="secondary_color" />
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="text_color">Text Color</label>
             <input type="color" name="text_color" id="text_color" class="form-control" wire:model.live="text_color"
                 required>
-        </div>
+        </div> --}}
         <div class="form-group">
             <label for="logo">Logo</label>
             <input type="file" name="logo" id="logo" class="form-control" wire:model="logo">

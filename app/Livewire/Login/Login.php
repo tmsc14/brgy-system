@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Login;
 
+use App\Helpers\ThemeHelper;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -119,12 +120,7 @@ class Login extends Component
     {
         $appearanceSettings = $user->barangay->appearance_settings;
 
-        session([
-            'background_color' => $appearanceSettings->theme_color,
-            'primary_color' => $appearanceSettings->primary_color,
-            'secondary_color' => $appearanceSettings->secondary_color,
-            'text_color' => $appearanceSettings->text_color,
-        ]);
+        ThemeHelper::setSessionAppearanceSettings($appearanceSettings);
 
         return redirect()->route('dashboard');
     }
