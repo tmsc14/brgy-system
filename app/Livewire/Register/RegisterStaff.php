@@ -10,7 +10,9 @@ use App\Services\RegistrationService;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 
+#[Layout('layouts.welcome')]
 class RegisterStaff extends Component
 {
     public $title = "Staff";

@@ -1,5 +1,5 @@
 <div class="requests-container">
-    <x-icon-header text="Requests" iconResourcePath='resources/img/sidebar-icons/requests-sblogo.png' />
+    <x-icon-header text="Requests" iconName='how-to-reg' />
     <ul class="nav nav-tabs mb-3">
         <li class="nav-item">
             <a class="nav-link active" href="#">Requests</a>

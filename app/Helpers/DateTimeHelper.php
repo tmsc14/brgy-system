@@ -25,4 +25,23 @@ class DateTimeHelper
         $now = new DateTime();
         return $now->diff($dateCreated)->y;
     }
+
+    public static function getLastFiveDays()
+    {
+        $daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        $lastFiveDays = [];
+
+        for ($i = 0; $i < 5; $i++)
+        {
+            $date = new DateTime();
+            $date->modify("-{$i} day");
+
+            $day = $date->format('j'); // Day of the month without leading zeros
+            $weekday = $daysOfWeek[$date->format('w')]; // Day of the week
+
+            $lastFiveDays[] = "{$day} {$weekday}";
+        }
+
+        return $lastFiveDays;
+    }
 }

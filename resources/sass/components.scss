@@ -36,6 +36,11 @@
     box-shadow: 0px 4px 5px -2px lightgrey;
 }
 
+.btn.brgy-widget {
+    --bs-btn-hover-bg: var(--brgy-secondary-hover-color);
+    --bs-btn-hover-color: var(--brgy-primary-hover-color);
+}
+
 .picture-header {
     max-width: 250px;
     max-height: 250px;

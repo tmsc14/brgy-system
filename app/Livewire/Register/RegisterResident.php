@@ -8,9 +8,11 @@ use App\Models\Barangay;
 use App\Services\LocationService;
 use App\Services\RegistrationService;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
 
+#[Layout('layouts.welcome')]
 class RegisterResident extends Component
 {
     public $barangayOptions;

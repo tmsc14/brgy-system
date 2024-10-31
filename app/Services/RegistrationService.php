@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\ThemeHelper;
 use App\Livewire\Forms\RegistrationForm;
 use App\Livewire\Forms\ResidentFieldsForm;
 use App\Livewire\Forms\StaffRegistrationFieldsForm;
@@ -103,10 +104,10 @@ class RegistrationService
             // Default appearance settings
             AppearanceSetting::create([
                 'barangay_id' => $barangay->id,
-                'theme_color' => AppearanceSetting::DEFAULT_THEME_COLOR,
-                'primary_color' => AppearanceSetting::DEFAULT_PRIMARY_COLOR,
-                'secondary_color' => AppearanceSetting::DEFAULT_SECONDARY_COLOR,
-                'text_color' => AppearanceSetting::DEFAULT_TEXT_COLOR
+                'theme_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_THEME_COLOR),
+                'primary_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_PRIMARY_COLOR),
+                'secondary_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_SECONDARY_COLOR),
+                'text_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_TEXT_COLOR)
             ]);
 
             // Default features
@@ -129,15 +130,6 @@ class RegistrationService
             }
 
             BarangayFeature::insert($featuresToInsert);
-
-            // Default appearance settings
-            AppearanceSetting::create([
-                'barangay_id' => $barangay->id,
-                'theme_color' => AppearanceSetting::DEFAULT_THEME_COLOR,
-                'primary_color' => AppearanceSetting::DEFAULT_PRIMARY_COLOR,
-                'secondary_color' => AppearanceSetting::DEFAULT_SECONDARY_COLOR,
-                'text_color' => AppearanceSetting::DEFAULT_TEXT_COLOR
-            ]);
         });
 
         // Clear session data
