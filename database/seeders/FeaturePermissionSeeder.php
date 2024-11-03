@@ -4,8 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\FeaturePermission;
 
-class FeaturePermission extends Seeder
+class FeaturePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -85,6 +85,7 @@ class DocumentsController extends Controller
         $yearOfCreation = $data->yearOfCreation;
         $barangayCaptainName = $data->barangayCaptainName;
         $requestId = request('id');
+        $barangayLogo = asset('storage/' . $appearanceSettings->logo_path);
 
         $supplementalData =
             [
@@ -102,7 +103,8 @@ class DocumentsController extends Controller
                 'monthOfCreation',
                 'yearOfCreation',
                 'barangayCaptainName',
-                'requestId'
+                'requestId',
+                'barangayLogo'
             ];
 
         $role = 'barangay_official';
@@ -138,6 +140,7 @@ class DocumentsController extends Controller
         $monthOfCreation = $data->monthOfCreation;
         $yearOfCreation = $data->yearOfCreation;
         $barangayCaptainName = $data->barangayCaptainName;
+        $barangayLogo = storage_path('app/public/') . $appearanceSettings->logo_path;
 
         $supplementalData =
             [
@@ -154,7 +157,8 @@ class DocumentsController extends Controller
                 'dayOfCreation' => $dayOfCreation,
                 'monthOfCreation' => $monthOfCreation,
                 'yearOfCreation' => $yearOfCreation,
-                'barangayCaptainName' => $barangayCaptainName
+                'barangayCaptainName' => $barangayCaptainName,
+                'barangayLogo' => $barangayLogo
             ];
 
             $pdf = PDF::view('document_templates.certificate-of-residency', $supplementalData)
@@ -231,6 +235,7 @@ class DocumentsController extends Controller
         $dayOfCreation = DateTimeHelper::getDayWithSuffix($timeNow->day);
         $monthOfCreation = $timeNow->format('F');
         $yearOfCreation = $timeNow->year;
+        $barangayLogo = asset('storage/' . $appearanceSettings->logo_path);
 
         $supplementalData =
             [
@@ -247,7 +252,8 @@ class DocumentsController extends Controller
                 'dayOfCreation',
                 'monthOfCreation',
                 'yearOfCreation',
-                'barangayCaptainName'
+                'barangayCaptainName',
+                'barangayLogo'
             ];
 
         $role = 'barangay_resident';

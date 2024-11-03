@@ -1,3 +1,15 @@
+@import "resources/css/common/common.css";
+
+/* Should not be here. Basically, you want your common wrapper to not have too much styles applied to it, and have its child components be responsible for styling. */
+.content-wrapper {
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 :root {
     --theme-color: {{ $appearanceSettings->theme_color ?? '#FAEED8' }};
     --primary-color: {{ $appearanceSettings->primary_color ?? '#503C2F' }};
@@ -6,27 +18,23 @@
 }
 
 .statistics-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 50px;
     background-color: var(--theme-color);
-    padding: 20px;
+    padding: 0 20px;
     padding-bottom: 40px;
     border-radius: 10px;
     color: var(--text-color);
     min-height: 100%;
 }
 
-.statistics-header {
-    grid-column: span 3;
-    background-color: var(--primary-color);
-    color: rgb(255, 255, 255);
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 50px;
+    background-color: var(--theme-color);
+    padding-top: 20px;
+    border-radius: 10px;
+    color: var(--text-color);
+    min-height: 100%;
 }
 
 .stat-item {
