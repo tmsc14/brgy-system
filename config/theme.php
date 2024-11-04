@@ -5,4 +5,5 @@ return [
     'default_primary_color' => '#503C2F',
     'default_secondary_color' => '#FAFAFA',
     'default_text_color' => '#000000',
+    'default_content_color' => '#B6977D',
 ];

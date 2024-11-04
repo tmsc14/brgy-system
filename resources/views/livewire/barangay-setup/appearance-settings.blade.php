@@ -26,6 +26,11 @@
             <input type="color" name="secondary_color" id="secondary_color" class="form-control"
                 wire:model.live="secondary_color" />
         </div>
+        <div class="form-group">
+            <label for="content_color">Content Color</label>
+            <input type="color" name="content_color" id="content_color" class="form-control"
+                wire:model.live="content_color" />
+        </div>
         {{-- <div class="form-group">
             <label for="text_color">Text Color</label>
             <input type="color" name="text_color" id="text_color" class="form-control" wire:model.live="text_color"

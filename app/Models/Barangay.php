@@ -35,5 +35,12 @@ class Barangay extends Model
         return $this->belongsToMany(Feature::class, 'barangay_feature_settings')
                     ->withPivot('is_enabled')
                     ->withTimestamps();
+    }
+
+    public function captain()
+    {
+        return $this->hasOne(User::class)
+                ->where('is_master', true)
+                ->where('barangay_id', $this->barangay_id);
     }     
 }

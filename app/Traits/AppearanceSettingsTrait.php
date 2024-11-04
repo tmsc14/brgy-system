@@ -13,25 +13,25 @@ trait AppearanceSettingsTrait
                 'theme_color' => '#FAEED8',
                 'primary_color' => '#503C2F',
                 'secondary_color' => '#FAFAFA',
-                'text_color' => '#000000',
+                'content_color' => '#B6977D',
             ],
             'dark' => [
                 'theme_color' => '#2E2E2E',
                 'primary_color' => '#1A1A1A',
                 'secondary_color' => '#FAFAFA',
-                'text_color' => '#FFFFFF',
+                'content_color' => '#B6977D',
             ],
             'blue' => [
                 'theme_color' => '#E3F2FD',
                 'primary_color' => '#2196F3',
                 'secondary_color' => '#BBDEFB',
-                'text_color' => '#0D47A1',
+                'content_color' => '#B6977D',
             ],
             'green' => [
                 'theme_color' => '#E8F5E9',
                 'primary_color' => '#4CAF50',
                 'secondary_color' => '#C8E6C9',
-                'text_color' => '#1B5E20',
+                'content_color' => '#B6977D',
             ],
         ];
     }

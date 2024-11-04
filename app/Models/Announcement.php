@@ -3,25 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use App\Models\Scopes\BarangayScope;
+use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy([BarangayScope::class])]
-class BarangayOfficial extends Authenticatable
+class Announcement extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'barangay_id',
-        'name',
-        'rank',
         'title',
+        'body',
         'photo',
-        'contact_number',
+        'created_by_staff_id',
     ];
 
-    protected $table = 'barangay_official';
+    protected $table = 'announcement';
 
     public function barangay()
     {

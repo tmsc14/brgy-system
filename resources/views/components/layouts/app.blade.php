@@ -11,13 +11,16 @@
             --brgy-primary-color: {{ session('primary_color', config('theme.default_primary_color')) }};
             --brgy-secondary-color: {{ session('secondary_color', config('theme.default_secondary_color')) }};
             --brgy-text-color: {{ session('primary_text_color', config('theme.default_text_color')) }};
+            --brgy-content-color: {{ session('content_color', config('theme.default_text_color')) }};
+            --brgy-content-text-color: {{ session('content_text_color', config('theme.default_text_color')) }};
             --brgy-highlight-text-color: {{ session('highlighted_text_color', config('theme.default_text_color')) }};
             --brgy-primary-text-color: {{ session('primary_text_color', config('theme.default_text_color')) }};
+            --brgy-primary-text-hover-color: {{ session('primary_text_hover_color', config('theme.default_text_color')) }};
             --brgy-primary-hover-color: {{ session('primary_hover_color', config('theme.default_text_color')) }};
+            --brgy-secondary-hover-color: {{ session('secondary_hover_color', config('theme.default_text_color')) }};
 
             --bs-body-bg: {{ session('background_color', config('theme.default_background_color')) }} !important;
             /* --bs-body-color: {{ session('primary_text_color', config('theme.default_text_color')) }} !important; */
-            --bs-secondary-color: {{ session('secondary_color', config('theme.default_secondary_color')) }} !important;
         }
     </style>
     @vite(['resources/sass/app.scss', 'resources/js/app.js', 'resources/sass/welcome.scss'])

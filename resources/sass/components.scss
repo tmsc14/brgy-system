@@ -24,6 +24,18 @@
     color: var(--brgy-secondary-color);
 }
 
+.brgy-primary-text {
+    color: var(--brgy-primary-text-color);
+}
+
+.brgy-bg-content {
+    background-color: var(--brgy-content-color);
+}
+
+.brgy-content-text {
+    color: var(--brgy-content-text-color);
+}
+
 .big-header {
     font-size: 3rem !important;
 }
@@ -39,6 +51,10 @@
 .btn.brgy-widget {
     --bs-btn-hover-bg: var(--brgy-secondary-hover-color);
     --bs-btn-hover-color: var(--brgy-primary-hover-color);
+}
+
+.min-width-zero {
+    min-width: 0;
 }
 
 .picture-header {
@@ -77,13 +93,27 @@
     height: 50px;
 }
 
+.official-profile-photo {
+    width: 100px;
+    height: 100px
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.latest-announcement-photo {
+    width: 150px;
+    height: 150px;
+}
+
 .line {
     margin: .5rem 0;
 }
 
 .nav-brgy {
     --bs-nav-link-color: var(--brgy-primary-text-color);
-    --bs-nav-link-hover-color: var(--brgy-primary-hover-color);
+    --bs-nav-link-hover-color: var(--brgy-primary-text-hover-color);
 }
 
 .nav-link-brgy {

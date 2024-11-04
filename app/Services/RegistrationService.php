@@ -9,6 +9,7 @@ use App\Livewire\Forms\StaffRegistrationFieldsForm;
 use App\Models\AppearanceSetting;
 use App\Models\Barangay;
 use App\Models\BarangayFeature;
+use App\Models\BarangayOfficial;
 use App\Models\Household;
 use App\Models\Resident;
 use App\Models\Role;
@@ -107,7 +108,8 @@ class RegistrationService
                 'theme_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_THEME_COLOR),
                 'primary_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_PRIMARY_COLOR),
                 'secondary_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_SECONDARY_COLOR),
-                'text_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_TEXT_COLOR)
+                'text_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_TEXT_COLOR),
+                'content_color' => ThemeHelper::convertHexToRGB(AppearanceSetting::DEFAULT_CONTENT_COLOR),
             ]);
 
             // Default features
@@ -130,6 +132,16 @@ class RegistrationService
             }
 
             BarangayFeature::insert($featuresToInsert);
+
+            BarangayOfficial::create([
+                'barangay_id' => $barangay->id,
+                'name' => $form->firstName . ' ' . $form->middleName . ' ' . $form->lastName,
+                'rank' => 0,
+                'title' => 'Barangay Captain',
+                'photo' => null,
+                'contact_number' => $form->contactNumber
+            ]);
+
         });
 
         // Clear session data

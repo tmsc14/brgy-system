@@ -35,17 +35,76 @@ class Statistics extends Component
             $statisticsData['NumberOfHousehold'] = ['title' => 'No. of Households', 'count' => Household::count()];
         }
 
+        if ($enabledStatistics->contains('Gender'))
+        {
+            $statisticsData['Gender'] = ['maleCount' => Resident::gender('Male')->count(), 'femaleCount' => Resident::gender('Female')->count()];
+        }
+
+        if ($enabledStatistics->contains('Employment'))
+        {
+            $statisticsData['Employment'] = ['employedCount' => Resident::employed(true)->count(), 'unemployedCount' => Resident::employed(false)->count()];
+        }
+
+        if ($enabledStatistics->contains('Employment'))
+        {
+            $statisticsData['Employment'] = ['employedCount' => Resident::employed(true)->count(), 'unemployedCount' => Resident::employed(false)->count()];
+        }
+
+        if ($enabledStatistics->contains('AgeDemographic'))
+        {
+            $now = Carbon::now();
+
+            $statisticsData['AgeDemographic'] = [
+                '0-17' => Resident::whereBetween('date_of_birth', [
+                    Carbon::now()->subYears(17)->toDateString(),
+                    $now,
+                ])->count(),
+
+                '18-30' => Resident::whereBetween('date_of_birth', [
+                    Carbon::now()->subYears(30)->toDateString(),
+                    Carbon::now()->subYears(18)->toDateString(),
+                ])->count(),
+
+                '31-59' => Resident::whereBetween('date_of_birth', [
+                    Carbon::now()->subYears(59)->toDateString(),
+                    Carbon::now()->subYears(31)->toDateString(),
+                ])->count(),
+
+                '60+' => Resident::where('date_of_birth', '<=', Carbon::now()->subYears(60)->toDateString())->count(),
+            ];
+        }
+
+        if ($enabledStatistics->contains('NumberOfPWD'))
+        {
+            $statisticsData['NumberOfPWD'] = ['title' => 'No. of PWDs', 'count' => Resident::pwd(true)->count()];
+        }
+
+        if ($enabledStatistics->contains('NumberOfSingleParents'))
+        {
+            $statisticsData['NumberOfSingleParents'] = ['title' => 'No. of Solo Parents', 'count' => 0];
+        }
+
+        if ($enabledStatistics->contains('NumberOfVoters'))
+        {
+            $statisticsData['NumberOfVoters'] = ['title' => 'No. of Voters', 'count' => Resident::voter(true)->count()];
+        }
+
+        if ($enabledStatistics->contains('AgeDemographic'))
+        {
+            $statisticsData['Seniors'] = ['title' => 'No. of Senior Citizens', 'count' => Resident::where('date_of_birth', '<=', Carbon::now()->subYears(60)->toDateString())->count()];
+        }
+
         return view('livewire.statistics.statistics', ['statisticsData' => $statisticsData]);
     }
 
     private function getResidentBarGraphData()
     {
         $labels = DateTimeHelper::getLastFiveDays();
-        
+
         $residentsThisYear = $this->getResidentCountLastFiveDays(false, $labels);
         $residentsLastYear = $this->getResidentCountLastFiveDays(true, $labels);
 
-        error_log(json_encode(array_values($labels)));  
+        error_log(json_encode(array_values($labels)));
 
         return [
             'title' => 'Barangay Residents',
@@ -66,10 +125,11 @@ class Statistics extends Component
             $dateSpanEnd = $dateSpanEnd->subYear();
         }
 
-        $counts = Resident::whereBetween('created_at', [
-            $dateSpanStart,
-            $dateSpanEnd
-        ])
+        $counts = Resident::active()
+            ->whereBetween('created_at', [
+                $dateSpanStart,
+                $dateSpanEnd
+            ])
             ->get()
             ->groupBy(function ($date)
             {
@@ -79,7 +139,7 @@ class Statistics extends Component
             ->toArray();
 
         // Ensure counts are in the order of the last 5 days with zeros for days with no records
-        $values = array_values(array_map(fn($label) => $counts[$label] ?? 0, $labels));
+        $values = array_values(array_map(fn($label) => $counts[$label] ?? 0, array_keys($labels)));
 
         return [
             'label' => $dateSpanStart->year,

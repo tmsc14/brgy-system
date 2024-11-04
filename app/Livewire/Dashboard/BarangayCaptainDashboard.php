@@ -22,13 +22,9 @@ class BarangayCaptainDashboard extends Component
 
     public $totalResidentsCount;
 
-    public function mount(LocationService $locationService)
+    public function mount()
     {
         $barangay = Auth::user()->barangay;
-
-        $this->householdCount = Household::where('barangay_id', $barangay->id)->count();
-        $this->cityName = $locationService->getCityByCitymunCode($barangay->city_code)['citymunDesc']; 
-        $this->provinceName = $locationService->getProvinceByProvCode($barangay->province_code)['provDesc']; 
         
         $demoRequest = SignupRequest::where('barangay_id', $barangay->id)
             ->where('status', 'pending')

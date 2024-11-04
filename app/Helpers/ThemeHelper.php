@@ -15,18 +15,20 @@ class ThemeHelper
         session([
             // Base
             'primary_color' => RGBColor::fromString($appearanceSettings->primary_color)->toString(),
-            'primary_color_bright' => self::getUserHeaderColor($primaryColor)->toString(),
+            'primary_color_bright' => self::getUserHeaderColor(RGBColor::fromString($appearanceSettings->primary_color))->toString(),
             'background_color' => $backgroundColor->toString(),
             'secondary_color' => $secondaryColor->toString(),
+            'content_color' => RGBColor::fromString($appearanceSettings->content_color)->toString(),
             // Base hover
-            'primary_hover_color' => self::getHoverColor($primaryColor)->toString(),
-            'secondary_hover_color' => self::getHoverColor($secondaryColor)->toString(),
+            'primary_hover_color' => self::getHoverColor(RGBColor::fromString($appearanceSettings->primary_color))->toString(),
+            'secondary_hover_color' => self::getHoverColor(RGBColor::fromString($appearanceSettings->secondary_color))->toString(),
             // Text
-            'primary_text_color' => self::getReadableTextColor($primaryColor)->toString(),
-            'highlighted_text_color' => self::getReadableTextColor($secondaryColor)->toString(),
+            'primary_text_color' => self::getReadableTextColor(RGBColor::fromString($appearanceSettings->primary_color))->toString(),
+            'highlighted_text_color' => self::getReadableTextColor(RGBColor::fromString($appearanceSettings->secondary_color))->toString(),
+            'content_text_color' => self::getReadableTextColor(RGBColor::fromString($appearanceSettings->content_color))->toString(),
             // Text hover
-            'primary_text_hover_color' => self::getHoverColor(self::getReadableTextColor($primaryColor))->toString(),
-        ]);
+            'primary_text_hover_color' => self::getTextHoverColor(RGBColor::fromString($appearanceSettings->primary_color))->toString(),
+    ]);
     }
 
     public static function getReadableTextColor(RGBColor $color)
@@ -41,6 +43,13 @@ class ThemeHelper
         return $color->getLightness() > .4
             ? $color->darken(5)
             : $color->brighten(5);
+    }
+
+    public static function getTextHoverColor(RGBColor $color)
+    {
+        return $color->getLightness() > .4
+            ? $color->darken(10)
+            : $color->brighten(10);
     }
 
     public static function getUserHeaderColor(RGBColor $color)

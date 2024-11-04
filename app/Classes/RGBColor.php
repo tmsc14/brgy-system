@@ -52,6 +52,11 @@ class RGBColor
         return new self($r, $g, $b);
     }
 
+    public function setAlpha($a = 1)
+    {
+        return new RGBColor($this->r, $this->g, $this->b, $a);
+    }
+
     public static function white($max = false, $a = .9)
     {
         $value = $max ? 255 : self::MAX_VALUE;

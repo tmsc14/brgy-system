@@ -12,6 +12,12 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\API\DocumentsController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
+use App\Livewire\Announcements\AnnouncementProfile;
+use App\Livewire\Announcements\Announcements;
+use App\Livewire\Announcements\AnnouncementView;
+use App\Livewire\BarangayInformation\AddBarangayOfficial;
+use App\Livewire\BarangayInformation\BarangayInformation;
+use App\Livewire\BarangayInformation\BarangayOfficialProfile;
 use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Customize\Customize;
 use App\Livewire\Home\Home;
@@ -193,9 +199,12 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('documents', Home::class)->name('documents');
 
-    Route::get('barangay-information', Home::class)->name('barangay-information');
+    Route::get('barangay-information', BarangayInformation::class)->name('barangay-information');
+    Route::get('barangay-information/barangay-official/{id?}', BarangayOfficialProfile::class)->name('barangay-information.barangay-official-profile');
 
-    Route::get('announcement', Home::class)->name('announcement');
+    Route::get('announcements', Announcements::class)->name('announcements');
+    Route::get('announcements/view/{id}', AnnouncementView::class)->name('announcements.view');
+    Route::get('announcements/profile/{id?}', AnnouncementProfile::class)->name('announcements.profile');
     
     Route::get('settings', Home::class)->name('settings');
 

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use App\Models\Scopes\BarangayScope;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 #[ScopedBy([BarangayScope::class])]
 class Resident extends Authenticatable
@@ -38,6 +39,31 @@ class Resident extends Authenticatable
         'is_employed',
         'is_active'
     ];
+
+    public function scopeActive(Builder $query)
+    {
+        $query->where('is_active', true);
+    }
+
+    public function scopeGender(Builder $query, string $gender)
+    {
+        $query->where('gender', $gender);
+    }
+
+    public function scopeEmployed(Builder $query, bool $isEmployed)
+    {
+        $query->where('is_employed', $isEmployed);
+    }
+
+    public function scopePwd(Builder $query, bool $isPwd)
+    {
+        $query->where('is_pwd', $isPwd);
+    }
+
+    public function scopeVoter(Builder $query, bool $isVoter)
+    {
+        $query->where('is_voter', $isVoter);
+    }
     
     public function user()
     {

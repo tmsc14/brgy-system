@@ -1,10 +1,10 @@
 <x-sidebar>
-    <x-sidebar-item moduleName='dashboard' label="Home"  />
-    <x-sidebar-item moduleName='documents' label="Documents Request" />
-    <x-sidebar-item moduleName='barangay-information' label="Barangay Information" iconName='information'/>
-    <x-sidebar-item moduleName='announcement' />
-    <x-sidebar-item moduleName='household' label='Household' iconName='admins' />
-    <x-sidebar-item moduleName='settings' />
+    <x-sidebar-item moduleName='dashboard' iconName='grid-view'  />
+    <x-sidebar-item moduleName='documents' iconName='edit-square' />
+    <x-sidebar-item moduleName='barangay-information' iconName='group' label="Barangay Information" />
+    <x-sidebar-item moduleName='announcements' iconName='feedback' />
+    <x-sidebar-item moduleName='household' label='Household' iconName='groups' />
+    <x-sidebar-item moduleName='settings' iconName='settings' />
     {{-- <li>
         <a href="{{ route('barangay_resident.dashboard')}}" class="{{ request()->routeIs('barangay_resident.dashboard') ? 'active' : '' }}">
             <img src="{{ request()->routeIs('barangay_resident.dashboard') ? asset('resources/img/sidebar-icons/dashboard-sblogo.png') : asset('resources/img/sidebar-icons/dashboard-sblogo-inactive.png') }}" class="icon" alt="Dashboard Icon">
