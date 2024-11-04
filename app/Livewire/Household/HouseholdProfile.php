@@ -2,16 +2,14 @@
 
 namespace App\Livewire\Household;
 
+use App\Models\Household;
 use App\Models\Resident;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Locked;
 
-class AddResident extends Component
+class HouseholdProfile extends Component
 {
-    #[Locked]
-    public $householdId;
+    public $streetAddress;
 
     public $firstName;
     public $middleName;
@@ -32,14 +30,10 @@ class AddResident extends Component
     public $is_birth_registered;
     public $is_literate;
 
-    public function mount($householdId)
-    {
-        $this->householdId = $householdId;
-    }
-
     public function save()
     {
         $validated = $this->validate([
+            'streetAddress' => 'required',
             'firstName' => 'required|alpha_spaces|min:2|max:50',
             'middleName' => 'nullable|alpha_spaces|min:2|max:50',
             'lastName' => 'required|alpha_spaces|min:2|max:50',
@@ -61,9 +55,17 @@ class AddResident extends Component
 
         if ($validated)
         {
+            $household = Household::create([
+                'barangay_id' => $user->barangay->id,
+                'household_head_user_id' => 0,
+                'street_address' => $this->streetAddress,
+                'purok' => '',
+                'sitio' => '',
+            ]);
+
             Resident::create([
                 'barangay_id' => $user->barangay->id,
-                'household_id' => $this->householdId,
+                'household_id' => $household->id,
                 'first_name' => $this->firstName,
                 'middle_name' => $this->middleName,
                 'last_name' => $this->lastName,
@@ -72,7 +74,7 @@ class AddResident extends Component
                 'email' => '',
                 'valid_id' => '',
                 'date_of_birth' => $this->dateOfBirth,
-                'is_head_of_household' => false,
+                'is_head_of_household' => true,
                 'ethnicity' => $this->ethnicity,
                 'religion' => $this->religion,
                 'civil_status' => $this->civil_status,
@@ -85,12 +87,12 @@ class AddResident extends Component
                 'is_literate' => $this->is_literate
             ]);
 
-            $this->redirectRoute('household.view', ['id' => $this->householdId]);
+            $this->redirectRoute('household');
         }
     }
 
     public function render()
     {
-        return view('livewire.household.add-resident');
+        return view('livewire.household.household-profile');
     }
 }

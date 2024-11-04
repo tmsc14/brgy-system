@@ -16,4 +16,6 @@ class ResidentFieldsForm extends Form
     public $is_pwd;
     public $is_voter;
     public $is_employed;
+    public $is_birth_registered;
+    public $is_literate;
 }

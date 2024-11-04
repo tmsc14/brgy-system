@@ -2,28 +2,22 @@
 
 namespace App\Livewire\Household;
 
+use App\Models\Household as ModelsHousehold;
 use App\Models\Resident;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 
 class Household extends Component
 {
-    public $residentsList;
+    #[Locked]
+    public $householdId;
 
-    public function boot()
+    public function mount($id)
     {
-        $user = Auth::user();
-
-        if ($user && $user->resident && $user->resident->household)
-        {
-            $this->residentsList = $user->resident->household->residents;
-        }
-        else
-        {
-            $this->residentsList = collect();
-        }
+        $this->householdId = $id;
     }
 
     public function edit($id)
@@ -48,11 +42,13 @@ class Household extends Component
 
     public function addResident()
     {
-        $this->redirectRoute('household.add-resident');
+        $this->redirectRoute('household.add-resident', ['householdId' => $this->householdId]);
     }
 
     public function render()
     {
-        return view('livewire.household.household');
+        $residentsList = ModelsHousehold::findOrFail($this->householdId)->residents->paginate(10);
+
+        return view('livewire.household.household', compact('residentsList'));
     }
 }

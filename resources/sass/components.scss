@@ -48,6 +48,10 @@
     box-shadow: 0px 4px 5px -2px lightgrey;
 }
 
+.checkbox-container {
+    flex-basis: 0;
+}
+
 .btn.brgy-widget {
     --bs-btn-hover-bg: var(--brgy-secondary-hover-color);
     --bs-btn-hover-color: var(--brgy-primary-hover-color);

@@ -248,7 +248,9 @@ class RegistrationService
                 'is_pwd' => $residentForm->is_pwd,
                 'is_voter' => $residentForm->is_voter,
                 'is_employed' => $residentForm->is_employed,
-                'is_active' => false
+                'is_active' => false,
+                'is_birth_registered' => $residentForm->is_birth_registered,
+                'is_literate' => $residentForm->is_literate
             ]);
 
             SignupRequest::create([

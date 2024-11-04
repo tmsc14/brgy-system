@@ -1,10 +1,16 @@
 <div>
     <x-container>
         <div class="d-flex align-items-center">
-            <x-gmdi-group class="bigger-icon brgy-primary-text me-1" />
-            <x-title class="brgy-primary-text">Edit Resident</x-title>
+            <x-gmdi-cottage class="bigger-icon brgy-primary-text me-1" />
+            <x-title class="brgy-primary-text">Add Household</x-title>
         </div>
-        <div class="d-flex flex-column bg-brown-secondary p-2">
+
+        <div class="d-flex flex-column brgy-bg-content p-2 rounded">
+            <x-subtitle>Household Details</x-subtitle>
+            <x-form-text-input id="household-street-address" wire:model="streetAddress" propertyName="streetAddress" label="Street Address"
+                type="text" placeholder="Enter the household's street address here." class="flex-grow-1" />
+            <hr />
+            <x-subtitle>Head of Household Details</x-subtitle>
             <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
                 <x-form-text-input id="registrationFirstName" wire:model="firstName" propertyName="firstName"
                     label="First Name" type="text" placeholder="Enter your first name here." class="flex-grow-1" />
@@ -148,28 +154,28 @@
                     @enderror
                 </div>
             </div>
-            <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
+            <div class="d-flex flex-column gap-3 flex-xl-row">
                 <div class="checkbox-container flex-grow-1">
                     <div>
                         <span>Is your birth registered with the Local Civil Registry Office?</span>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_birth_registered"
-                            id="registration-birth-registered-1" value="Yes" wire:model="is_birth_registered">
+                        <input class="form-check-input" type="radio" name="is_birth_registered" id="registration-birth-registered-1"
+                            value="Yes" wire:model="is_birth_registered">
                         <label class="form-check-label" for="registration-birth-registered-1">
                             Yes
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_birth_registered"
-                            id="registration-birth-registered-2" value="No" wire:model="is_birth_registered">
+                        <input class="form-check-input" type="radio" name="is_birth_registered" id="registration-birth-registered-2"
+                            value="No" wire:model="is_birth_registered">
                         <label class="form-check-label" for="registration-birth-registered-2">
                             No
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="is_birth_registered"
-                            id="registration-birth-registered-3" value="Don't know" wire:model="is_birth_registered">
+                        <input class="form-check-input" type="radio" name="is_birth_registered" id="registration-birth-registered-3"
+                            value="Don't know" wire:model="is_birth_registered">
                         <label class="form-check-label" for="registration-birth-registered-3">
                             Don't know
                         </label>
@@ -184,14 +190,16 @@
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="is_literate"
-                            id="registration-literacy-1" value="1" wire:model="is_literate">
+                            id="registration-literacy-1" value="1"
+                            wire:model="is_literate">
                         <label class="form-check-label" for="registration-literacy-1">
                             Yes
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="is_literate"
-                            id="registration-literacy-2" value="0" wire:model="is_literate">
+                            id="registration-literacy-2" value="0"
+                            wire:model="is_literate">
                         <label class="form-check-label" for="registration-literacy-2">
                             No
                         </label>

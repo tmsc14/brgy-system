@@ -26,7 +26,6 @@ class Resident extends Authenticatable
         'email',
         'contact_number',
         'date_of_birth',
-        'bric_number',
         'is_head_of_household',
         'relationship_to_head',
         'ethnicity',
@@ -37,7 +36,9 @@ class Resident extends Authenticatable
         'is_pwd',
         'is_voter',
         'is_employed',
-        'is_active'
+        'is_active',
+        'is_birth_registered',
+        'is_literate'
     ];
 
     public function scopeActive(Builder $query)

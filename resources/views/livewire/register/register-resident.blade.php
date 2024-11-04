@@ -74,7 +74,7 @@
                         </x-form-select>
                     </div>
                     <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
-                        <div class='me-auto'>
+                        <div class='checkbox-container flex-grow-1'>
                             <div>
                                 <span>Are you a PWD?</span>
                             </div>
@@ -96,7 +96,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class='me-auto'>
+                        <div class='checkbox-container flex-grow-1'>
                             <div>
                                 <span>Resident Status</span>
                             </div>
@@ -122,20 +122,20 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
-                        <div class="me-auto">
+                        <div class="checkbox-container flex-grow-1">
                             <div>
                                 <span>Are you a registered voter?</span>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_voter" id="registrationVoter1"
-                                    value="1" wire:model="residentForm.is_voter">
+                                <input class="form-check-input" type="radio" name="is_voter"
+                                    id="registrationVoter1" value="1" wire:model="residentForm.is_voter">
                                 <label class="form-check-label" for="registrationVoter1">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="is_voter" id="registrationVoter2"
-                                    value="0" wire:model="residentForm.is_voter">
+                                <input class="form-check-input" type="radio" name="is_voter"
+                                    id="registrationVoter2" value="0" wire:model="residentForm.is_voter">
                                 <label class="form-check-label" for="registrationVoter2">
                                     No
                                 </label>
@@ -144,27 +144,81 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="me-auto">
+                        <div class="checkbox-container flex-grow-1">
                             <div>
                                 <span>Are you employed?</span>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_employed"
-                                    id="registrationEmployed1" value="1"
-                                    wire:model="residentForm.is_employed">
+                                    id="registrationEmployed1" value="1" wire:model="residentForm.is_employed">
                                 <label class="form-check-label" for="registrationEmployed1">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_employed"
-                                    id="registrationEmployed2" value="0"
-                                    wire:model="residentForm.is_employed">
+                                    id="registrationEmployed2" value="0" wire:model="residentForm.is_employed">
                                 <label class="form-check-label" for="registrationEmployed2">
                                     No
                                 </label>
                             </div>
                             @error('residentForm.is_employed')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
+                        <div class="checkbox-container flex-grow-1">
+                            <div>
+                                <span>Is your birth registered with the Local Civil Registry Office?</span>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_birth_registered"
+                                    id="registration-birth-registered-1" value="Yes"
+                                    wire:model="residentForm.is_birth_registered">
+                                <label class="form-check-label" for="registration-birth-registered-1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_birth_registered"
+                                    id="registration-birth-registered-2" value="No"
+                                    wire:model="residentForm.is_birth_registered">
+                                <label class="form-check-label" for="registration-birth-registered-2">
+                                    No
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_birth_registered"
+                                    id="registration-birth-registered-3" value="Don't know"
+                                    wire:model="residentForm.is_birth_registered">
+                                <label class="form-check-label" for="registration-birth-registered-3">
+                                    Don't know
+                                </label>
+                            </div>
+                            @error('residentForm.is_birth_registered')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="checkbox-container flex-grow-1">
+                            <div>
+                                <span>Can you read and write a simple message in any language or dialect?</span>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_literate"
+                                    id="registration-literacy-1" value="1" wire:model="residentForm.is_literate">
+                                <label class="form-check-label" for="registration-literacy-1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_literate"
+                                    id="registration-literacy-2" value="0" wire:model="residentForm.is_literate">
+                                <label class="form-check-label" for="registration-literacy-2">
+                                    No
+                                </label>
+                            </div>
+                            @error('residentForm.is_literate')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>

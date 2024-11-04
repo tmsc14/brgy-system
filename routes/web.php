@@ -24,6 +24,8 @@ use App\Livewire\Home\Home;
 use App\Livewire\Household\AddResident;
 use App\Livewire\Household\EditResident;
 use App\Livewire\Household\Household;
+use App\Livewire\Household\HouseholdList;
+use App\Livewire\Household\HouseholdProfile;
 use App\Livewire\Login\Login;
 use App\Livewire\Login\LoginResident;
 use App\Livewire\Login\LoginStaff;
@@ -214,8 +216,10 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('customize', Customize::class)->name('customize');
 
-    Route::get('household', Household::class)->name('household');
-    Route::get('household/resident', AddResident::class)->name('household.add-resident');
+    Route::get('household', HouseholdList::class)->name('household');
+    Route::get('household/add', HouseholdProfile::class)->name('household.add');
+    Route::get('household/{id}', Household::class)->name('household.view');
+    Route::get('household/{householdId}/resident/add', AddResident::class)->name('household.add-resident');
     Route::get('household/resident/{id}', EditResident::class)->name('household.edit-resident');
 });
 

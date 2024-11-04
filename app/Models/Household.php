@@ -31,4 +31,10 @@ class Household extends Model
     {
         return $this->hasMany(Resident::class, 'household_id');
     }
+
+    public function head()
+    {
+        return $this->hasOne(Resident::class)
+                ->where('is_head_of_household', true);
+    }
 }
