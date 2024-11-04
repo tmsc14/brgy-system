@@ -31,7 +31,7 @@ class DateTimeHelper
         $daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         $lastFiveDays = [];
 
-        for ($i = 0; $i < 5; $i++)
+        for ($i = 4; $i >= 0; $i--)
         {
             $date = new DateTime();
             $date->modify("-{$i} day");
@@ -39,7 +39,7 @@ class DateTimeHelper
             $day = $date->format('j'); // Day of the month without leading zeros
             $weekday = $daysOfWeek[$date->format('w')]; // Day of the week
 
-            $lastFiveDays[] = "{$day} {$weekday}";
+            $lastFiveDays[$date->format("m-d")] = "{$day} {$weekday}";
         }
 
         return $lastFiveDays;

@@ -25,8 +25,6 @@ class Statistics extends Component
 
         $statisticsData['ResidentsBarGraph'] = $this->getResidentBarGraphData();
 
-        error_log(json_encode($statisticsData));
-
         if ($enabledStatistics->contains('NumberOfResidents'))
         {
             $statisticsData['NumberOfResidents'] = ['title' => 'No. of Residents', 'count' => Resident::count()];
@@ -43,29 +41,50 @@ class Statistics extends Component
     private function getResidentBarGraphData()
     {
         $labels = DateTimeHelper::getLastFiveDays();
+        
+        $residentsThisYear = $this->getResidentCountLastFiveDays(false, $labels);
+        $residentsLastYear = $this->getResidentCountLastFiveDays(true, $labels);
 
+        error_log(json_encode(array_values($labels)));  
+
+        return [
+            'title' => 'Barangay Residents',
+            'labels' => array_values($labels),
+            'residentsThisYear' => $residentsThisYear,
+            'residentsLastYear' => $residentsLastYear
+        ];
+    }
+
+    private function getResidentCountLastFiveDays($lastYear, $labels)
+    {
         $dateSpanStart = Carbon::now()->subDays(5)->startOfDay();
-        $dateSpanEnd = Carbon::now()->subDays(5)->startOfDay();
+        $dateSpanEnd = Carbon::now()->endOfDay();
+
+        if ($lastYear)
+        {
+            $dateSpanStart = $dateSpanStart->subYear();
+            $dateSpanEnd = $dateSpanEnd->subYear();
+        }
 
         $counts = Resident::whereBetween('created_at', [
-            Carbon::now()->subDays(5)->startOfDay(),
-            Carbon::now()->endOfDay()
+            $dateSpanStart,
+            $dateSpanEnd
         ])
             ->get()
             ->groupBy(function ($date)
             {
-                return Carbon::parse($date->created_at)->format('j D'); // Format to match labels
+                return Carbon::parse($date->created_at)->format('m-d'); // Format to match labels
             })
             ->map(fn($day) => $day->count())
             ->toArray();
 
         // Ensure counts are in the order of the last 5 days with zeros for days with no records
-        $values = array_map(fn($label) => $counts[$label] ?? 0, $labels);
+        $values = array_values(array_map(fn($label) => $counts[$label] ?? 0, $labels));
 
         return [
-            'title' => 'No. of Residents',
-            'labels' => $labels,
-            'values' => $values
+            'label' => $dateSpanStart->year,
+            'data' => $values,
+            'stack' => $lastYear ? 'A' : 'B'
         ];
     }
 }

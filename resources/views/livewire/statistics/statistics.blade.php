@@ -20,11 +20,10 @@
     <script>
         const residentChartData = {
             labels: @json($statisticsData['ResidentsBarGraph']['labels']),
-            datasets: [{
-                label: 'Barangay Residents',
-                data: @json($statisticsData['ResidentsBarGraph']['values']),
-                backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56', '#4BC0C0', '#9966FF'],
-            }]
+            datasets: [
+                @json($statisticsData['ResidentsBarGraph']['residentsThisYear']),
+                @json($statisticsData['ResidentsBarGraph']['residentsLastYear'])
+            ]
         };
 
         const config = {
