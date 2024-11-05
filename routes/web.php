@@ -20,6 +20,10 @@ use App\Livewire\BarangayInformation\BarangayInformation;
 use App\Livewire\BarangayInformation\BarangayOfficialProfile;
 use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Customize\Customize;
+use App\Livewire\Documents\CertificateOfResidency;
+use App\Livewire\Documents\Documents;
+use App\Livewire\Documents\RequestDocument;
+use App\Livewire\Documents\RequestList;
 use App\Livewire\Home\Home;
 use App\Livewire\Household\AddResident;
 use App\Livewire\Household\EditResident;
@@ -199,7 +203,10 @@ Route::get('/send-test-email', function() {
 Route::middleware(['auth'])->group(function(){
     Route::get('/home', Home::class)->name('dashboard');
 
-    Route::get('documents', Home::class)->name('documents');
+    Route::get('documents', Documents::class)->name('documents');
+    Route::get('documents/request-document', RequestDocument::class)->name('documents.request-document');
+    Route::get('documents/requests', RequestList::class)->name('documents.request-list');
+    Route::get('documents/preview/certificate_of_residency', CertificateOfResidency::class)->name('documents.preview.certificate_of_residency');
 
     Route::get('barangay-information', BarangayInformation::class)->name('barangay-information');
     Route::get('barangay-information/barangay-official/{id?}', BarangayOfficialProfile::class)->name('barangay-information.barangay-official-profile');

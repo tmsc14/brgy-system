@@ -7,15 +7,13 @@ use Illuminate\View\Component;
 class IconLongButton extends Component
 {
     public $text;
-    public $iconResourcePath;
-    public $onClick;
+    public $iconName;
     public $alt;
 
-    public function __construct($text = 'Click Me', $iconResourcePath, $onClick, $alt = '')
+    public function __construct($text = 'Click Me', $iconName, $alt = '')
     {
         $this->text = $text;
-        $this->iconResourcePath = $iconResourcePath;
-        $this->onClick = $onClick;
+        $this->iconName = $iconName;
         $this->alt = $alt;
     }
 

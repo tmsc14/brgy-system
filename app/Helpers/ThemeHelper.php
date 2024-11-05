@@ -27,7 +27,7 @@ class ThemeHelper
             'highlighted_text_color' => self::getReadableTextColor(RGBColor::fromString($appearanceSettings->secondary_color))->toString(),
             'content_text_color' => self::getReadableTextColor(RGBColor::fromString($appearanceSettings->content_color))->toString(),
             // Text hover
-            'primary_text_hover_color' => self::getTextHoverColor(RGBColor::fromString($appearanceSettings->primary_color))->toString(),
+            'primary_text_hover_color' => self::getTextHoverColor(self::getReadableTextColor(RGBColor::fromString($appearanceSettings->primary_color)))->toString(),
     ]);
     }
 
