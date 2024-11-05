@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('document_requests', function (Blueprint $table) {
             $table->unsignedBigInteger('barangay_id');
             $table->id();
-            $table->unsignedBigInteger('resident_id');
             $table->string('document_owner_name');
             $table->string('document_type');
             $table->text('document_data_json');
@@ -22,8 +21,7 @@ return new class extends Migration
             $table->string('status');
             $table->timestamps();
 
-            $table->foreign('barangay_id')->references('id')->on('barangays')->onDelete('cascade');
-            $table->foreign('resident_id')->references('id')->on('barangay_residents')->onDelete('cascade');
+            $table->foreign('barangay_id')->references('id')->on('barangay')->onDelete('cascade');
         });
     }
 

@@ -15,10 +15,6 @@ return new class extends Migration
         {
             $table->unsignedBigInteger('barangay_id');
 
-            $table->dropForeign(['barangay_captain_id']);
-
-            $table->dropColumn('barangay_captain_id');
-
             $table->foreign('barangay_id')->references('id')->on('barangay')->onDelete('cascade');
         });
     }
@@ -31,10 +27,6 @@ return new class extends Migration
         Schema::table('appearance_settings', function (Blueprint $table)
         {
             $table->dropColumn('barangay_id');
-
-            $table->unsignedBigInteger('barangay_captain_id');
-
-            $table->foreign('barangay_captain_id')->references('id')->on('barangay_captains')->onDelete('cascade');
 
             $table->dropForeign('barangay_id')->references('id')->on('barangay')->onDelete('cascade');
         });

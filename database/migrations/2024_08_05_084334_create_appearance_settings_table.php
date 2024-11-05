@@ -10,7 +10,6 @@ class CreateAppearanceSettingsTable extends Migration
     {
         Schema::create('appearance_settings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('barangay_captain_id');
             $table->string('theme_color')->default('#FAEED8');
             $table->string('primary_color')->default('#503C2F');
             $table->string('secondary_color')->default('#FAFAFA');
@@ -18,7 +17,6 @@ class CreateAppearanceSettingsTable extends Migration
             $table->string('logo_path')->nullable();
             $table->timestamps();
 
-            $table->foreign('barangay_captain_id')->references('id')->on('barangay_captains')->onDelete('cascade');
         });
     }
 
