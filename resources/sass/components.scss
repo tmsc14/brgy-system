@@ -1,4 +1,6 @@
 @import 'variables';
+@import 'table';
+@import 'pagination';
 
 .brgy-bg-theme {
     background-color: var(--brgy-background-color);
@@ -36,6 +38,10 @@
     color: var(--brgy-content-text-color);
 }
 
+.brgy-theme-text {
+    color: var(--brgy-background-text-color);
+}
+
 .big-header {
     font-size: 3rem !important;
 }
@@ -46,6 +52,10 @@
 
 .brgy-header {
     box-shadow: 0px 4px 5px -2px lightgrey;
+}
+
+.brgy-container-content {
+    min-height: 300px;
 }
 
 .checkbox-container {
@@ -251,24 +261,6 @@
 .document-preview-button-footer {
     display: flex;
     justify-content: space-between;
-}
-
-.document-preview-button-footer button {
-    min-width: 100px;
-    border: none;
-    border-radius: 12px;
-    padding: 5px 0;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.document-preview-back-btn {
-    background-color: var(--brown);
-    color: white;
-}
-
-.document-preview-request-btn {
-    background-color: var(--green);
 }
 
 @media (max-width: 575.98px) {

@@ -39,9 +39,9 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                 </ul>
             </div>
 
-            <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between bg-light-brown">
+            <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between brgy-bg-theme px-3 pb-3">
                 <div>
-                    <p class="small text-muted m-0">
+                    <p class="small brgy-theme-text m-0">
                         {!! __('Showing') !!}
                         <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
                         {!! __('to') !!}
@@ -53,7 +53,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                 </div>
 
                 <div>
-                    <ul class="pagination m-0">
+                    <ul class="pagination brgy-pagination m-0">
                         {{-- Previous Page Link --}}
                         @if ($paginator->onFirstPage())
                             <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">

@@ -1,0 +1,13 @@
+@import 'variables';
+
+.brgy-table {
+    th {
+        background-color: var(--brgy-content-color);
+        color: var(--brgy-content-text-color);
+    }
+
+    td {
+        background-color: var(--brgy-background-color);
+        color: var(--brgy-background-text-color);
+    }
+}

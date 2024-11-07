@@ -160,7 +160,6 @@ class DocumentsController extends Controller
             $pdf = PDF::view('document_templates.certificate-of-residency', $supplementalData)
                 ->format('a4')
                 ->name('certificate-of-residency.pdf');
-                
 
         return $pdf;
     }

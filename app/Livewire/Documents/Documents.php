@@ -3,16 +3,19 @@
 namespace App\Livewire\Documents;
 
 use App\Models\DocumentRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Documents extends Component
 {
+    private User $user;
+
     public function mount()
     {
-        $user = Auth::user();
+        $this->user = auth()->user();
 
-        if (!$user->staff)
+        if (!$this->user->staff)
         {
             $this->redirectRoute('documents.request-document');
         }
@@ -25,7 +28,7 @@ class Documents extends Component
 
     public function goToRequestDocument()
     {
-        $this->redirectRoute('documents.request-document');
+        $this->redirectRoute('documents.request-document.staff');
     }
 
     public function render()

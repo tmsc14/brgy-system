@@ -12,13 +12,20 @@ class DocumentRequest extends Model
 {
     use HasFactory;
 
+    protected $table = "document_request";
+
     protected $fillable = [
         'barangay_id',
-        'resident_id',
-        'document_owner_name',
+        'user_id',
+        'requester_entity_id',
+        'requester_entity_type',
         'document_type',
         'document_data_json',
         'document_file_urls_csv',
         'status'
     ];
+
+    const STATUS_PENDING = "Pending";
+    const STATUS_APPROVED = "Approved";
+    const STATUS_DENIED = "Denied";
 }
