@@ -209,7 +209,6 @@ Route::middleware(['auth'])->group(function(){
     Route::get('documents', Documents::class)->name('documents');
     Route::get('documents/request-document/staff', RequestDocument::class)->name('documents.request-document.staff')->defaults('userType', basename(Staff::class));
     Route::get('documents/request-document/staff/certificate_of_residency', CertificateOfResidencyRequestProfile::class)->name('documents.request-document.staff.certificate_of_residency')->defaults('userType', Staff::class);
-    Route::get('documents/request-document/staff/certificate_of_residency/preview', CertificateOfResidency::class)->name('documents.request-document.staff.certificate_of_residency.preview')->defaults('userType', Staff::class);
 
     Route::get('documents/requests', RequestList::class)->name('documents.request-list');
     Route::get('documents/requests/preview/{id}', RequestPrintPreview::class)->name('documents.request.preview');
