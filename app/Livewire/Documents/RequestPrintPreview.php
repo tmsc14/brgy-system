@@ -44,15 +44,15 @@ class RequestPrintPreview extends Component
     public function print()
     {
         $barangay = auth()->user()->barangay;
-        $this->documentData['barangayLogo'] = base_path('public/storage/' . $barangay->appearance_settings->logo_path);
-
+        $this->documentData['barangayLogo'] = $barangay->appearance_settings->logo_path
+            ? base_path('public/storage/' . $barangay->appearance_settings->logo_path)
+            : base_path('public/resources/img/default-logo.png');
         $viewName = $this->documentType->getViewName();
 
         $pdf = Pdf::loadView('components.documents.templates.' . $viewName, ['previewData' => $this->documentData]);
         $this->documentData['barangayLogo'] = asset('storage/' . $barangay->appearance_settings->logo_path);
 
-        return response()->streamDownload(function () use ($pdf)
-        {
+        return response()->streamDownload(function () use ($pdf) {
             echo $pdf->setPaper('a4')->stream();
             $this->documentRequest->update(['status' => DocumentRequest::STATUS_RELEASED]);
             $this->redirectRoute('documents.request-list');

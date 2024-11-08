@@ -61,7 +61,11 @@ class DocumentsGeneratorService
         $dayOfCreation = DateTimeHelper::getDayWithSuffix($timeNow->day);
         $monthOfCreation = $timeNow->format('F');
         $yearOfCreation = $timeNow->year;
-        $barangayLogo = asset('storage/' . $barangay->appearance_settings->logo_path);
+        $barangayLogo = asset(
+            $barangay->appearanceSettings && $barangay->appearanceSettings->logo_path
+                ? 'storage/' . $barangay->appearanceSettings->logo_path
+                : 'resources/img/default-logo.png'
+        );
 
         return compact(
             'province',
@@ -109,7 +113,11 @@ class DocumentsGeneratorService
         $dayOfCreation = DateTimeHelper::getDayWithSuffix($timeNow->day);
         $monthOfCreation = $timeNow->format('F');
         $yearOfCreation = $timeNow->year;
-        $barangayLogo = asset('storage/' . $barangay->appearance_settings->logo_path);
+        $barangayLogo = asset(
+            $barangay->appearanceSettings && $barangay->appearanceSettings->logo_path
+                ? 'storage/' . $barangay->appearanceSettings->logo_path
+                : 'resources/img/default-logo.png'
+        );
 
         $extraFormFields = json_decode($documentDataJson, true);
 
