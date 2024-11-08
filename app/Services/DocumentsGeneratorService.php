@@ -62,8 +62,8 @@ class DocumentsGeneratorService
         $monthOfCreation = $timeNow->format('F');
         $yearOfCreation = $timeNow->year;
         $barangayLogo = asset(
-            $barangay->appearanceSettings && $barangay->appearanceSettings->logo_path
-                ? 'storage/' . $barangay->appearanceSettings->logo_path
+            $barangay->appearance_settings && $barangay->appearance_settings->logo_path
+                ? 'storage/' . $barangay->appearance_settings->logo_path
                 : 'resources/img/default-logo.png'
         );
 
@@ -114,8 +114,8 @@ class DocumentsGeneratorService
         $monthOfCreation = $timeNow->format('F');
         $yearOfCreation = $timeNow->year;
         $barangayLogo = asset(
-            $barangay->appearanceSettings && $barangay->appearanceSettings->logo_path
-                ? 'storage/' . $barangay->appearanceSettings->logo_path
+            $barangay->appearance_settings && $barangay->appearance_settings->logo_path
+                ? 'storage/' . $barangay->appearance_settings->logo_path
                 : 'resources/img/default-logo.png'
         );
 

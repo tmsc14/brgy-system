@@ -126,7 +126,7 @@ class RegistrationService
                         'category' => $category,
                         'name' => $featureName,
                         'description' => $featureName, // Not being used for now, just added because could be useful. Remove this comment when we fix this
-                        'is_enabled' => false
+                        'is_enabled' => $category === 'Statistics'
                     ];
                 }
             }

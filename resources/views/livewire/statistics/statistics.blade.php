@@ -106,62 +106,68 @@
         );
     </script>
 
-    <script>
-        const genderChartData = {
-            labels: ['Male', 'Female'],
-            datasets: [{
-                data: [@json($statisticsData['Gender']['maleCount']), @json($statisticsData['Gender']['femaleCount'])]
-            }]
-        };
+    @if (isset($statisticsData['Gender']))
+        <script>
+            const genderChartData = {
+                labels: ['Male', 'Female'],
+                datasets: [{
+                    data: [@json($statisticsData['Gender']['maleCount']), @json($statisticsData['Gender']['femaleCount'])]
+                }]
+            };
 
-        const genderGraphConfig = {
-            type: 'doughnut',
-            data: genderChartData,
-        };
+            const genderGraphConfig = {
+                type: 'doughnut',
+                data: genderChartData,
+            };
 
-        const genderGraph = new Chart(
-            document.getElementById('gender-doughnut-graph'),
-            genderGraphConfig
-        );
-    </script>
+            const genderGraph = new Chart(
+                document.getElementById('gender-doughnut-graph'),
+                genderGraphConfig
+            );
+        </script>
+    @endif
 
-    <script>
-        const employmentChartData = {
-            labels: ['Employed', 'Unemployed'],
-            datasets: [{
-                data: [@json($statisticsData['Employment']['unemployedCount']), @json($statisticsData['Employment']['employedCount'])]
-            }]
-        };
+    @if (isset($statisticsData['Employment']))
+        <script>
+            const employmentChartData = {
+                labels: ['Employed', 'Unemployed'],
+                datasets: [{
+                    data: [@json($statisticsData['Employment']['unemployedCount']), @json($statisticsData['Employment']['employedCount'])]
+                }]
+            };
 
-        const employmentGraphConfig = {
-            type: 'doughnut',
-            data: employmentChartData,
-        };
+            const employmentGraphConfig = {
+                type: 'doughnut',
+                data: employmentChartData,
+            };
 
-        const employmentGraph = new Chart(
-            document.getElementById('employment-doughnut-graph'),
-            employmentGraphConfig
-        );
-    </script>
+            const employmentGraph = new Chart(
+                document.getElementById('employment-doughnut-graph'),
+                employmentGraphConfig
+            );
+        </script>
+    @endif
 
-    <script>
-        const ageChartData = {
-            labels: ['0-17', '18-30', '31-59', '60+'],
-            datasets: [{
-                data: [@json($statisticsData['AgeDemographic']['0-17']), @json($statisticsData['AgeDemographic']['18-30']), @json($statisticsData['AgeDemographic']['31-59']),
-                    @json($statisticsData['AgeDemographic']['60+'])
-                ]
-            }]
-        };
+    @if (isset($statisticsData['AgeDemographic']))
+        <script>
+            const ageChartData = {
+                labels: ['0-17', '18-30', '31-59', '60+'],
+                datasets: [{
+                    data: [@json($statisticsData['AgeDemographic']['0-17']), @json($statisticsData['AgeDemographic']['18-30']), @json($statisticsData['AgeDemographic']['31-59']),
+                        @json($statisticsData['AgeDemographic']['60+'])
+                    ]
+                }]
+            };
 
-        const ageGraphConfig = {
-            type: 'doughnut',
-            data: ageChartData,
-        };
+            const ageGraphConfig = {
+                type: 'doughnut',
+                data: ageChartData,
+            };
 
-        const ageGraph = new Chart(
-            document.getElementById('age-doughnut-graph'),
-            ageGraphConfig
-        );
-    </script>
+            const ageGraph = new Chart(
+                document.getElementById('age-doughnut-graph'),
+                ageGraphConfig
+            );
+        </script>
+    @endif
 @endpush
