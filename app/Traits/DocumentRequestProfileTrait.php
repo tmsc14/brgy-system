@@ -6,6 +6,7 @@ use App\Enums\Documents\DocumentType;
 use App\Models\DocumentRequest;
 use App\Models\Resident;
 use App\Models\Staff;
+use Livewire\Attributes\Locked;
 use Livewire\WithFileUploads;
 
 trait DocumentRequestProfileTrait
@@ -32,7 +33,7 @@ trait DocumentRequestProfileTrait
             $this->form->entity_id,
             $this->form->entity_type,
             $this->documentType,
-            json_encode($this->form->all())
+            json_encode($this->form->getAdditionalFields())
         );
 
         $this->isPreviewing = true;
@@ -70,6 +71,11 @@ trait DocumentRequestProfileTrait
         ]);
 
         $this->isRequestCreated = true;
+    }
+
+    public function cancel()
+    {
+        $this->isPreviewing = false;
     }
 
     public function goToDocumentsHome()

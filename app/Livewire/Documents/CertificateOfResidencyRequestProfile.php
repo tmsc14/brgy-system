@@ -6,6 +6,7 @@ use App\Enums\Documents\DocumentType;
 use App\Livewire\Forms\CertificateOfResidencyRequestForm;
 use App\Services\DocumentsGeneratorService;
 use App\Traits\DocumentRequestProfileTrait;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class CertificateOfResidencyRequestProfile extends Component

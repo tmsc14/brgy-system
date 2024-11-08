@@ -72,7 +72,8 @@
                                     <x-form-text-input id="document-request-field-{{ $additionalField }}"
                                         label="{{ __('documentrequests.' . $additionalField) }}:"
                                         wire:model="form.{{ $additionalField }}"
-                                        propertyName="form.{{ $additionalField }}" type="text" />
+                                        propertyName="form.{{ $additionalField }}" type="text"
+                                        placeholder="{{ __('documentrequests.' . $additionalField) }}" />
                                 @endforeach
                             </div>
                         @endif

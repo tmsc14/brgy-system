@@ -20,6 +20,7 @@ use App\Livewire\BarangayInformation\BarangayInformation;
 use App\Livewire\BarangayInformation\BarangayOfficialProfile;
 use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Customize\Customize;
+use App\Livewire\Documents\BusinessPermitRequestProfile;
 use App\Livewire\Documents\CertificateOfIndigencyRequestProfile;
 use App\Livewire\Documents\CertificateOfResidency;
 use App\Livewire\Documents\CertificateOfResidencyRequestProfile;
@@ -212,7 +213,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('documents/request-document', RequestDocument::class)->name('documents.request-document');
     Route::get('documents/request-document/certificate_of_residency', CertificateOfResidencyRequestProfile::class)->name('documents.request-document.certificate_of_residency');
     Route::get('documents/request-document/certificate_of_indigency', CertificateOfIndigencyRequestProfile::class)->name('documents.request-document.certificate_of_indigency');
-    Route::get('documents/request-document/business_permit', CertificateOfResidencyRequestProfile::class)->name('documents.request-document.business_permit');
+    Route::get('documents/request-document/business_permit', BusinessPermitRequestProfile::class)->name('documents.request-document.business_permit');
 
     Route::get('documents/requests', RequestList::class)->name('documents.request-list');
     Route::get('documents/requests/history', RequestHistory::class)->name('documents.request-list.history');

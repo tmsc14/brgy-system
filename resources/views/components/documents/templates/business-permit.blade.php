@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate of Indigency</title>
     <style>
-        @page { margin: 0px; }
+        @page {
+            margin: 0px;
+        }
 
         p {
             text-indent: 2rem;
@@ -66,7 +68,7 @@
         }
 
         .barangay-captain-info {
-            margin-top: 300px;
+            margin-top: 100px;
             margin-right: auto;
             width: 30%;
         }
@@ -91,6 +93,10 @@
         .approved-by {
             margin-bottom: 100px;
         }
+
+        .signature {
+            margin-top: 100px;
+        }
     </style>
 </head>
 <div class="document-body">
@@ -105,44 +111,55 @@
             <h3>BARANGAY {{ $previewData['barangayName'] }}</h3>
         </div>
         <h4>OFFICE OF THE BARANGAY CAPTAIN</h4>
-        <h2>CERTIFICATE OF INDIGENCY</h2>
+        <h2>BARANGAY BUSINESS PERMIT</h2>
     </div>
 
     <div class="document-content">
         <p style="text-indent: 0;">
             <b>TO WHOM IT MAY CONCERN:</b>
         </p>
-        <p>This is to certify that {{ $previewData['fullName'] }}, whose
-            personal data appears below, is  personally known to the undersigned is a resident of 
-            Barangay {{ $previewData['barangayName'] }}, {{ $previewData['city'] }}, {{ $previewData['province'] }} with good moral character, law-abiding citizen
-            in the community and belongs to the <b>INDIGENT FAMILY</b> in our barangay and he/she has visibly no money, property or means of livelihood sufficient
-            and available for daily food, shelter, and basic necessities for him/herself and his/her family.</p>
+        <p>This is to certify that {{ $previewData['name_of_owner'] }}, of legal age, a resident of
+            {{ $previewData['barangayName'] }}, {{ $previewData['city'] }}, {{ $previewData['province'] }}
+            is hereby granted <b>PERMIT</b> to engage in any lawful commercial operation in this jurisdiction.</p>
+
+        <p>
+            Pursuant to the provision of Section 152 of R.A. 7160 (c) and (d)
+        </p>
+
+        <p>
+            The business name shall be {{ $previewData['business_name'] }} situated at
+            {{ $previewData['barangayName'] }} {{ $previewData['city'] }} {{ $previewData['province'] }} of this
+            locality.
+        </p>
+
+        <p>
+            This <b>PERMIT</b> is issued upon request of {{ $previewData['fullName'] }} for whatever legal and lawful
+            uses it may serve.
+        </p>
+
+        <p>
+            Issued this {{ $previewData['dayOfCreation'] }} day of {{ $previewData['monthOfCreation'] }}
+            {{ $previewData['yearOfCreation'] }} at the Office of the Punong Barangay,
+            {{ $previewData['barangayName'] }},
+            {{ $previewData['city'] }}, {{ $previewData['province'] }}.
+        </p>
+        <p style="text-indent: 0;">
+            NOTE: valid until December 31, {{ $previewData['yearOfCreation'] }}.
+        </p>
 
         <div class="resident-information">
             <div>
-                <span class="key">Date of birth</span><span class="colon">:</span>&nbsp;{{ $previewData['dob'] }}
+                <span class="key">OR No.</span><span class="colon">:</span>&nbsp;
             </div>
             <div>
-                <span class="key">Gender</span><span class="colon">:</span>&nbsp;{{ $previewData['gender'] }}
-            </div>
-            <div>
-                <span class="key">Name of Guardian/Caregiver</span><span
-                    class="colon">:</span>&nbsp;{{ $previewData['guardian_name'] }}
-            </div>
-            <div>
-                <span class="key">Relationship</span><span
-                    class="colon">:</span>&nbsp;{{ $previewData['relationship_to_guardian'] }}
-            </div>
-            <div>
-                <span class="key">Purpose</span><span class="colon">:</span>&nbsp;{{ $previewData['purpose'] }}
+                <span class="key">Issued on</span><span
+                    class="colon">:</span>&nbsp;{{ $previewData['dayOfCreation'] }} day of {{ $previewData['monthOfCreation'] }} {{ $previewData['yearOfCreation'] }}
             </div>
         </div>
 
-        <p>This certification is being issued upon the verbal request of the above-named person for whatever legal and lawful purposes it may serve best.</p>
-
-        <p>Signed this {{ $previewData['dayOfCreation'] }} day of {{ $previewData['monthOfCreation'] }},
-            {{ $previewData['yearOfCreation'] }}, Barangay {{ $previewData['barangayName'] }},
-            {{ $previewData['city'] }}, {{ $previewData['province'] }}, Philippines</p>
+        <div class="signature">
+            <span style="text-indent: 0;border-top:#000000 1px solid;">Name and signature of holder</span>
+        </div>
 
         <div class="barangay-captain-info">
             <div class="approved-by">Approved by:</div>

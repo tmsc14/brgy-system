@@ -36,21 +36,17 @@ class RequestPrintPreview extends Component
         );
     }
 
+    public function cancel()
+    {
+        $this->redirectRoute('documents.request-list');
+    }
+
     public function print()
     {
         $barangay = auth()->user()->barangay;
         $this->documentData['barangayLogo'] = base_path('public/storage/' . $barangay->appearance_settings->logo_path);
 
-        $viewName = '';
-        switch ($this->documentType->value)
-        {
-            case (DocumentType::CERTIFICATE_OF_RESIDENCY->value):
-                $viewName = 'certificate-of-residency';
-                break;
-            case (DocumentType::CERTIFICATE_OF_INDIGENCY->value):
-                $viewName = 'certificate-of-indigency';
-                break;
-        }
+        $viewName = $this->documentType->getViewName();
 
         $pdf = Pdf::loadView('components.documents.templates.' . $viewName, ['previewData' => $this->documentData]);
         $this->documentData['barangayLogo'] = asset('storage/' . $barangay->appearance_settings->logo_path);

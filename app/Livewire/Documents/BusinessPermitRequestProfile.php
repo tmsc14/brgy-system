@@ -3,25 +3,33 @@
 namespace App\Livewire\Documents;
 
 use App\Enums\Documents\DocumentType;
-use App\Livewire\Forms\CertificateOfIndigencyForm;
+use App\Livewire\Forms\BusinessPermitForm;
 use App\Services\DocumentsGeneratorService;
 use App\Traits\DocumentRequestProfileTrait;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class CertificateOfIndigencyRequestProfile extends Component
+class BusinessPermitRequestProfile extends Component
 {
-    #[Locked]
-    public $documentType = DocumentType::CERTIFICATE_OF_INDIGENCY;
+    use DocumentRequestProfileTrait;
+
+    public BusinessPermitForm $form;
 
     #[Locked]
-    public $requiredFiles = ["Barangay Certification", "Certificate of No Property"];
+    public $documentType = DocumentType::BUSINESS_PERMIT;
+
+    #[Locked]
+    public $requiredFiles = [
+        "Barangay Clearance",
+        "Certificate of Registration",
+        "Contract of Lease",
+        "Certificate of Occupancy",
+        "Community Tax",
+        "Fire Safety Inspection Certificate or Fire Permit",
+        "Building Permit and Electrical Inspection"
+    ];
 
     private DocumentsGeneratorService $documentsGeneratorService;
-
-    public CertificateOfIndigencyForm $form;
-
-    use DocumentRequestProfileTrait;
 
     public function boot(DocumentsGeneratorService $documentsGeneratorService)
     {
