@@ -6,6 +6,7 @@ use App\Models\DocumentRequest;
 use App\Models\Resident;
 use App\Models\Staff;
 use App\Traits\DocumentRequestsListTrait;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithoutUrlPagination;
 use Livewire\WithPagination;
