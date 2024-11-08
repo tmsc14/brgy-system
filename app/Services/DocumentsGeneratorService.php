@@ -36,7 +36,7 @@ class DocumentsGeneratorService
 
     protected function getDataForCertificateOfResidency(int $entityId, string $entityType, string $documentDataJson)
     {
-        $requester = $entityType == basename(Staff::class)
+        $requester = $entityType == 'Staff'
             ? Staff::findOrFail($entityId)
             : Resident::findOrFail($entityId);
 
@@ -88,7 +88,7 @@ class DocumentsGeneratorService
 
     protected function getDataForCertificateOfIndigency(int $entityId, string $entityType, string $documentDataJson)
     {
-        $requester = $entityType == basename(Staff::class)
+        $requester = $entityType == 'Staff'
             ? Staff::findOrFail($entityId)
             : Resident::findOrFail($entityId);
 

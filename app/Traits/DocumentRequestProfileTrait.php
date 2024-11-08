@@ -104,16 +104,16 @@ trait DocumentRequestProfileTrait
         if ($user->loggedInAs() === 'staff')
         {
             $this->form->entity_id = $user->staff->id;
-            $this->form->entity_type = basename(Staff::class);
+            $this->form->entity_type = 'Staff';
         }
         else
         {
             $this->form->entity_id = $user->resident->id;
-            $this->form->entity_type = basename(Resident::class);
+            $this->form->entity_type = 'Resident';
         }
 
         // Staff can only request for themselves, so they are set as the entity of the request.
-        if ($this->form->entity_type == basename(Staff::class))
+        if ($this->form->entity_type == 'Staff')
         {
             $staff = $user->staff;
             $this->availableRequesters = [$staff->id => $staff->getFullName()];
