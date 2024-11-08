@@ -1,7 +1,7 @@
-<button class="btn btn-primary" onclick="{{ $onClick }}" >
-    <div class="left-content">
-        <img src="{{ asset($iconResourcePath) }}" class="icon" alt="{{ $alt }} ">
-        <h1>{{ $text }}</h1>
+<button class="btn btn-primary-brgy brgy-primary-text d-flex align-items-center w-100 p-3 mb-3" {{ $attributes->whereStartsWith('wire') }} >
+    <div class="left-content d-flex align-items-center me-auto">
+        <x-dynamic-component :component="'gmdi-' . $iconName" class="bigger-icon me-1" />
+        <x-title>{{ $text }}</x-title>
     </div>
-    <h1 class="chevron">></h1>
+    <x-gmdi-chevron-right class="ms-auto bigger-icon" />
 </button>

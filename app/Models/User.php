@@ -51,4 +51,9 @@ class User extends Authenticatable
             ->withPivot('barangay_id')
             ->wherePivot('barangay_id', $this->barangay_id);
     }
+
+    public function loggedInAs()
+    {
+        return session('logged_in_as');
+    }
 }

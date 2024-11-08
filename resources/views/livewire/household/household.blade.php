@@ -8,20 +8,20 @@
         @error('resident')
             <span class='text-danger'>{{ $message }}</span>
         @enderror
-        <table class="table bg-brown-primary">
+        <x-paginate-table :records="$residentsList">
             <thead>
                 <tr>
-                    <th class="bg-brown-primary text-brown-secondary">NAME</th>
-                    <th class="bg-brown-primary text-brown-secondary">DATE OF BIRTH</th>
-                    <th class="bg-brown-primary text-brown-secondary">ACTION</th>
+                    <th>NAME</th>
+                    <th>DATE OF BIRTH</th>
+                    <th>ACTION</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($residentsList as $resident)
                     <tr>
-                        <td class="bg-brown-secondary">{{ $resident->first_name . ' ' . $resident->last_name }}</td>
-                        <td class="bg-brown-secondary">{{ $resident->date_of_birth }}</td>
-                        <td class="bg-brown-secondary list-btn-cell">
+                        <td>{{ $resident->first_name . ' ' . $resident->last_name }}</td>
+                        <td>{{ $resident->date_of_birth }}</td>
+                        <td>
                             <div class="list-btn-container">
                                 <button wire:click='delete({{ $resident->id }})' class="btn btn-danger">Delete</button>
                                 <button wire:click='edit({{ $resident->id }})' class="btn btn-warning">Edit</button>
@@ -30,6 +30,8 @@
                     </tr>
                 @endforeach
             </tbody>
+        </x-paginate-table>
+        <table class="table bg-brown-primary">
         </table>
     </x-container>
 </div>

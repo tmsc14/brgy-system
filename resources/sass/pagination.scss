@@ -1,0 +1,11 @@
+.pagination.brgy-pagination {
+    --bs-pagination-bg: var(--brgy-secondary-color);
+    --bs-pagination-color: var(--brgy-secondary-text-color);
+
+    --bs-pagination-hover-bg: var(--brgy-secondary-hover-color);
+    --bs-pagination-hover-color: var(--brgy-secondary-text-color);
+
+    --bs-pagination-active-bg: var(--brgy-primary-color);
+    --bs-pagination-active-color: var(--brgy-primary-text-color);
+    --bs-pagination-active-border-color: var(--brgy-primary-color);
+}

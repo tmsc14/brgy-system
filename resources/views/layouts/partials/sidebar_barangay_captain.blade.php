@@ -1,5 +1,6 @@
     <x-sidebar>
         <x-sidebar-item moduleName='dashboard' iconName='grid-view' />
+        <x-sidebar-item moduleName='documents' iconName='description' />
         <x-sidebar-item moduleName='requests' iconName='how-to-reg' />
         <x-sidebar-item moduleName='customize' iconName='edit-square'/>
         <x-sidebar-item moduleName='announcements' iconName='feedback'/>

@@ -80,4 +80,9 @@ class Resident extends Authenticatable
     {
         return $this->belongsTo(Household::class, 'household_id');
     }
+
+    public function getFullName()
+    {
+        return "{$this->first_name} {$this->middle_name} {$this->last_name}";
+    }
 }

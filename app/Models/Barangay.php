@@ -39,8 +39,8 @@ class Barangay extends Model
 
     public function captain()
     {
-        return $this->hasOne(User::class)
+        return $this->hasOne(Staff::class)
                 ->where('is_master', true)
-                ->where('barangay_id', $this->barangay_id);
+                ->where('barangay_id', $this->id);
     }     
 }

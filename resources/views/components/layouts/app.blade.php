@@ -14,9 +14,11 @@
             --brgy-content-color: {{ session('content_color', config('theme.default_text_color')) }};
             --brgy-content-text-color: {{ session('content_text_color', config('theme.default_text_color')) }};
             --brgy-highlight-text-color: {{ session('highlighted_text_color', config('theme.default_text_color')) }};
+            --brgy-background-text-color: {{ session('background_text_color', config('theme.default_background_color')) }};
             --brgy-primary-text-color: {{ session('primary_text_color', config('theme.default_text_color')) }};
             --brgy-primary-text-hover-color: {{ session('primary_text_hover_color', config('theme.default_text_color')) }};
             --brgy-primary-hover-color: {{ session('primary_hover_color', config('theme.default_text_color')) }};
+            --brgy-secondary-text-color: {{ session('secondary_text_color', config('theme.default_secondary_color')) }};
             --brgy-secondary-hover-color: {{ session('secondary_hover_color', config('theme.default_text_color')) }};
 
             --bs-body-bg: {{ session('background_color', config('theme.default_background_color')) }} !important;
@@ -54,14 +56,14 @@
             </form>
         </div>
         <div class="col-10 overflow-auto vh-100 brgy-bg-theme">
-            <div class="d-flex align-items-center text-center gap-2 p-3 border-bottom border-secondary brgy-header">
+            <div class="d-flex align-items-center text-center gap-2 p-3 border-bottom border-secondary brgy-header brgy-theme-text">
                 <span class="fs-1">Hello, {{ $_user_role == 'Resident' ? Auth::user()->resident->first_name : Auth::user()->staff->first_name }}!</span>
-                <div class="date">
+                <div class="date ">
                     <img src="{{ asset('resources/img/header-date.png') }}" class="icon" alt="Date Icon">
                     {{ now()->timezone('Asia/Manila')->format('F d, Y') }}
                 </div>
             </div>
-            <div class="p-3">
+            <div class="p-3 brgy-theme-text">
                 @yield('content')
                 {{ $slot ?? null }}
             </div>

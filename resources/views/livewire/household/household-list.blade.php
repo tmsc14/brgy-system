@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center">
             <x-gmdi-cottage class="bigger-icon brgy-primary-text me-1" />
             <x-title class="brgy-primary-text">Households ({{ $households->total() }})</x-title>
-            <button class='btn btn-success ms-auto' wire:click='addResident'>Add Resident</button>
+            <button class='btn btn-success ms-auto' wire:click='add'>Add Household</button>
         </div>
         @error('resident')
             <span class='text-danger'>{{ $message }}</span>

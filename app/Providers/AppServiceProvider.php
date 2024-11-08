@@ -22,6 +22,12 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(LocationService::class, function ($app) {
             return new LocationService();
         });
+
+        $this->app->singleton(DocumentsGeneratorService::class, function ($app) {
+            return new DocumentsGeneratorService(
+                $app->make(LocationService::class)
+            );
+        });
     }
 
     /**

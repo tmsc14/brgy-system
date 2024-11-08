@@ -35,6 +35,8 @@ class EditResident extends Component
     {
         $residentRecord = Resident::findOrFail($id);
 
+        $this->residentId = $id;
+
         $this->firstName = $residentRecord->first_name;
         $this->middleName = $residentRecord->middle_name;
         $this->lastName = $residentRecord->last_name;

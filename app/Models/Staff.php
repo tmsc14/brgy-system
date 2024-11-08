@@ -34,6 +34,11 @@ class Staff extends Authenticatable
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function barangay()
+    {
+        return $this->belongsTo(Barangay::class, 'barangay_id');
+    }
+
     public function roles()
     {
         return $this->hasMany(Role::class, 'user_id');
@@ -42,5 +47,10 @@ class Staff extends Authenticatable
     public function featurePermissions()
     {
         return $this->morphMany(FeaturePermission::class, 'permissible');
-    }    
+    }
+
+    public function getFullName()
+    {
+        return "{$this->first_name} {$this->middle_name} {$this->last_name}";
+    }
 }
