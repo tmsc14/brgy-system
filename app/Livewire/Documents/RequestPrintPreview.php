@@ -31,7 +31,7 @@ class RequestPrintPreview extends Component
         $this->documentData = $this->documentsGeneratorService->getDocumentData(
             entityId: $this->documentRequest->requester_entity_id,
             entityType: $this->documentRequest->requester_entity_type,
-            documentType: $this->documentRequest->document_type,
+            documentType: $this->documentType,
             documentDataJson: $this->documentRequest->document_data_json
         );
     }
@@ -58,7 +58,8 @@ class RequestPrintPreview extends Component
         return response()->streamDownload(function () use ($pdf)
         {
             echo $pdf->setPaper('a4')->stream();
-            $this->redirectRoute('documents');
+            $this->documentRequest->update(['status' => DocumentRequest::STATUS_RELEASED]);
+            $this->redirectRoute('documents.request-list');
         }, $viewName . '.pdf');
     }
 

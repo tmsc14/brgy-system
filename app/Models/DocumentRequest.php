@@ -25,7 +25,12 @@ class DocumentRequest extends Model
         'status'
     ];
 
+    public static function getFileUrlString(int $barangayId, int $userId)
+    {
+        return $barangayId . '/document_requests/' . $userId;
+    }
+
     const STATUS_PENDING = "Pending";
-    const STATUS_APPROVED = "Approved";
+    const STATUS_RELEASED = "Released";
     const STATUS_DENIED = "Denied";
 }

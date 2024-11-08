@@ -19,11 +19,11 @@ class DocumentsGeneratorService
         $this->locationService = $locationService;
     }
 
-    public function getDocumentData(int $entityId, string $entityType, string $documentType, string $documentDataJson)
+    public function getDocumentData(int $entityId, string $entityType, DocumentType $documentType, string $documentDataJson)
     {
         switch ($documentType)
         {
-            case (DocumentType::CERTIFICATE_OF_RESIDENCY->value):
+            case (DocumentType::CERTIFICATE_OF_RESIDENCY):
                     return $this->getDataForCertificateOfResidency($entityId, $entityType, $documentDataJson);
                     break;
         }

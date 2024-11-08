@@ -3,24 +3,24 @@
 namespace App\Livewire\Documents;
 
 use App\Enums\Documents\DocumentType;
-use App\Livewire\Forms\CertificateOfResidencyRequestForm;
+use App\Livewire\Forms\CertificateOfIndigencyForm;
 use App\Services\DocumentsGeneratorService;
 use App\Traits\DocumentRequestProfileTrait;
 use Livewire\Component;
 
-class CertificateOfResidencyRequestProfile extends Component
+class CertificateOfIndigencyRequestProfile extends Component
 {
-    use DocumentRequestProfileTrait;
-
-    public CertificateOfResidencyRequestForm $form;
+    #[Locked]
+    public $documentType = DocumentType::CERTIFICATE_OF_INDIGENCY;
 
     #[Locked]
-    public $documentType = DocumentType::CERTIFICATE_OF_RESIDENCY;
+    public $requiredFiles = ["Barangay Certification", "Certificate of No Property"];
 
-    #[Locked]
-    public $requiredFiles = [];
-    
     private DocumentsGeneratorService $documentsGeneratorService;
+
+    public CertificateOfIndigencyForm $form;
+
+    use DocumentRequestProfileTrait;
 
     public function boot(DocumentsGeneratorService $documentsGeneratorService)
     {
@@ -29,6 +29,6 @@ class CertificateOfResidencyRequestProfile extends Component
 
     public function mount()
     {
-        $this->initializeDocumentRequestProfile();
+        $this->initializeDocumentRequestProfile(isRequiresDocuments: true);
     }
 }

@@ -16,5 +16,8 @@
                 </div>
             @endforeach
         </div>
+        <a href="/documents" wire.navigate>
+            <button class="btn btn-secondary-brgy">Back</button>
+        </a>
     </x-container>
 </div>

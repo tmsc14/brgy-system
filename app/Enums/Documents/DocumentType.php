@@ -23,6 +23,18 @@ enum DocumentType: string
         };
     }
 
+    public function getViewName(): string
+    {
+        return match ($this) {
+            self::CERTIFICATE_OF_RESIDENCY => "certificate-of-residency",
+            self::CERTIFICATE_OF_INDIGENCY => "certificate-of-indigency",
+            self::BARANGAY_CLEARANCE => "barangay-clearance",
+            self::BUSINESS_PERMIT => "business-permit",
+            self::BARANGAY_ID => "barangay-id",
+            self::DEATH_CERTIFICATE => "death-certificate",
+        };
+    }
+
     public static function fromValue(string $value): ?self
     {
         return self::from($value);

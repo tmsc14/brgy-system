@@ -94,7 +94,7 @@ class Login extends Component
     {
         if ($user->resident && $user->resident->is_active)
         {
-            return $this->onLoginSuccess($user);
+            return $this->onLoginSuccess($user, true);
         }
         else if ($user->resident && !$user->resident->is_active)
         {
@@ -116,11 +116,12 @@ class Login extends Component
         }
     }
 
-    private function onLoginSuccess($user)
+    private function onLoginSuccess($user, $isResident = false)
     {
         $appearanceSettings = $user->barangay->appearance_settings;
 
         ThemeHelper::setSessionAppearanceSettings($appearanceSettings);
+        session(['logged_in_as' => $isResident ? 'resident' : 'staff']);
 
         return redirect()->route('dashboard');
     }

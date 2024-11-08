@@ -6,9 +6,11 @@
                     <h3>
                         Your request for printing of a
                     </h3>
-                    <h1 class="brgy-color-secondary">
-                        {{ strtoupper($documentType->getDescription()) }}
-                    </h1>
+                    <div class="text-center brgy-bg-primary brgy-primary-text rounded p-2 mb-2 w-50">
+                        <h1 class="brgy-color-secondary">
+                            {{ strtoupper($documentType->getDescription()) }}
+                        </h1>
+                    </div>
                     <h3>
                         is confirmed! Kindly proceed to your Barangay Hall for claiming.
                     </h3>
@@ -32,7 +34,7 @@
         </x-container>
     @elseif ($isPreviewing)
         <x-documents.document-preview-container :documentType="$documentType">
-            <x-documents.templates.certificate-of-residency :previewData="$previewData" />
+            <x-dynamic-component :component="'documents.templates.' . $documentType->getViewName()" :previewData="$previewData" />
             <x-slot name="footer">
                 <hr class="line brgy-content-text" />
                 <div class="document-preview-button-footer">
@@ -49,7 +51,7 @@
         <x-container iconName="description" titleName="Documents">
             <x-container-content>
                 <div class="text-center brgy-bg-primary brgy-primary-text rounded p-2 mb-2">
-                    <x-title>CERTIFICATE OF RESIDENCY</x-title>
+                    <x-title>{{ strtoupper($documentType->getDescription()) }}</x-title>
                 </div>
                 <div class="col-12 col-lg-6">
                     <x-form-select id="document-request-requester-select" label="Request Document for:"
@@ -61,6 +63,39 @@
                         @endforeach
                     </x-form-select>
                 </div>
+                @if ($additionalFields || $form->requires_documents)
+                    <hr class="line brgy-color-primary" />
+                    <div class="row">
+                        @if ($additionalFields)
+                            <div class="col-12 col-lg-6">
+                                @foreach ($additionalFields as $additionalField)
+                                    <x-form-text-input id="document-request-field-{{ $additionalField }}"
+                                        label="{{ __('documentrequests.' . $additionalField) }}:"
+                                        wire:model="form.{{ $additionalField }}"
+                                        propertyName="form.{{ $additionalField }}" type="text" />
+                                @endforeach
+                            </div>
+                        @endif
+                        @if ($form->requires_documents)
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group flex-grow-1">
+                                    <label for="document-request-file-upload" class="brgy-content-text fs-2">File
+                                        Upload</label>
+                                    <ul>
+                                        @foreach ($requiredFiles as $requiredFile)
+                                            <li>{{ $requiredFile }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <input id="document-request-file-upload" type="file" wire:model="form.files"
+                                        class="form-control" multiple>
+                                    @error('form.files')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <x-container-content-footer>
                     <div class="d-flex">
                         <a href="/documents/request-document" wire.navigate>

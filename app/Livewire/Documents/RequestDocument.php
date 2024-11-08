@@ -11,14 +11,14 @@ class RequestDocument extends Component
     #[Locked]
     public $userType;
 
-    public function mount($userType)
+    public function mount()
     {
-        $this->userType = $userType;
+        $this->userType = auth()->user()->loggedInAs();
     }
     
     public function requestDocument($documentType)
     {
-        $this->redirectRoute('documents.request-document.' . strtolower($this->userType . '.' . $documentType));
+        $this->redirectRoute('documents.request-document.' . strtolower($documentType));
     }
 
     public function render()

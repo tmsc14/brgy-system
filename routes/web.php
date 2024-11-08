@@ -20,11 +20,13 @@ use App\Livewire\BarangayInformation\BarangayInformation;
 use App\Livewire\BarangayInformation\BarangayOfficialProfile;
 use App\Livewire\BarangaySetup\BarangaySetup;
 use App\Livewire\Customize\Customize;
+use App\Livewire\Documents\CertificateOfIndigencyRequestProfile;
 use App\Livewire\Documents\CertificateOfResidency;
 use App\Livewire\Documents\CertificateOfResidencyRequestProfile;
 use App\Livewire\Documents\Documents;
 use App\Livewire\Documents\RequestPrintPreview;
 use App\Livewire\Documents\RequestDocument;
+use App\Livewire\Documents\RequestHistory;
 use App\Livewire\Documents\RequestList;
 use App\Livewire\Home\Home;
 use App\Livewire\Household\AddResident;
@@ -207,10 +209,13 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/home', Home::class)->name('dashboard');
 
     Route::get('documents', Documents::class)->name('documents');
-    Route::get('documents/request-document/staff', RequestDocument::class)->name('documents.request-document.staff')->defaults('userType', basename(Staff::class));
-    Route::get('documents/request-document/staff/certificate_of_residency', CertificateOfResidencyRequestProfile::class)->name('documents.request-document.staff.certificate_of_residency')->defaults('userType', Staff::class);
+    Route::get('documents/request-document', RequestDocument::class)->name('documents.request-document');
+    Route::get('documents/request-document/certificate_of_residency', CertificateOfResidencyRequestProfile::class)->name('documents.request-document.certificate_of_residency');
+    Route::get('documents/request-document/certificate_of_indigency', CertificateOfIndigencyRequestProfile::class)->name('documents.request-document.certificate_of_indigency');
+    Route::get('documents/request-document/business_permit', CertificateOfResidencyRequestProfile::class)->name('documents.request-document.business_permit');
 
     Route::get('documents/requests', RequestList::class)->name('documents.request-list');
+    Route::get('documents/requests/history', RequestHistory::class)->name('documents.request-list.history');
     Route::get('documents/requests/preview/{id}', RequestPrintPreview::class)->name('documents.request.preview');
 
     Route::get('barangay-information', BarangayInformation::class)->name('barangay-information');
