@@ -21,15 +21,18 @@ class AnnouncementProfile extends Component
 
     use WithFileUploads;
 
-    public function mount($id)
+    public function mount($id = null)
     {
-        $this->announcement = Announcement::find($id);
-
-        if ($this->announcement)
+        if ($id)
         {
-            $this->title = $this->announcement->title;
-            $this->body = $this->announcement->body;
-            $this->photoUrl = asset('storage/' . $this->announcement->photo);
+            $this->announcement = Announcement::find($id);
+    
+            if ($this->announcement)
+            {
+                $this->title = $this->announcement->title;
+                $this->body = $this->announcement->body;
+                $this->photoUrl = asset('storage/' . $this->announcement->photo);
+            }
         }
     }
 
