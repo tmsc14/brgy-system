@@ -55,7 +55,7 @@
             <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
                 <div class="form-group flex-grow-1">
                     <label for="registrationValidId" class="text-brown-primary">Valid I.D.</label>
-                    <input class="form-control" type="file" id="registrationValidId" wire:model="form.validId">
+                    <input class="form-control" type="file" id="registrationValidId" wire:model.live="form.validId">
                     @error('form.validId')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -66,7 +66,7 @@
             <hr class="line text-brown-primary" />
             <div class="d-flex justify-content-around">
                 <button class="btn btn-link" wire:click="previousStep">Go back</button>
-                <button class="btn btn-primary-brown ms-auto" type="submit">
+                <button class="btn btn-primary-brown ms-auto" type="submit" wire:loading.attr="disabled">
                     Register
                 </button>
             </div>

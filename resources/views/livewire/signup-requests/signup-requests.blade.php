@@ -28,7 +28,7 @@
                         <td class="p-2">{{ $request->user_type }}</td>
                         <td class="p-2">{{ $request->position }}</td>
                         <td class="p-2">
-                            <a href="{{ url($request->valid_id) }}" target="_blank">View
+                            <a href="{{ asset('storage/' . $request->valid_id) }}" target="_blank">View
                                 ID</a>
                         </td>
                         <td class="p-2">

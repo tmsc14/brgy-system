@@ -179,7 +179,7 @@ class RegistrationService
                 'position' => $staffForm->officialPosition ?? $staffForm->staffRole
             ]);
 
-            $validIdPath = $form->validId->store('photos/' . $barangayId . '/validIds/' .  strtolower($roleName) . '/' . $user->id);
+            $validIdPath = $form->validId->storePublicly('photos/' . $barangayId . '/validIds/' .  strtolower($roleName) . '/' . $user->id, 'public');
 
             SignupRequest::create([
                 'barangay_id' => $barangayId,
