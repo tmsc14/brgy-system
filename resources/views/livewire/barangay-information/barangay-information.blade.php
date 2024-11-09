@@ -4,7 +4,7 @@
         <div class="d-flex align-items-center">
             <x-gmdi-group class="bigger-icon brgy-primary-text me-1" />
             <x-title class="brgy-primary-text">Barangay Officials</x-title>
-            @if (auth()->user()->signedInAs === 'staff')
+            @if (auth()->user()->loggedInAs() === 'staff')
                 <button class="btn btn-success ms-auto" wire:click="addBarangayOfficial">Add</button>
             @endif
         </div>
