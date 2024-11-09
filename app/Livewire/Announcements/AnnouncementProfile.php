@@ -59,7 +59,11 @@ class AnnouncementProfile extends Component
         }
         else
         {
-            $data['photo'] = $this->photo->storePublicly('announcements/' . Auth::user()->barangay->id, 'public');
+            if ($this->photo)
+            {
+                $data['photo'] = $this->photo->storePublicly('announcements/' . Auth::user()->barangay->id, 'public');
+            }
+            
             $data['created_by_staff_id'] = Auth::user()->id;
             $data['barangay_id'] = Auth::user()->barangay->id;
             Announcement::create($data);
