@@ -38,7 +38,7 @@
         </div> --}}
         <div class="form-group">
             <label for="logo">Logo</label>
-            <input type="file" name="logo" id="logo" class="form-control" wire:model="logo">
+            <input type="file" name="logo" id="logo" class="form-control" wire:model.live="logo">
             @if ($appearanceSettings->logo_path)
                 <img src="{{ asset('storage/' . $appearanceSettings->logo_path) }}" alt="Logo"
                     class="img-fluid preview-image">
@@ -50,7 +50,7 @@
     </div>
     <hr class="line text-brown-primary" />
     <div class="d-flex justify-content-around">
-        <button class="btn {{ $is_wizard_step ? 'btn-primary-brown' : 'btn-secondary-brgy' }} ms-auto" type="submit">
+        <button class="btn {{ $is_wizard_step ? 'btn-primary-brown' : 'btn-secondary-brgy' }} ms-auto" type="submit" wire:loading.attr="disabled">
             Save
         </button>
     </div>

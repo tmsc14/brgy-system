@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <label for="announcement-photo">Photo</label>
                     <input type="file" name="announcement-photo" id="announcement-photo" class="form-control"
-                        wire:model="photo">
+                        wire:model.live="photo">
                     @if (isset($photo))
                         <img src="{{ $photo->temporaryUrl() }}" alt="Photo" class="img-fluid preview-image" />
                     @elseif (isset($photoUrl))
@@ -29,9 +29,10 @@
                 <div>
                     <button class="btn btn-primary-brgy" type="button" wire:click="cancel">Cancel</button>
                     @if (isset($announcement))
-                        <button class="btn btn-danger" type="button" wire:click="delete">Delete</button>
+                        <button wire:loading.attr="disabled" class="btn btn-danger" type="button"
+                            wire:click="delete">Delete</button>
                     @endif
-                    <button class="btn btn-success" type="submit">Save</button>
+                    <button wire:loading.attr="disabled" class="btn btn-success" type="submit">Save</button>
                 </div>
             </form>
         </div>
