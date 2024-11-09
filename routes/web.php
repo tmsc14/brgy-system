@@ -44,7 +44,13 @@ use App\Livewire\Register\RegisterResident;
 use App\Livewire\Register\RegisterStaff;
 use App\Livewire\SignupRequests\History;
 use App\Livewire\SignupRequests\SignupRequests;
+use App\Livewire\Statistics\HouseholdsList;
+use App\Livewire\Statistics\PwdList;
+use App\Livewire\Statistics\ResidentsList;
+use App\Livewire\Statistics\SeniorCitizensList;
+use App\Livewire\Statistics\SingleParentList;
 use App\Livewire\Statistics\Statistics;
+use App\Livewire\Statistics\VotersList;
 use App\Models\Staff;
 
 /*
@@ -231,6 +237,12 @@ Route::middleware(['auth'])->group(function(){
     Route::get('admins', Home::class)->name('admins');
 
     Route::get('statistics', Statistics::class)->name('statistics');
+    Route::get('statistics/residents', ResidentsList::class)->name('statistics.residents.list');
+    Route::get('statistics/households', HouseholdsList::class)->name('statistics.households');
+    Route::get('statistics/pwd', PwdList::class)->name('statistics.pwd');
+    Route::get('statistics/voters', VotersList::class)->name('statistics.voters');
+    Route::get('statistics/seniors', SeniorCitizensList::class)->name('statistics.seniors');
+    Route::get('statistics/singleparents', SingleParentList::class)->name('statistics.single-parents');
 
     Route::get('customize', Customize::class)->name('customize');
 

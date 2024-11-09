@@ -4,6 +4,5 @@
     <x-sidebar-item moduleName='announcements' iconName='feedback' />
     <x-sidebar-item moduleName='barangay-information' iconName='group' label="Barangay Information" />
     <x-sidebar-item moduleName='household' iconName='cottage' label="Household Management" />
-    <x-sidebar-item moduleName='statistics' iconName='analytics' />
-    <x-sidebar-item moduleName='settings' iconName='settings' />
+    {{-- <x-sidebar-item moduleName='settings' iconName='settings' /> --}}
 </x-sidebar>

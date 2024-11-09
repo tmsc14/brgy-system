@@ -47,6 +47,10 @@
                         <x-form-text-input id="registrationContactNumber" label="Contact Number"
                             wire:model="form.contactNumber" propertyName="form.contactNumber" type="text"
                             placeholder="Contact Number" class="flex-grow-1" />
+                        <x-form-text-input id="registrationStreetAddress" wire:model="residentForm.street_address"
+                            propertyName="residentForm.street_address" label="Street Address" type="text"
+                            placeholder="Enter your street address here." class="flex-grow-1" />
+                        <hr />
                     </div>
                     <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
                         <x-form-text-input id="registrationEthnicity" label="Ethnicity"
@@ -206,14 +210,16 @@
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_literate"
-                                    id="registration-literacy-1" value="1" wire:model="residentForm.is_literate">
+                                    id="registration-literacy-1" value="1"
+                                    wire:model="residentForm.is_literate">
                                 <label class="form-check-label" for="registration-literacy-1">
                                     Yes
                                 </label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_literate"
-                                    id="registration-literacy-2" value="0" wire:model="residentForm.is_literate">
+                                    id="registration-literacy-2" value="0"
+                                    wire:model="residentForm.is_literate">
                                 <label class="form-check-label" for="registration-literacy-2">
                                     No
                                 </label>
@@ -221,6 +227,29 @@
                             @error('residentForm.is_literate')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
+                        <div class="checkbox-container flex-grow-1">
+                            <div>
+                                <span>Are you a single parent?</span>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_single_parent"
+                                    id="registration-single-parent-1" value="1"
+                                    wire:model="residentForm.is_single_parent">
+                                <label class="form-check-label" for="registration-single-parent-1">
+                                    Yes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="is_single_parent"
+                                    id="registration-single-parent-1" value="0"
+                                    wire:model="residentForm.is_single_parent">
+                                <label class="form-check-label" for="registration-single-parent-1">
+                                    No
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <x-form-text-input id="registrationEmail" label="Email" wire:model="form.email"

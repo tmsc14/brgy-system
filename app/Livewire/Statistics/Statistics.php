@@ -11,8 +11,34 @@ use Livewire\Component;
 
 class Statistics extends Component
 {
-    public function mount()
+    public function residentsList()
     {
+        $this->redirectRoute('statistics.residents.list');
+    }
+
+    public function pwdList()
+    {
+        $this->redirectRoute('statistics.pwd');
+    }
+
+    public function households()
+    {
+        $this->redirectRoute('statistics.households');
+    }
+
+    public function voters()
+    {
+        $this->redirectRoute('statistics.voters');
+    }
+
+    public function seniors()
+    {
+        $this->redirectRoute('statistics.seniors');
+    }
+
+    public function singleparents()
+    {
+        $this->redirectRoute('statistics.single-parents');
     }
 
     public function render()
@@ -81,7 +107,7 @@ class Statistics extends Component
 
         if ($enabledStatistics->contains('NumberOfSingleParents'))
         {
-            $statisticsData['NumberOfSingleParents'] = ['title' => 'No. of Solo Parents', 'count' => 0];
+            $statisticsData['NumberOfSingleParents'] = ['title' => 'No. of Solo Parents', 'count' => Resident::where('is_single_parent', true)->count()];
         }
 
         if ($enabledStatistics->contains('NumberOfVoters'))

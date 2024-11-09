@@ -37,4 +37,14 @@ class Household extends Model
         return $this->hasOne(Resident::class)
                 ->where('is_head_of_household', true);
     }
+
+    public function getHeadNameAttribute()
+    {
+        return $this->head ? $this->head->getFullName() : null;
+    }
+
+    public function getNumberOfResidentsAttribute()
+    {
+        return $this->residents->count();
+    }
 }

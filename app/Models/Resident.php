@@ -38,7 +38,8 @@ class Resident extends Authenticatable
         'is_employed',
         'is_active',
         'is_birth_registered',
-        'is_literate'
+        'is_literate',
+        'is_single_parent'
     ];
 
     public function scopeActive(Builder $query)

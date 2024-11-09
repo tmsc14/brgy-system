@@ -4,7 +4,9 @@
         <div class="d-flex align-items-center">
             <x-gmdi-group class="bigger-icon brgy-primary-text me-1" />
             <x-title class="brgy-primary-text">Barangay Officials</x-title>
-            <button class="btn btn-success ms-auto" wire:click="addBarangayOfficial">Add</span>
+            @if (auth()->user()->signedInAs === 'staff')
+                <button class="btn btn-success ms-auto" wire:click="addBarangayOfficial">Add</button>
+            @endif
         </div>
         <div class="brgy-bg-content p-2">
             @foreach ($officials as $official)

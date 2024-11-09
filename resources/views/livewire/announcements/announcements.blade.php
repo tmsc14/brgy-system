@@ -1,14 +1,17 @@
 <div>
     <x-icon-header iconName="feedback" text="Announcements" />
     <x-container>
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center mb-2">
             <x-gmdi-feedback class="bigger-icon brgy-primary-text me-1" />
             <x-title class="brgy-primary-text">Announcements</x-title>
-            <button class="btn btn-success ms-auto" wire:click="addAnnouncement">Add</span>
+            @if (auth()->user()->signedInAs === 'staff')
+                <button class="btn btn-success ms-auto" wire:click="addAnnouncement">Add</button>
+            @endif
         </div>
         <div class="brgy-bg-content p-2">
             @if (isset($latestAnnouncement))
-                <div class="d-flex align-items-center clickable" wire:click="viewAnnouncement({{$latestAnnouncement->id}})">
+                <div class="d-flex align-items-center clickable"
+                    wire:click="viewAnnouncement({{ $latestAnnouncement->id }})">
                     @if (isset($latestAnnouncement->photo))
                         <img src="{{ asset('storage/' . $latestAnnouncement->photo) }}"
                             class="latest-announcement-photo me-4" />
@@ -21,7 +24,8 @@
                     <hr />
                     <div class="d-flex">
                         @foreach ($oldAnnouncements as $oldAnnouncement)
-                            <div class="d-flex flex-column align-items-center col-3 clickable" wire:click="viewAnnouncement({{$oldAnnouncement->id}})">
+                            <div class="d-flex flex-column align-items-center col-3 clickable"
+                                wire:click="viewAnnouncement({{ $oldAnnouncement->id }})">
                                 @if (isset($oldAnnouncement->photo))
                                     <img src="{{ asset('storage/' . $oldAnnouncement->photo) }}"
                                         class="latest-announcement-photo" />

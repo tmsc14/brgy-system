@@ -30,6 +30,7 @@ class EditResident extends Component
     public $is_employed;
     public $is_birth_registered;
     public $is_literate;
+    public $is_single_parent;
 
     public function mount($id)
     {
@@ -55,6 +56,7 @@ class EditResident extends Component
         $this->is_employed = $residentRecord->is_employed;
         $this->is_birth_registered = $residentRecord->is_birth_registered;
         $this->is_literate = $residentRecord->is_literate;
+        $this->is_single_parent = $residentRecord->is_single_parent;
     }
 
     public function save()
@@ -75,6 +77,7 @@ class EditResident extends Component
             'is_employed' => 'required',
             'is_birth_registered' => 'required',
             'is_literate' => 'required',
+            'is_single_parent' => 'required'
         ]);
 
         $user = Auth::user();
@@ -99,7 +102,8 @@ class EditResident extends Component
                 'is_voter' => $this->is_voter,
                 'is_employed' => $this->is_employed,
                 'is_birth_registered' => $this->is_birth_registered,
-                'is_literate' => $this->is_literate
+                'is_literate' => $this->is_literate,
+                'is_single_parent' => $this->is_single_parent
             ]);
 
             $this->redirectRoute('household');

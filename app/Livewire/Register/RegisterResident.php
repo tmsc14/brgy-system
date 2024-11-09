@@ -75,6 +75,8 @@ class RegisterResident extends Component
             'is_employed' => 'required',
             'is_birth_registered' => 'required',
             'is_literate' => 'required',
+            'is_single_parent' => 'required',
+            'street_address' => 'required'
         ]);
 
         if ($validateBarangay && $validated && $validatedResidentForm)

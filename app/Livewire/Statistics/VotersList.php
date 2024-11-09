@@ -6,16 +6,16 @@ use App\Models\Resident;
 use App\Traits\StatisticTrait;
 use Livewire\Component;
 
-class ResidentsList extends Component
+class VotersList extends Component
 {
-    public $statisticName = "Residents";
-    public $titleIconName = "groups";
+    public $statisticName = "Registered Voters";
+    public $titleIconName = "how-to-vote";
 
     use StatisticTrait;
 
     public function getRecords()
     {
-        return Resident::with('household');
+        return Resident::where('is_voter', true);
     }
 
     public function getTableStructure()

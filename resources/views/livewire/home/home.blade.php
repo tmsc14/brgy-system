@@ -1,9 +1,7 @@
 <div>
-    @if ($_user_role == 'Captain')
-        <livewire:dashboard.barangay-captain-dashboard />
+    @if (auth()->user()->loggedInAs() == 'resident')
+        <livewire:announcements.announcements />
     @else
-        <div>
-            
-        </div>
+        <livewire:dashboard.barangay-captain-dashboard />
     @endif
 </div>

@@ -1,15 +1,14 @@
 <div>
-    <x-icon-header text="Statistics" iconName="analytics" />
     <div>
         <div class="d-flex gap-3 mb-3">
             <div class="brgy-bg-primary col-6 flex-shrink-1 p-2 min-width-zero rounded">
                 <canvas id="resident-count-bar-graph"></canvas>
             </div>
             @if (isset($statisticsData['NumberOfResidents']))
-                <x-statistics.simple-widget iconName="groups" :stat="$statisticsData['NumberOfResidents']" />
+                <x-statistics.simple-widget iconName="groups" :stat="$statisticsData['NumberOfResidents']" wire:click="residentsList" />
             @endif
             @if (isset($statisticsData['NumberOfHousehold']))
-                <x-statistics.simple-widget iconName="home" :stat="$statisticsData['NumberOfHousehold']" />
+                <x-statistics.simple-widget iconName="home" :stat="$statisticsData['NumberOfHousehold']" wire:click="households" />
             @endif
         </div>
         <div class="d-flex gap-3 mb-3">
@@ -43,16 +42,16 @@
         </div>
         <div class="d-flex gap-3 mb-3">
             @if (isset($statisticsData['NumberOfPWD']))
-                <x-statistics.simple-widget iconName="accessible" :stat="$statisticsData['NumberOfPWD']" />
+                <x-statistics.simple-widget iconName="accessible" :stat="$statisticsData['NumberOfPWD']" wire:click="pwdList" />
             @endif
             @if (isset($statisticsData['NumberOfSingleParents']))
-                <x-statistics.simple-widget iconName="escalator-warning" :stat="$statisticsData['NumberOfSingleParents']" />
+                <x-statistics.simple-widget iconName="escalator-warning" :stat="$statisticsData['NumberOfSingleParents']" wire:click="singleparents" />
             @endif
             @if (isset($statisticsData['NumberOfVoters']))
-                <x-statistics.simple-widget iconName="how-to-vote" :stat="$statisticsData['NumberOfVoters']" />
+                <x-statistics.simple-widget iconName="how-to-vote" :stat="$statisticsData['NumberOfVoters']" wire:click="voters" />
             @endif
             @if (isset($statisticsData['Seniors']))
-                <x-statistics.simple-widget iconName="elderly" :stat="$statisticsData['Seniors']" />
+                <x-statistics.simple-widget iconName="elderly" :stat="$statisticsData['Seniors']" wire:click="seniors" />
             @endif
         </div>
     </div>

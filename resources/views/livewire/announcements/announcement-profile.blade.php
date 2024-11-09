@@ -18,7 +18,9 @@
                     <input type="file" name="announcement-photo" id="announcement-photo" class="form-control"
                         wire:model="photo">
                     @if (isset($photo))
-                        <img src="{{ $photo->temporaryUrl() }}" alt="Photo" class="img-fluid preview-image">
+                        <img src="{{ $photo->temporaryUrl() }}" alt="Photo" class="img-fluid preview-image" />
+                    @elseif (isset($photoUrl))
+                        <img src="{{ $photoUrl }}" alt="Photo" class="img-fluid preview-image" />
                     @endif
                     @error('logo')
                         <span class="text-danger">{{ $message }}</span>

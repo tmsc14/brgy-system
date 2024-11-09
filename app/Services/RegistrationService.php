@@ -126,7 +126,7 @@ class RegistrationService
                         'category' => $category,
                         'name' => $featureName,
                         'description' => $featureName, // Not being used for now, just added because could be useful. Remove this comment when we fix this
-                        'is_enabled' => $category === 'Statistics'
+                        'is_enabled' => true
                     ];
                 }
             }
@@ -221,7 +221,7 @@ class RegistrationService
             $household = Household::create([
                 'barangay_id' => $barangayId,
                 'household_head_user_id' => $user->id,
-                'street_address' => '',
+                'street_address' => $residentForm->street_address,
                 'purok' => '',
                 'sitio' => '',
             ]);
@@ -250,7 +250,8 @@ class RegistrationService
                 'is_employed' => $residentForm->is_employed,
                 'is_active' => false,
                 'is_birth_registered' => $residentForm->is_birth_registered,
-                'is_literate' => $residentForm->is_literate
+                'is_literate' => $residentForm->is_literate,
+                'is_single_parent' => $residentForm->is_single_parent,
             ]);
 
             SignupRequest::create([

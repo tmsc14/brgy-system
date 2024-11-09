@@ -209,6 +209,30 @@
                     @enderror
                 </div>
             </div>
+            <div class="d-flex flex-column gap-3 flex-xl-row">
+                <div class="checkbox-container flex-grow-1">
+                    <div>
+                        <span>Are you a single parent?</span>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="is_single_parent" id="registrationSingleParent1"
+                            value="1" wire:model="is_single_parent">
+                        <label class="form-check-label" for="registrationSingleParent1">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="is_single_parent" id="registrationSingleParent2"
+                            value="0" wire:model="is_single_parent">
+                        <label class="form-check-label" for="registrationVoter2">
+                            No
+                        </label>
+                    </div>
+                    @error('is_single_parent')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
             <hr class="text-brown-primary" />
             <button class="btn btn-primary-brown ms-auto" wire:click="save">
                 Save

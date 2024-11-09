@@ -4,18 +4,21 @@ namespace App\Livewire\Statistics;
 
 use App\Models\Resident;
 use App\Traits\StatisticTrait;
+use Carbon\Carbon;
 use Livewire\Component;
 
-class ResidentsList extends Component
+class SeniorCitizensList extends Component
 {
-    public $statisticName = "Residents";
-    public $titleIconName = "groups";
+    public $statisticName = "Senior Citizens";
+    public $titleIconName = "elderly";
 
     use StatisticTrait;
 
     public function getRecords()
     {
-        return Resident::with('household');
+        $dateSixtyYearsAgo = Carbon::now()->subYears(60)->toDateString();
+
+        return Resident::where('date_of_birth', '<=', $dateSixtyYearsAgo);
     }
 
     public function getTableStructure()
@@ -26,6 +29,9 @@ class ResidentsList extends Component
             },
             'ADDRESS' => function ($record) {
                 return $record->household->street_address ?? 'N/A';
+            },
+            'AGE' => function ($record) {
+                return Carbon::parse($record->date_of_birth)->age ?? 'N/A';
             },
         ];
     }

@@ -29,6 +29,7 @@ class HouseholdProfile extends Component
     public $is_employed;
     public $is_birth_registered;
     public $is_literate;
+    public $is_single_parent;
 
     public function save()
     {
@@ -49,6 +50,7 @@ class HouseholdProfile extends Component
             'is_employed' => 'required',
             'is_birth_registered' => 'required',
             'is_literate' => 'required',
+            'is_single_parent' => 'required'
         ]);
 
         $user = Auth::user();
@@ -84,7 +86,8 @@ class HouseholdProfile extends Component
                 'is_employed' => $this->is_employed,
                 'is_active' => true,
                 'is_birth_registered' => $this->is_birth_registered,
-                'is_literate' => $this->is_literate
+                'is_literate' => $this->is_literate,
+                'is_single_parent' => $this->is_single_parent,
             ]);
 
             $this->redirectRoute('household');

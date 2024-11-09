@@ -4,7 +4,7 @@
         <div class="d-flex align-items-center">
             <x-gmdi-feedback class="bigger-icon brgy-primary-text me-1" />
             <x-title class="brgy-primary-text">{{ $announcement->title }}</x-title>
-            <button class="btn btn-brgy-primary ms-auto" wire:click="editAnnouncement">Edit</span>
+            <button class="btn btn-secondary-brgy ms-auto" wire:click="editAnnouncement">Edit</span>
         </div>
         <div class="bg-white p-2">
             <div class="d-flex">
@@ -22,7 +22,7 @@
             </div>
             <div class="d-flex justify-content-center py-4">
                 @if (isset($announcement->photo))
-                    <img src="{{ asset('storage/' . $announcement->photo) }}" />
+                    <img class="img-fluid" src="{{ asset('storage/' . $announcement->photo) }}" />
                 @else
                     <x-gmdi-image class="latest-announcement-photo" />
                 @endif

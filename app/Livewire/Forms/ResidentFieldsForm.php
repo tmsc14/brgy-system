@@ -18,4 +18,6 @@ class ResidentFieldsForm extends Form
     public $is_employed;
     public $is_birth_registered;
     public $is_literate;
+    public $is_single_parent;
+    public $street_address;
 }
