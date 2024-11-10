@@ -4,6 +4,7 @@ namespace App\Livewire\Documents;
 
 use App\Enums\Documents\DocumentType;
 use App\Livewire\Forms\CertificateOfResidencyRequestForm;
+use App\Livewire\Forms\CertificateOfResidencyWalkInForm;
 use App\Services\DocumentsGeneratorService;
 use App\Traits\DocumentRequestProfileTrait;
 use Livewire\Attributes\Locked;
@@ -14,6 +15,8 @@ class CertificateOfResidencyRequestProfile extends Component
     use DocumentRequestProfileTrait;
 
     public CertificateOfResidencyRequestForm $form;
+
+    public CertificateOfResidencyWalkInForm $walkInForm;
 
     #[Locked]
     public $documentType = DocumentType::CERTIFICATE_OF_RESIDENCY;

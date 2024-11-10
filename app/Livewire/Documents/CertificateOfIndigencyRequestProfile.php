@@ -4,6 +4,7 @@ namespace App\Livewire\Documents;
 
 use App\Enums\Documents\DocumentType;
 use App\Livewire\Forms\CertificateOfIndigencyForm;
+use App\Livewire\Forms\CertificateOfIndigencyWalkInForm;
 use App\Services\DocumentsGeneratorService;
 use App\Traits\DocumentRequestProfileTrait;
 use Livewire\Attributes\Locked;
@@ -20,6 +21,8 @@ class CertificateOfIndigencyRequestProfile extends Component
     private DocumentsGeneratorService $documentsGeneratorService;
 
     public CertificateOfIndigencyForm $form;
+
+    public CertificateOfIndigencyWalkInForm $walkInForm;
 
     use DocumentRequestProfileTrait;
 

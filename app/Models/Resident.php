@@ -50,6 +50,10 @@ class Resident extends Authenticatable
             if ($resident->user) {
                 $resident->user->delete();
             }
+
+            DocumentRequest::where('requester_entity_id', $resident->id)
+                ->where('requester_entity_type', 'Resident')
+                ->delete();
         });
     }
 

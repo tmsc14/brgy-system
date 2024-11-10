@@ -4,6 +4,7 @@ namespace App\Livewire\Documents;
 
 use App\Enums\Documents\DocumentType;
 use App\Livewire\Forms\BusinessPermitForm;
+use App\Livewire\Forms\BusinessPermitWalkInForm;
 use App\Services\DocumentsGeneratorService;
 use App\Traits\DocumentRequestProfileTrait;
 use Livewire\Attributes\Locked;
@@ -14,6 +15,8 @@ class BusinessPermitRequestProfile extends Component
     use DocumentRequestProfileTrait;
 
     public BusinessPermitForm $form;
+
+    public BusinessPermitWalkInForm $walkInForm;
 
     #[Locked]
     public $documentType = DocumentType::BUSINESS_PERMIT;

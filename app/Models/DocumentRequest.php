@@ -22,7 +22,8 @@ class DocumentRequest extends Model
         'document_type',
         'document_data_json',
         'document_file_urls_csv',
-        'status'
+        'status',
+        'walk_in_data_json'
     ];
 
     public static function getFileUrlString(int $barangayId, int $userId)

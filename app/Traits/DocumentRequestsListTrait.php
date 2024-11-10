@@ -15,13 +15,20 @@ trait DocumentRequestsListTrait
         {
             if ($documentRequest->requester_entity_type === 'Staff')
             {
-                $entity = Staff::find($documentRequest->requester_entity_id);
-                $documentRequest->name = $entity->getFullName();
+                if ($documentRequest->requester_entity_id == 0)
+                {
+                    $documentRequest->name = json_decode($documentRequest->walk_in_data_json)->fullName;
+                }
+                else
+                {
+                    $entity = Staff::find($documentRequest->requester_entity_id);
+                    $documentRequest->name = isset($entity) ? $entity->getFullName() : 'N/A';
+                }
             }
             elseif ($documentRequest->requester_entity_type === 'Resident')
             {
                 $entity = Resident::find($documentRequest->requester_entity_id);
-                $documentRequest->name = $entity->getFullName();
+                $documentRequest->name = isset($entity) ? $entity->getFullName() : 'N/A';
             }
         }
 

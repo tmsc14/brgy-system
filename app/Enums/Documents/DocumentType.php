@@ -12,7 +12,7 @@ enum DocumentType: string
     {
         return match ($this) {
             self::CERTIFICATE_OF_RESIDENCY => "Certificate of Residency",
-            self::CERTIFICATE_OF_INDIGENCY => "Certificate of Indigency",
+            self::CERTIFICATE_OF_INDIGENCY => "Certificate of Indigency - Scholarship",
             self::BUSINESS_PERMIT => "Business Permit",
         };
     }

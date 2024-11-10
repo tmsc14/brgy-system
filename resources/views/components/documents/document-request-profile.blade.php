@@ -55,13 +55,22 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <x-form-select id="document-request-requester-select" label="Request Document for:"
-                        wire:model="form.entity_id" propertyName="entity_id" hideDefaultOption="true"
-                        class="brgy-content-text" :isDisabled="$form->entity_type == 'Staff'">
-                        <option value="" disabled selected>Select a household member here</option>
+                        wire:model.live="form.entity_id" propertyName="entity_id" hideDefaultOption="true"
+                        class="brgy-content-text mb-2">
+                        <option value="" disabled selected>Select a resident{{$form->entity_type === 'Staff' ? '/staff' : ''}} here</option>
                         @foreach ($availableRequesters as $id => $name)
                             <option value="{{ $id }}">{{ $name }}</option>
                         @endforeach
                     </x-form-select>
+                    @if ($form->entity_id == 0)
+                    <x-subtitle>Walk-In Details</x-subtitle>
+                        @foreach ($walkInFields as $walkInField)
+                            <x-form-text-input id="document-request-field-{{ $walkInField }}"
+                                label="{{ __('documentrequests.' . $walkInField) }}:"
+                                wire:model="walkInForm.{{ $walkInField }}" propertyName="walkInForm.{{ $walkInField }}"
+                                type="text" placeholder="{{ __('documentrequests.' . $walkInField) }}" />
+                        @endforeach
+                    @endif
                 </div>
                 @if ($additionalFields || $form->requires_documents)
                     <hr class="line brgy-color-primary" />

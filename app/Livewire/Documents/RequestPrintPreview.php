@@ -32,7 +32,8 @@ class RequestPrintPreview extends Component
             entityId: $this->documentRequest->requester_entity_id,
             entityType: $this->documentRequest->requester_entity_type,
             documentType: $this->documentType,
-            documentDataJson: $this->documentRequest->document_data_json
+            documentDataJson: $this->documentRequest->document_data_json,
+            walkInDataJson: $this->documentRequest->walk_in_data_json
         );
     }
 

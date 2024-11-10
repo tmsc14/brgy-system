@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class Staff extends Authenticatable
 {
@@ -33,11 +34,20 @@ class Staff extends Authenticatable
     {
         parent::boot();
 
-        static::deleting(function ($resident) {
-            if ($resident->user) {
-                $resident->user->delete();
+        static::deleting(function ($staff) {
+            if ($staff->user) {
+                $staff->user->delete();
             }
+
+            DocumentRequest::where('requester_entity_id', $staff->id)
+                ->where('requester_entity_type', 'Staff')
+                ->delete();
         });
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        $query->where('is_active', true);
     }
 
     public function user()

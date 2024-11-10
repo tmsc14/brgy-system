@@ -22,6 +22,9 @@ trait DocumentRequestProfileTrait
     #[Locked]
     public $additionalFields = [];
 
+    #[Locked]
+    public $walkInFields = [];
+
     public bool $isPreviewing;
     public bool $isRequestCreated;
 
@@ -29,11 +32,17 @@ trait DocumentRequestProfileTrait
     {
         $this->form->validate();
 
+        if ($this->isWalkIn())
+        {
+            $this->walkInForm->validate();
+        }
+
         $this->previewData = $this->documentsGeneratorService->getDocumentData(
             $this->form->entity_id,
             $this->form->entity_type,
             $this->documentType,
-            json_encode($this->form->getAdditionalFields())
+            json_encode($this->form->getAdditionalFields()),
+            $this->isWalkIn() ? json_encode($this->walkInForm->all()) : ''
         );
 
         $this->isPreviewing = true;
@@ -67,7 +76,8 @@ trait DocumentRequestProfileTrait
             'document_type' => $this->documentType->value,
             'document_data_json' => json_encode($this->form->getAdditionalFields()),
             'document_file_urls_csv' => $csvFilePaths,
-            'status' => DocumentRequest::STATUS_PENDING
+            'status' => DocumentRequest::STATUS_PENDING,
+            'walk_in_data_json' => $this->isWalkIn() ? json_encode($this->walkInForm->all()) : ''
         ]);
 
         $this->isRequestCreated = true;
@@ -92,6 +102,7 @@ trait DocumentRequestProfileTrait
     {
         $this->setAvailableRequesters();
         $this->additionalFields = $this->form->getAdditionalFieldNames();
+        $this->walkInFields = array_keys($this->walkInForm->all());
 
         $this->form->requires_documents = $isRequiresDocuments;
     }
@@ -100,7 +111,6 @@ trait DocumentRequestProfileTrait
     {
         $user = auth()->user();
 
-        // If user is logged in as staff, they can only request for themselves.
         if ($user->loggedInAs() === 'staff')
         {
             $this->form->entity_id = $user->staff->id;
@@ -112,11 +122,15 @@ trait DocumentRequestProfileTrait
             $this->form->entity_type = 'Resident';
         }
 
-        // Staff can only request for themselves, so they are set as the entity of the request.
         if ($this->form->entity_type == 'Staff')
         {
-            $staff = $user->staff;
-            $this->availableRequesters = [$staff->id => $staff->getFullName()];
+            $this->availableRequesters = [0 => 'Walk-In'];
+
+            $allStaff = Staff::active()->get();
+
+            foreach ($allStaff as $staffMember) {
+                $this->availableRequesters[$staffMember->id] = $staffMember->getFullName();
+            }
         }
         else
         {
@@ -127,5 +141,10 @@ trait DocumentRequestProfileTrait
                 })
                 ->toArray();
         }
+    }
+
+    private function isWalkIn()
+    {
+        return $this->form->entity_id == 0;
     }
 }
