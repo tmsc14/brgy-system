@@ -15,7 +15,7 @@ class ResidentsList extends Component
 
     public function getRecords()
     {
-        return Resident::with('household');
+        return Resident::active()->with('household');
     }
 
     public function getTableStructure()

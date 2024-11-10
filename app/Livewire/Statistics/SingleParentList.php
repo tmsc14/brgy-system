@@ -16,7 +16,7 @@ class SingleParentList extends Component
 
     public function getRecords()
     {
-        return Resident::with('household')->where('is_single_parent', true);
+        return Resident::active()->with('household')->where('is_single_parent', true);
     }
 
     public function getTableStructure()

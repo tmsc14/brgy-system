@@ -16,7 +16,7 @@ class HouseholdsList extends Component
 
     public function getRecords()
     {
-        return Household::with('head', 'residents');
+        return Household::hasActiveResidents()->with('head', 'residents');
     }
 
     public function getTableStructure()

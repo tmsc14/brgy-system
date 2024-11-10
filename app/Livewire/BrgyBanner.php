@@ -22,7 +22,7 @@ class BrgyBanner extends Component
     {
         $barangay = Auth::user()->barangay;
 
-        $this->householdCount = Household::where('barangay_id', $barangay->id)->count();
+        $this->householdCount = Household::hasActiveResidents()->count();
         $this->cityName = $locationService->getCityByCitymunCode($barangay->city_code)['citymunDesc']; 
         $this->provinceName = $locationService->getProvinceByProvCode($barangay->province_code)['provDesc'];
     }

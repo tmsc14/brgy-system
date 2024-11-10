@@ -15,7 +15,7 @@ class VotersList extends Component
 
     public function getRecords()
     {
-        return Resident::where('is_voter', true);
+        return Resident::active()->where('is_voter', true);
     }
 
     public function getTableStructure()

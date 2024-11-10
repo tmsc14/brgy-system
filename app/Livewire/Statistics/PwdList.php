@@ -15,7 +15,7 @@ class PwdList extends Component
 
     public function getRecords()
     {
-        return Resident::where('is_pwd', true);
+        return Resident::active()->where('is_pwd', true);
     }
 
     public function getTableStructure()

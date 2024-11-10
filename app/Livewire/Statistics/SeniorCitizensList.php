@@ -18,7 +18,7 @@ class SeniorCitizensList extends Component
     {
         $dateSixtyYearsAgo = Carbon::now()->subYears(60)->toDateString();
 
-        return Resident::where('date_of_birth', '<=', $dateSixtyYearsAgo);
+        return Resident::active()->where('date_of_birth', '<=', $dateSixtyYearsAgo);
     }
 
     public function getTableStructure()
