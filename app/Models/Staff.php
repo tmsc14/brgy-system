@@ -29,6 +29,17 @@ class Staff extends Authenticatable
         'position'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($resident) {
+            if ($resident->user) {
+                $resident->user->delete();
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

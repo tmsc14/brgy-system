@@ -8,23 +8,24 @@
         @error('resident')
             <span class='text-danger'>{{ $message }}</span>
         @enderror
-        <table class="table bg-brown-primary">
+        <x-paginate-table :records="$households">
             <thead>
                 <tr>
-                    <th class="bg-brown-primary text-brown-secondary">NAME</th>
-                    <th class="bg-brown-primary text-brown-secondary">ADDRESS</th>
-                    <th class="bg-brown-primary text-brown-secondary">NO. OF RESIDENTS</th>
+                    <th>NAME</th>
+                    <th>ADDRESS</th>
+                    <th>NO. OF RESIDENTS</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($households as $household)
                     <tr>
-                        <td class="brgy-bg-theme">{{ $household->head->first_name . ' ' . $household->head->last_name }}
+                        <td>{{ $household->head->first_name . ' ' . $household->head->last_name }}
                         </td>
-                        <td class="brgy-bg-theme">{{ $household->street_address }}</td>
-                        <td class="brgy-bg-theme">{{ $household->residents->count() }}</td>
-                        <td class="brgy-bg-theme list-btn-cell">
-                            <div class="list-btn-container">
+                        <td>{{ $household->street_address }}</td>
+                        <td>{{ $household->residents->count() }}</td>
+                        <td>
+                            <div>
                                 <button wire:click='delete({{ $household->id }})' class="btn btn-danger">Delete</button>
                                 <button wire:click='edit({{ $household->id }})' class="btn btn-warning">Edit</button>
                             </div>
@@ -32,6 +33,6 @@
                     </tr>
                 @endforeach
             </tbody>
-        </table>
+        </x-paginate-table>
     </x-container>
 </div>

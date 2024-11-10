@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use App\Models\Scopes\BarangayScope;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 #[ScopedBy([BarangayScope::class])]
 class Household extends Model
@@ -21,6 +22,13 @@ class Household extends Model
     ];
 
     protected $table = "household";
+
+    public function scopeHasActiveResidents($query)
+    {
+        return $query->whereHas('residents', function ($q) {
+            $q->where('is_active', true);
+        });
+    }
 
     public function user()
     {

@@ -226,7 +226,7 @@ class RegistrationService
                 'sitio' => '',
             ]);
 
-            $validIdPath = $form->validId->store('photos/' . $barangayId . '/validIds/resident/' . $user->id);
+            $validIdPath = $form->validId->storePublicly('photos/' . $barangayId . '/validIds/resident/' . $user->id, 'public');
 
             Resident::create([
                 'barangay_id' => $barangayId,

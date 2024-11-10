@@ -53,27 +53,27 @@ class Statistics extends Component
 
         if ($enabledStatistics->contains('NumberOfResidents'))
         {
-            $statisticsData['NumberOfResidents'] = ['title' => 'No. of Residents', 'count' => Resident::count()];
+            $statisticsData['NumberOfResidents'] = ['title' => 'No. of Residents', 'count' => Resident::active()->count()];
         }
 
         if ($enabledStatistics->contains('NumberOfHousehold'))
         {
-            $statisticsData['NumberOfHousehold'] = ['title' => 'No. of Households', 'count' => Household::count()];
+            $statisticsData['NumberOfHousehold'] = ['title' => 'No. of Households', 'count' => Household::hasActiveResidents()->count()];
         }
 
         if ($enabledStatistics->contains('Gender'))
         {
-            $statisticsData['Gender'] = ['maleCount' => Resident::gender('Male')->count(), 'femaleCount' => Resident::gender('Female')->count()];
+            $statisticsData['Gender'] = ['maleCount' => Resident::active()->gender('Male')->count(), 'femaleCount' => Resident::active()->gender('Female')->count()];
         }
 
         if ($enabledStatistics->contains('Employment'))
         {
-            $statisticsData['Employment'] = ['employedCount' => Resident::employed(true)->count(), 'unemployedCount' => Resident::employed(false)->count()];
+            $statisticsData['Employment'] = ['employedCount' => Resident::active()->employed(true)->count(), 'unemployedCount' => Resident::active()->employed(false)->count()];
         }
 
         if ($enabledStatistics->contains('Employment'))
         {
-            $statisticsData['Employment'] = ['employedCount' => Resident::employed(true)->count(), 'unemployedCount' => Resident::employed(false)->count()];
+            $statisticsData['Employment'] = ['employedCount' => Resident::active()->employed(true)->count(), 'unemployedCount' => Resident::active()->employed(false)->count()];
         }
 
         if ($enabledStatistics->contains('AgeDemographic'))
@@ -81,43 +81,43 @@ class Statistics extends Component
             $now = Carbon::now();
 
             $statisticsData['AgeDemographic'] = [
-                '0-17' => Resident::whereBetween('date_of_birth', [
+                '0-17' => Resident::active()->whereBetween('date_of_birth', [
                     Carbon::now()->subYears(17)->toDateString(),
                     $now,
                 ])->count(),
 
-                '18-30' => Resident::whereBetween('date_of_birth', [
+                '18-30' => Resident::active()->whereBetween('date_of_birth', [
                     Carbon::now()->subYears(30)->toDateString(),
                     Carbon::now()->subYears(18)->toDateString(),
                 ])->count(),
 
-                '31-59' => Resident::whereBetween('date_of_birth', [
+                '31-59' => Resident::active()->whereBetween('date_of_birth', [
                     Carbon::now()->subYears(59)->toDateString(),
                     Carbon::now()->subYears(31)->toDateString(),
                 ])->count(),
 
-                '60+' => Resident::where('date_of_birth', '<=', Carbon::now()->subYears(60)->toDateString())->count(),
+                '60+' => Resident::active()->where('date_of_birth', '<=', Carbon::now()->subYears(60)->toDateString())->count(),
             ];
         }
 
         if ($enabledStatistics->contains('NumberOfPWD'))
         {
-            $statisticsData['NumberOfPWD'] = ['title' => 'No. of PWDs', 'count' => Resident::pwd(true)->count()];
+            $statisticsData['NumberOfPWD'] = ['title' => 'No. of PWDs', 'count' => Resident::active()->pwd(true)->count()];
         }
 
         if ($enabledStatistics->contains('NumberOfSingleParents'))
         {
-            $statisticsData['NumberOfSingleParents'] = ['title' => 'No. of Solo Parents', 'count' => Resident::where('is_single_parent', true)->count()];
+            $statisticsData['NumberOfSingleParents'] = ['title' => 'No. of Solo Parents', 'count' => Resident::active()->where('is_single_parent', true)->count()];
         }
 
         if ($enabledStatistics->contains('NumberOfVoters'))
         {
-            $statisticsData['NumberOfVoters'] = ['title' => 'No. of Voters', 'count' => Resident::voter(true)->count()];
+            $statisticsData['NumberOfVoters'] = ['title' => 'No. of Voters', 'count' => Resident::active()->voter(true)->count()];
         }
 
         if ($enabledStatistics->contains('AgeDemographic'))
         {
-            $statisticsData['Seniors'] = ['title' => 'No. of Senior Citizens', 'count' => Resident::where('date_of_birth', '<=', Carbon::now()->subYears(60)->toDateString())->count()];
+            $statisticsData['Seniors'] = ['title' => 'No. of Senior Citizens', 'count' => Resident::active()->where('date_of_birth', '<=', Carbon::now()->subYears(60)->toDateString())->count()];
         }
 
         return view('livewire.statistics.statistics', ['statisticsData' => $statisticsData]);

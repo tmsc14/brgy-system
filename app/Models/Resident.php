@@ -42,6 +42,17 @@ class Resident extends Authenticatable
         'is_single_parent'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($resident) {
+            if ($resident->user) {
+                $resident->user->delete();
+            }
+        });
+    }
+
     public function scopeActive(Builder $query)
     {
         $query->where('is_active', true);
