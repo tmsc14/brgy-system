@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use App\Models\Scopes\BarangayScope;
+
+#[ScopedBy([BarangayScope::class])]
 
 class Staff extends Authenticatable
 {
