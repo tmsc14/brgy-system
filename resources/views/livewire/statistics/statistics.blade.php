@@ -131,7 +131,7 @@
             const employmentChartData = {
                 labels: ['Employed', 'Unemployed'],
                 datasets: [{
-                    data: [@json($statisticsData['Employment']['unemployedCount']), @json($statisticsData['Employment']['employedCount'])]
+                    data: [@json($statisticsData['Employment']['employedCount']), @json($statisticsData['Employment']['unemployedCount'])]
                 }]
             };
 

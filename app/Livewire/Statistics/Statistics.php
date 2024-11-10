@@ -71,11 +71,6 @@ class Statistics extends Component
             $statisticsData['Employment'] = ['employedCount' => Resident::active()->employed(true)->count(), 'unemployedCount' => Resident::active()->employed(false)->count()];
         }
 
-        if ($enabledStatistics->contains('Employment'))
-        {
-            $statisticsData['Employment'] = ['employedCount' => Resident::active()->employed(true)->count(), 'unemployedCount' => Resident::active()->employed(false)->count()];
-        }
-
         if ($enabledStatistics->contains('AgeDemographic'))
         {
             $now = Carbon::now();
