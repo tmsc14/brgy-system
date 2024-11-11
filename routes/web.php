@@ -42,6 +42,11 @@ use App\Livewire\Register\Register;
 use App\Livewire\Register\RegisterBarangayCaptain;
 use App\Livewire\Register\RegisterResident;
 use App\Livewire\Register\RegisterStaff;
+use App\Livewire\Settings\ResidentAccountSettings;
+use App\Livewire\Settings\ResidentSettings;
+use App\Livewire\Settings\Settings;
+use App\Livewire\Settings\StaffAccountSettings;
+use App\Livewire\Settings\StaffSettings;
 use App\Livewire\SignupRequests\History;
 use App\Livewire\SignupRequests\SignupRequests;
 use App\Livewire\Statistics\HouseholdsList;
@@ -232,7 +237,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('announcements/view/{id}', AnnouncementView::class)->name('announcements.view');
     Route::get('announcements/profile/{id?}', AnnouncementProfile::class)->name('announcements.profile');
     
-    Route::get('settings', Home::class)->name('settings');
+    Route::get('settings/staff', StaffSettings::class)->name('settings.staff');
+    Route::get('settings/staff/account', StaffAccountSettings::class)->name('settings.staff.account');
+
+    Route::get('settings/resident', ResidentSettings::class)->name('settings.resident');
+    Route::get('settings/resident/account', ResidentAccountSettings::class)->name('settings.staff.account');
 
     Route::get('admins', Home::class)->name('admins');
 

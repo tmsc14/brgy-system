@@ -204,7 +204,7 @@ class RegistrationService
 
         session()->flush();
 
-        return redirect()->route('login', ['role' => 'staff'])->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login', ['role' => 'staff'])->with('success', 'Registration request submitted! Please wait for your request to be reviewed by the barangay captain.');
     }
 
     public function registerResident($barangayId, RegistrationForm $form, ResidentFieldsForm $residentForm)
@@ -277,6 +277,6 @@ class RegistrationService
 
         session()->flush();
 
-        return redirect()->route('login', ['role' => 'resident'])->with('success', 'Registration successful! Please log in.');
+        return redirect()->route('login', ['role' => 'resident'])->with('success', 'Registration request submitted! Please wait for your request to be reviewed by the barangay captain.');
     }
 }

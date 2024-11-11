@@ -50,7 +50,7 @@ class SignupRequests extends Component
 
         $request->update(['status' => $status]);
 
-        $this->dispatch('showToastr', 'success', 'Signup request ' . $status . ' successfully.');
+        toastr()->success('Request updated succesfully.');
     }
 
     public function render()

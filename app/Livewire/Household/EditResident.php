@@ -81,7 +81,7 @@ class EditResident extends Component
         ]);
 
         $user = Auth::user();
-        
+
         if ($validated)
         {
             $residentRecord = Resident::findOrFail($this->residentId);
@@ -106,6 +106,7 @@ class EditResident extends Component
                 'is_single_parent' => $this->is_single_parent
             ]);
 
+            toastr()->success('Resident details updated.');
             $this->redirectRoute('household');
         }
     }

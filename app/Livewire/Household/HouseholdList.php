@@ -30,6 +30,7 @@ class HouseholdList extends Component
     public function delete($id)
     {
         Household::findOrFail($id)->delete();
+        toastr()->success('Household deleted.');
     }
 
     public function add()

@@ -55,7 +55,7 @@
                 </div>
                 <div class="col-12 col-lg-6">
                     <x-form-select id="document-request-requester-select" label="Request Document for:"
-                        wire:model.live="form.entity_id" propertyName="entity_id" hideDefaultOption="true"
+                        wire:model.live="form.entity_id" propertyName="form.entity_id" hideDefaultOption="true"
                         class="brgy-content-text mb-2">
                         <option value="" disabled selected>Select a resident{{$form->entity_type === 'Staff' ? '/staff' : ''}} here</option>
                         @foreach ($availableRequesters as $id => $name)

@@ -33,10 +33,11 @@ class Household extends Component
         if (!isset($resident->user_id))
         {
             $resident->delete();
+            toastr()->success('Resident deleted succesfully.');
         }
         else
         {
-            $this->addError('resident', 'Cannot delete the record of the head of the household.');
+            toastr()->error('Cannot delete the record of the head of the household.');
         }
     }
 

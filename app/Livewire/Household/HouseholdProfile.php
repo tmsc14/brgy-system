@@ -90,6 +90,7 @@ class HouseholdProfile extends Component
                 'is_single_parent' => $this->is_single_parent,
             ]);
 
+            toastr()->success('Household created.');
             $this->redirectRoute('household');
         }
     }

@@ -88,6 +88,7 @@ class AddResident extends Component
                 'is_single_parent' => $this->is_single_parent
             ]);
 
+            toastr()->success('Resident added.');
             $this->redirectRoute('household.view', ['id' => $this->householdId]);
         }
     }
