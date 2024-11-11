@@ -49,6 +49,9 @@ use App\Livewire\Settings\StaffAccountSettings;
 use App\Livewire\Settings\StaffSettings;
 use App\Livewire\SignupRequests\History;
 use App\Livewire\SignupRequests\SignupRequests;
+use App\Livewire\Statistics\AgeList;
+use App\Livewire\Statistics\EmploymentList;
+use App\Livewire\Statistics\GenderList;
 use App\Livewire\Statistics\HouseholdsList;
 use App\Livewire\Statistics\PwdList;
 use App\Livewire\Statistics\ResidentsList;
@@ -252,6 +255,9 @@ Route::middleware(['auth'])->group(function(){
     Route::get('statistics/voters', VotersList::class)->name('statistics.voters');
     Route::get('statistics/seniors', SeniorCitizensList::class)->name('statistics.seniors');
     Route::get('statistics/singleparents', SingleParentList::class)->name('statistics.single-parents');
+    Route::get('statistics/gender', GenderList::class)->name('statistics.gender');
+    Route::get('statistics/employment', EmploymentList::class)->name('statistics.employment');
+    Route::get('statistics/age', AgeList::class)->name('statistics.age');
 
     Route::get('customize', Customize::class)->name('customize');
 

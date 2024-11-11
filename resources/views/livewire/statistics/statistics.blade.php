@@ -13,7 +13,7 @@
         </div>
         <div class="d-flex gap-3 mb-3">
             @if (isset($statisticsData['Gender']))
-                <div class="brgy-bg-primary col-4 flex-shrink-1 text-center p-4 rounded">
+                <div class="brgy-bg-primary col-4 flex-shrink-1 text-center p-4 rounded clickable" wire:click="gender">
                     <span class='d-flex justify-content-center align-items-center gap-2'>
                         <x-gmdi-wc class="icon brgy-primary-text" />
                         <x-subtitle class="brgy-primary-text">Gender of Residents</x-subtitle>
@@ -22,7 +22,7 @@
                 </div>
             @endif
             @if (isset($statisticsData['Employment']))
-                <div class="brgy-bg-primary col-4 flex-shrink-1 text-center p-4 rounded">
+                <div class="brgy-bg-primary col-4 flex-shrink-1 text-center p-4 rounded clickable" wire:click="employment">
                     <span class='d-flex justify-content-center align-items-center gap-2'>
                         <x-gmdi-badge class="icon brgy-primary-text" />
                         <x-subtitle class="brgy-primary-text">Employment Status</x-subtitle>
@@ -31,7 +31,7 @@
                 </div>
             @endif
             @if (isset($statisticsData['AgeDemographic']))
-                <div class="brgy-bg-primary col-4 flex-shrink-1 text-center p-4 rounded">
+                <div class="brgy-bg-primary col-4 flex-shrink-1 text-center p-4 rounded clickable" wire:click="age">
                     <span class='d-flex justify-content-center align-items-center gap-2'>
                         <x-gmdi-groups class="icon brgy-primary-text" />
                         <x-subtitle class="brgy-primary-text">Age Groups</x-subtitle>

@@ -41,6 +41,21 @@ class Statistics extends Component
         $this->redirectRoute('statistics.single-parents');
     }
 
+    public function gender()
+    {
+        $this->redirectRoute('statistics.gender');
+    }
+
+    public function employment()
+    {
+        $this->redirectRoute('statistics.employment');
+    }
+
+    public function age()
+    {
+        $this->redirectRoute('statistics.age');
+    }
+
     public function render()
     {
         $enabledStatistics = BarangayFeature::statistics()
