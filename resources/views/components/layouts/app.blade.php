@@ -31,33 +31,23 @@
 
 <body class="vh-100 d-flex flex-column">
     <div class="d-flex w-100">
-        <div
-            class="col-2 brgy-sidebar brgy-bg-primary brgy-color-secondary d-flex flex-column align-items-center p-2 full-view-height justify-content-between border-end border-secondary">
-            <div class="text-center mb-2">
-                <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo" class="w-50 h-auto">
+        {{-- Mobile --}}
+        <x-sidebar-container :id="'brgy-sidebar'" :containerClass="'d-flex d-sm-none col-1 offcanvas offcanvas-start brgy-bg-primary brgy-color-secondary flex-column align-items-center p-2 full-view-height justify-content-between border-end border-secondary'" />
+        {{-- Desktop --}}
+        <x-sidebar-container :id="'brgy-sidebar-desktop'" :containerClass="'d-none d-sm-flex col-2 brgy-bg-primary brgy-color-secondary flex-column align-items-center p-2 full-view-height justify-content-between border-end border-secondary'" />
+
+        <div class="col-12 col-sm-10 overflow-auto vh-100 brgy-bg-theme">
+            <div class="d-flex d-sm-none brgy-bg-primary align-items-center position-relative p-3">
+                <a href="#brgy-sidebar" data-bs-toggle="offcanvas">
+                    <x-gmdi-menu class="icon brgy-color-secondary clickable" />
+                </a>
+                <img src="{{ asset('resources/img/logo.png') }}" alt="Brgy+ Logo"
+                    class="w-25 h-auto position-absolute top-50 start-50 translate-middle">
             </div>
-            <x-sidebar-logo />
-            @if ($_user_role == 'Captain')
-                @include('layouts.partials.sidebar_barangay_captain')
-            @elseif ($_user_role == 'Official')
-                @include('layouts.partials.sidebar_barangay_official')
-            @elseif($_user_role == 'Staff')
-                @include('layouts.partials.sidebar_staff')
-            @elseif($_user_role == 'Resident')
-                @include('layouts.partials.sidebar_resident')
-            @endif
-            <form class="w-100" action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="d-flex justify-content-center btn btn-secondary-brown w-100">
-                    <img src="{{ asset('resources/img/sidebar-icons/logout-sblogo.png') }}" class="icon"
-                        alt="Logout Icon">
-                    <span>Logout</span>
-                </button>
-            </form>
-        </div>
-        <div class="col-10 overflow-auto vh-100 brgy-bg-theme">
-            <div class="d-flex align-items-center text-center gap-2 p-3 border-bottom border-secondary brgy-header brgy-theme-text">
-                <span class="fs-1">Hello, {{ $_user_role == 'Resident' ? Auth::user()->resident->first_name : Auth::user()->staff->first_name }}!</span>
+            <div
+                class="d-none d-sm-flex align-items-center text-center gap-2 p-3 border-bottom border-secondary brgy-header brgy-theme-text">
+                <span class="fs-1">Hello,
+                    {{ $_user_role == 'Resident' ? Auth::user()->resident->first_name : Auth::user()->staff->first_name }}!</span>
                 <div class="date ">
                     <img src="{{ asset('resources/img/header-date.png') }}" class="icon" alt="Date Icon">
                     {{ now()->timezone('Asia/Manila')->format('F d, Y') }}
@@ -72,4 +62,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

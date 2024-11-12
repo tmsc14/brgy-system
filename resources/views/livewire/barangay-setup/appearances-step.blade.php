@@ -16,4 +16,12 @@
         @endforeach
     </div>
     <livewire:barangay-setup.appearance-settings is_wizard_step='true' />
+
+    @script
+        <script>
+            $wire.on('nextWizardStep', () => {
+                @this.call('nextStep');
+            });
+        </script>
+    @endscript
 </x-wizard-content-container>

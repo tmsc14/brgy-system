@@ -19,7 +19,7 @@ class BarangayInformationStep extends StepComponent
         return [
             'label' => 'Barangay Information',
             'order' => '1',
-            'step_name' => 'barangay-setup.barangay-information-step',
+            'step_name' => 'barangay-information-step',
         ];
     }
 

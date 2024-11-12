@@ -24,6 +24,7 @@ class FeaturesSettings extends Component
     public function featuresByCategory()
     {
         return BarangayFeature::where('barangay_id', Auth::user()->barangay_id)
+            ->where('category', 'Statistics')
             ->get(['id', 'category', 'name', 'is_enabled'])
             ->groupBy('category');
     }
@@ -46,7 +47,18 @@ class FeaturesSettings extends Component
         BarangayFeature::whereIn('id', $this->selectedFeatures)
             ->update(['is_enabled' => true]);
 
-        session()->flash('message', 'Features updated successfully.');
+        toastr()->success('Features updated successfully.');
+
+        $barangay = auth()->user()->barangay;
+
+        $barangay->update([
+            'is_setup_complete' => true
+        ]);
+        
+        if ($this->is_wizard_step)
+        {
+            $this->redirectRoute('dashboard');
+        }
     }
 
     public function render()

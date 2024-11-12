@@ -82,10 +82,6 @@ class AppearanceSettings extends Component
 
             DB::transaction(function () use ($barangay)
             {
-                $barangay->update([
-                    'is_setup_complete' => true
-                ]);
-
                 $barangay->appearance_settings->update([
                     'theme_color' => $this->convertHexToRGB($this->theme_color),
                     'primary_color' => $this->convertHexToRGB($this->primary_color),
@@ -101,7 +97,10 @@ class AppearanceSettings extends Component
 
             ThemeHelper::setSessionAppearanceSettings($appearanceSettings);
 
-            $this->redirectRoute('dashboard');
+            if ($this->is_wizard_step)
+            {
+                $this->dispatch('nextWizardStep');
+            }
         }
     }
 

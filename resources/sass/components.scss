@@ -47,10 +47,6 @@
     font-size: 3rem !important;
 }
 
-.brgy-sidebar {
-    box-shadow: 4px 0 5px -2px lightgrey;
-}
-
 .brgy-header {
     box-shadow: 0px 4px 5px -2px lightgrey;
 }
@@ -278,5 +274,19 @@
 
     .solo-card-container {
         padding: 0;
+    }
+
+    .document-types-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .picture-header {
+        max-width: 100px;
+        max-height: 100px;
+        aspect-ratio: 1 / 1;
+    }
+
+    .big-header {
+        font-size: 1.5rem !important;
     }
 }

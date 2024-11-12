@@ -19,4 +19,9 @@ class AppearancesStep extends StepComponent
     {
         return view('livewire.barangay-setup.appearances-step');
     }
+
+    public function goToNextStep()
+    {
+        $this->nextStep();
+    }
 }
