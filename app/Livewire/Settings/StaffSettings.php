@@ -25,7 +25,7 @@ class StaffSettings extends Component
 
     public function mount()
     {
-        $this->staffRecord = Staff::find(auth()->user()->id);
+        $this->staffRecord = Staff::find(auth()->user()->staff->id);
 
         $this->first_name = $this->staffRecord->first_name;
         $this->middle_name = $this->staffRecord->middle_name;
