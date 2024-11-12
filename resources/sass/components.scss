@@ -262,7 +262,7 @@
     justify-content: space-between;
 }
 
-@media (max-width: 575.98px) {
+@media screen and (max-width: 575.98px) {
     .mobile-full-height {
         height: 100%;
     }

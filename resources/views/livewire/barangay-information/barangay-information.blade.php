@@ -10,7 +10,7 @@
         </div>
         <div class="brgy-bg-content p-2">
             @foreach ($officials as $official)
-                <div class="d-flex justify-content-center mb-3 gap-3">
+                <div class="d-flex justify-content-center mb-3 gap-3 flex-wrap">
                     @foreach ($official as $officialInner)
                         <div class="d-flex flex-column align-items-center clickable"
                             wire:click="editBarangayOfficial({{ $officialInner->id }})">
