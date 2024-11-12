@@ -33,6 +33,6 @@ class CertificateOfIndigencyRequestProfile extends Component
 
     public function mount()
     {
-        $this->initializeDocumentRequestProfile(isRequiresDocuments: true);
+        $this->initializeDocumentRequestProfile();
     }
 }
