@@ -27,7 +27,7 @@
                             placeholder="Enter your last name here." class="flex-grow-1" />
                     </div>
                     <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
-                        <x-form-select id="registrationGender" label="Gender" wire:model="form.gender"
+                        <x-form-select id="registrationGender" label="Gender/Kasarian" wire:model="form.gender"
                             propertyName="form.gender" class="flex-grow-1">
                             <option value="Male" {{ old('gender', session('gender')) == 'Male' ? 'selected' : '' }}>
                                 Male
@@ -40,7 +40,7 @@
                             </option>
                         </x-form-select>
                         <x-form-text-input id="registrationDateOfBirth" wire:model="form.dateOfBirth"
-                            propertyName="form.dateOfBirth" label="Date of Birth" type="date"
+                            propertyName="form.dateOfBirth" label="Date of Birth/Petsa ng kapanganakan" type="date"
                             placeholder="Date of birth" class="flex-grow-1" />
                     </div>
                     <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
@@ -53,14 +53,14 @@
                         <hr />
                     </div>
                     <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
-                        <x-form-text-input id="registrationEthnicity" label="Ethnicity"
+                        <x-form-text-input id="registrationEthnicity" label="Ethnicity/Lahi (Filipino, American, etc.)"
                             wire:model="residentForm.ethnicity" propertyName="residentForm.ethnicity" type="text"
                             class="flex-grow-1" />
-                        <x-form-text-input id="registrationReligion" label="Religion" wire:model="residentForm.religion"
+                        <x-form-text-input id="registrationReligion" label="Religion/Relihiyon (Catholic, Islam, etc.)" wire:model="residentForm.religion"
                             propertyName="residentForm.religion" type="text" class="flex-grow-1" />
                     </div>
                     <div class="d-flex flex-column justify-content-center gap-3 flex-xl-row">
-                        <x-form-select id="registrationCivilStatus" label="Civil Status"
+                        <x-form-select id="registrationCivilStatus" label="Civil Status/Katayuan ng sibil"
                             wire:model="residentForm.civil_status" propertyName="residentForm.civil_status"
                             class="flex-grow-1">
                             <option value="Married">
@@ -102,7 +102,7 @@
                         </div>
                         <div class='checkbox-container flex-grow-1'>
                             <div>
-                                <span>Resident Status</span>
+                                <span>Resident Status / Kalagayan ng Tirahan</span>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_temporary_resident"
@@ -128,7 +128,7 @@
                     <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
                         <div class="checkbox-container flex-grow-1">
                             <div>
-                                <span>Are you a registered voter?</span>
+                                <span>Are you a registered voter? / Naka rehitro magboto?</span>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_voter"
@@ -150,7 +150,7 @@
                         </div>
                         <div class="checkbox-container flex-grow-1">
                             <div>
-                                <span>Are you employed?</span>
+                                <span>Are you employed? / May Trabaho?</span>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_employed"
@@ -174,7 +174,7 @@
                     <div class="d-flex flex-column justify-content-around gap-3 flex-xl-row">
                         <div class="checkbox-container flex-grow-1">
                             <div>
-                                <span>Is your birth registered with the Local Civil Registry Office?</span>
+                                <span>Is your birth registered with the Local Civil Registry Office? / Naka rehistro ang pagsilang?</span>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_birth_registered"
@@ -206,7 +206,7 @@
                         </div>
                         <div class="checkbox-container flex-grow-1">
                             <div>
-                                <span>Can you read and write a simple message in any language or dialect?</span>
+                                <span>Can you read and write a simple message in any language or dialect? / Nakakapagsulat o nakakapagbasa?</span>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="is_literate"

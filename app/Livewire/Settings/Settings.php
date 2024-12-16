@@ -9,6 +9,6 @@ class Settings extends Component
 
     public function mount()
     {
-        if
+       
     }
 }
