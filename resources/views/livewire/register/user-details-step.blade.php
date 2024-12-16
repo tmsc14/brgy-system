@@ -1,4 +1,4 @@
-<form wire:submit="register">
+<form wire:submit.prevent="register">
     <div class="d-flex flex-column align-items-center w-100">
         <h2 class="text-brown-secondary py-4">Register Barangay</h2>
         @csrf
@@ -63,10 +63,42 @@
                 <x-form-text-input id="registrationAccessCode" wire:model="form.accessCode"
                     propertyName="form.accessCode" label="Access Code" type="password" class="flex-grow-1" />
             </div>
+
+            <!-- Terms and Conditions Section -->
+            <div class="d-flex flex-column justify-content-center gap-3">
+                <div>
+                    <input type="checkbox" id="acceptTerms" required />
+                    <label for="acceptTerms">
+                        I agree to the
+                        <span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#termsModal">
+                            Terms and Conditions
+                        </span>.
+                    </label>
+                </div>
+            </div>
+
+            <!-- Terms and Conditions Modal -->
+            <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @include('terms-and-conditions') <!-- Include your terms content here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <hr class="line text-brown-primary" />
             <div class="d-flex justify-content-around">
                 <button class="btn btn-link" wire:click="previousStep">Go back</button>
-                <button class="btn btn-primary-brown ms-auto" type="submit" wire:loading.attr="disabled">
+                <button class="btn btn-primary-brown ms-auto" type="submit">
                     Register
                 </button>
             </div>

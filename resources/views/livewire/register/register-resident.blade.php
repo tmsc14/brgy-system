@@ -268,9 +268,41 @@
                             @enderror
                         </div>
                     </div>
+                    <!-- Terms and Conditions Section -->
+                    <div class="d-flex flex-column justify-content-center gap-3">
+                        <div>
+                            <input type="checkbox" id="acceptTerms" />
+                            <label for="acceptTerms">
+                                I agree to the
+                                <span class="text-primary" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                    Terms and Conditions
+                                </span>.
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions Modal -->
+                    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    @include('terms-and-conditions')
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
                     <hr class="line text-brown-primary" />
                     <div class="d-flex justify-content-around">
-                        <button class="btn btn-primary-brown ms-auto" type="submit">
+                        <button id="registerButton" class="btn btn-primary-brown ms-auto" type="submit" disabled>
                             Register
                         </button>
                     </div>
@@ -279,3 +311,30 @@
         </form>
     </div>
 </x-login.card-with-logo>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkbox = document.getElementById('acceptTerms');
+        const registerButton = document.getElementById('registerButton');
+
+        const validateButton = () => {
+            const isTermsChecked = checkbox.checked;
+            registerButton.disabled = !isTermsChecked;
+        };
+
+        // Attach event listener to the checkbox
+        checkbox.addEventListener('change', validateButton);
+
+        // Ensure button is validated after Livewire updates
+        Livewire.hook('element.updated', validateButton);
+
+        // Handle modal scroll and prevent background interaction
+        const modal = document.getElementById('termsModal');
+        modal.addEventListener('show.bs.modal', () => {
+            document.body.style.overflow = "hidden"; // Prevent background scrolling
+        });
+        modal.addEventListener('hide.bs.modal', () => {
+            document.body.style.overflow = ""; // Re-enable background scrolling
+        });
+    });
+</script>
